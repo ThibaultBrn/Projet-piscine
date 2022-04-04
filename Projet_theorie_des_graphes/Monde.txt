@@ -1,0 +1,5 @@
+2
+CharlesDeGaulle 30 10 3 6 3 5 8 4 2 
+NewYork 5 12 6 2 5 3 8 9 7
+1
+CharlesDeGaulle NewYork 20
