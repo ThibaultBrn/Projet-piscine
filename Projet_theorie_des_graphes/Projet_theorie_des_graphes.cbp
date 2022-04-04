@@ -34,6 +34,7 @@
 		</Compiler>
 		<Unit filename="Classes/Aeroport.h" />
 		<Unit filename="Classes/Avion.h" />
+		<Unit filename="Classes/Monde.h" />
 		<Unit filename="Methodes_Classes/Aeroport.cpp" />
 		<Unit filename="Methodes_Classes/Avion.cpp" />
 		<Unit filename="main.cpp" />
