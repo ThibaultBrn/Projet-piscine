@@ -17,10 +17,27 @@ class Aeroport
         int m_delaiAnticollision;
         int m_tempsDecollageAtterrissage;
         int m_dureeBoucleAttente;
+        int m_identification;
         std::vector <std::map<Aeroport*,int>> m_distance;
-        std::vector<Avion*>m_avionSole;
+        std::vector<std::pair<int,Aeroport*>>m_successeurs;
     public :
-        Aeroport(std::string _nom,std::pair<int,int>_coordonnees,int _nbPistes,int _nbPlacesAuSol,int _delaiAttenteSol,int _tempsAccesPistes,int _delaiAnticollision,int _tempsDecollageAtterrissage,int _dureeBoucleAttente,std::vector <std::map<Aeroport*,int>> _distance,std::vector<Avion*>_avionSole);
+        Aeroport(std::string _nom,std::pair<int,int>_coordonnees,int _nbPistes,int _nbPlacesAuSol,int _delaiAttenteSol,int _tempsAccesPistes,int _delaiAnticollision,int _tempsDecollageAtterrissage,int _dureeBoucleAttente, int _identification);
+
+        void AjouterSucc(int poids, Aeroport*s);
+
+        int getId() const {return m_identification;};
+        std::string getNom() const {return m_nom;};
+        std::pair<int, int> getCoor() const{return m_coordonnees;};
+        int getNbPistes() const{return m_nbPistes;};
+        int getNbPlacesAuSol() const{return m_nbPlacesAuSol;};
+        int getDelaiAttenteSol() const{return m_delaiAttenteSol;};
+        int getTDA() const{return m_tempsDecollageAtterrissage;};
+        int getDureeBA() const{return m_dureeBoucleAttente;};
+
+        std::vector<std::pair<int,Aeroport*>> getSuccesseurs () const {return m_successeurs;};
+
+        void AfficherAeroport();
+
 };
 
 #endif // AEROPORT_H_INCLUDED
