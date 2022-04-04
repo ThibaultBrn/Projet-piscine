@@ -1,7 +1,8 @@
 #include "../Classes/Aeroport.h"
 
-Aeroport::Aeroport(std::string _nom, std::pair<int,int>_coordonnees,int _nbPistes,int _nbPlacesAuSol,int _delaiAttenteSol,int _tempsAccesPistes,int _delaiAnticollision,int _tempsDecollageAtterrissage,int _dureeBoucleAttente,std::vector <std::map<Aeroport*,int>> _distance)
+Aeroport::Aeroport(std::string _nom, std::pair<int,int>_coordonnees,int _nbPistes,int _nbPlacesAuSol,int _delaiAttenteSol,int _tempsAccesPistes,int _delaiAnticollision,int _tempsDecollageAtterrissage,int _dureeBoucleAttente,std::vector <std::map<Aeroport*,int>> _distance,std::vector<Avion*>_avionSole)
 {
+    m_avionSole = _avionSole;
     m_nom = _nom;
     m_coordonnees = _coordonnees;
     m_nbPistes = _nbPistes;

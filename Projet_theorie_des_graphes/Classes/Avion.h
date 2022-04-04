@@ -5,11 +5,12 @@
 class Avion
 {
     private :
+        std::string m_nom;
         int m_type;
         float m_consommation;
         int m_capacite_carburant;
     public :
-        Avion(int _type,int _consommation,int _capacite_carburant);
+        Avion(std::string _nom,int _type,int _consommation,int _capacite_carburant);
 
 
 };
