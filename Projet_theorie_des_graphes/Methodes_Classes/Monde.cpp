@@ -1,6 +1,58 @@
 #include "../Classes/Monde.h"
 #include <queue>
 #include <vector>
+#include <fstream>
+
+Monde::Monde(std::string nomFichier)///Recuperation du graphe
+{
+    std::ifstream ifs{nomFichier};
+    if (!ifs)
+        throw std::runtime_error( "Impossible d'ouvrir en lecture " + nomFichier );
+    int ordre;
+    ifs >> ordre;
+    if ( ifs.fail() )
+        throw std::runtime_error("Probleme lecture ordre du graphe");
+
+    std::string nom;
+    int coorX, coorY, nbPistes, nbPlacesAuSol, delaiAttenteSol, tempsAccesPistes, delaiAntiCollision, tempsDecollageAtterrissage, dureeBoucleAttente;
+    for (int i=0; i<ordre; ++i)///récupération des sommets
+    {
+        ifs>>nom>>coorX>>coorY>>nbPistes>>nbPlacesAuSol>>delaiAttenteSol>>tempsAccesPistes>>delaiAntiCollision>>tempsDecollageAtterrissage>>dureeBoucleAttente;
+        m_aeroports.push_back( new Aeroport(nom,std::make_pair(coorX,coorY),nbPistes,nbPlacesAuSol, delaiAttenteSol, tempsAccesPistes, delaiAntiCollision, tempsDecollageAtterrissage, dureeBoucleAttente,i));
+    }
+
+
+    int taille;
+    ifs >> taille;///récupération de la taille
+    if ( ifs.fail() )
+        throw std::runtime_error("Probleme lecture taille du graphe");
+
+    std::string aer1,aer2;
+    int num1, num2, poids;
+    for (int i=0;i<taille;++i){///taille
+        ifs>>aer1>>aer2>>poids;
+        if ( ifs.fail() )
+        throw std::runtime_error("Probleme lecture arc");
+
+        ///fonction qui va chercher le numero correspondant au nom de l'aeroport
+        num1 = trouveIdentification(aer1);
+        num2 = trouveIdentification(aer2);
+
+        m_aeroports[num1]->AjouterSucc(poids, m_aeroports[num2]);
+        m_aeroports[num2]->AjouterSucc(poids, m_aeroports[num1]);
+    }
+}
+
+void Monde::afficherMonde()
+{
+    std::cout<<std::endl<<"Voici notre monde :" << std::endl;
+    std::cout<<"Taille : "<<m_aeroports.size()<<std::endl;
+    std::cout<<"Liste des aeroports :"<<std::endl<<std::endl;
+    for (auto s : m_aeroports){
+            s->AfficherAeroport();
+            std::cout<<std::endl;
+    }
+}
 
 int Monde::trouveIdentification(std::string nomAeroport)
 {

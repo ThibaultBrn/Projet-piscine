@@ -8,9 +8,13 @@ class Monde
 {
     private:
         std::vector<Aeroport*>m_aeroports;
-        std::vector<Avion*>m_avions;
+        std::vector<Avion*>m_avion;
     public:
+        //Monde(std::vector<Aeroport*>_aeroport, std::vector<Avion*>_avion);
+        Monde(std::string nomFichier);
+        std::vector<Aeroport*> getAeroports() const{return m_aeroports;};
         int trouveIdentification(std::string nomAeroport);
+        void afficherMonde();
         void Dijkstra(const Aeroport* Depart, const Aeroport* Arrivee);
 };
 
