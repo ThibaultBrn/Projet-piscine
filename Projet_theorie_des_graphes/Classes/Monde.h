@@ -1,6 +1,8 @@
 #ifndef MONDE_H_INCLUDED
 #define MONDE_H_INCLUDED
 
+#include <vector>
+
 class Monde
 {
     private:
