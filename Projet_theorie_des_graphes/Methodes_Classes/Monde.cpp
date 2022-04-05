@@ -129,6 +129,21 @@ void Monde::Dijkstra(const Aeroport* Depart, const Aeroport* Arrivee)
     }
 }
 
+void Monde::afficherAeroport()
+{
+    std::vector<Avion*>lesAvions;
+    for(unsigned int i=0;i<m_aeroports.size();i++)
+    {
+        std::cout<<m_aeroports[i]->getNom()<<std::endl;
+        lesAvions=m_aeroports[i]->getAvionSol();
+        for(unsigned int j=0;j<lesAvions.size();j++)
+        {
+            std::cout<<lesAvions[j]->getNom()<<std::endl;
+        }
+        std::cout<<std::endl;
+    }
+}
+
 void Monde::melangerAvion()///melange du vecteur d'avion
 {
     std::vector<Avion*>planeStocker;
@@ -155,15 +170,13 @@ void Monde::initialisationAeroport()
     std::vector<Aeroport*>airports;
     airports=m_aeroports;
     melangerAvion();
-    for(unsigned int i=0;i<m_aeroports.size();i++)
-    {
-        m_aeroports.pop_back();
-    }
+    m_aeroports.empty();
     for(int i=0;i<nbAvions;i++)
     {
         if(airports[compteur]->getNbPlacesSol()!=0)
         {
             airports[compteur]->SetAvionSol(m_avion[i]);
+            airports[compteur]->setNbPlacesSol((airports[compteur]->getNbPlacesSol())-1);
         }
         else
         {

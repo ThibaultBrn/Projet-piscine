@@ -11,6 +11,7 @@ class Avion
         int m_capacite_carburant;
     public :
         Avion(std::string _nom,int _type,int _consommation,int _capacite_carburant);
+        std::string getNom();
 
 
 };

@@ -44,6 +44,16 @@ int Aeroport::getNbPlacesSol()
     return m_nbPlacesAuSol;
 }
 
+std::vector<Avion*> Aeroport::getAvionSol()
+{
+    return m_AvionSol;
+}
+
+void Aeroport::setNbPlacesSol(int _nbPlacesSol)
+{
+    m_nbPlacesAuSol=_nbPlacesSol;
+}
+
 void Aeroport::SetAvionSol(Avion* _unAvion)
 {
     m_AvionSol.push_back(_unAvion);

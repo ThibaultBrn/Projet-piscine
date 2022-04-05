@@ -28,6 +28,8 @@ class Aeroport
         void AjouterSucc(int poids, Aeroport* s);
         void AfficherAeroport();
         int getNbPlacesSol();
+        void setNbPlacesSol(int _nbPlacesSol);
+        std::vector<Avion*> getAvionSol();
         void SetAvionSol(Avion* _unAvion);
 };
 

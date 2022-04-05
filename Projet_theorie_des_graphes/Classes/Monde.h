@@ -3,6 +3,7 @@
 #include "Aeroport.h"
 #include <vector>
 #include <fstream>
+#include "Avion.h"
 
 
 class Monde
@@ -18,6 +19,8 @@ class Monde
         void Dijkstra(const Aeroport* Depart, const Aeroport* Arrivee);
         void initialisationAeroport();
         void melangerAvion();
+        void creationAvion();
+        void afficherAeroport();
 };
 
 #endif // MONDE_H_INCLUDED
