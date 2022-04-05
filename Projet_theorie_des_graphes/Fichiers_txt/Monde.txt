@@ -1,5 +1,11 @@
-2
-CharlesDeGaulle 30 10 3 6 3 5 8 4 2 
-NewYork 5 12 6 2 5 3 8 9 7
-1
-CharlesDeGaulle NewYork 20
+4
+Paris 15 1 3 6 3 5 8 4 2
+NewYork 1 2 6 2 5 3 8 9 7
+Tokyo 30 5 3 7 9 6 5 8 6
+Dubai 17 5 2 9 6 8 4 2 7
+5
+Paris NewYork 15
+NewYork Dubai 18
+Dubai Paris 2
+Paris Tokyo 15
+Tokyo Dubai 14
