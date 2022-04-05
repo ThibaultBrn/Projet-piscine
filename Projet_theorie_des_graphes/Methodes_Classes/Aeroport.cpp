@@ -38,3 +38,13 @@ void Aeroport::AfficherAeroport()
         std::cout<<"        Distance : "<<s.first<< std::endl;
     }
 }
+
+int Aeroport::getNbPlacesSol()
+{
+    return m_nbPlacesAuSol;
+}
+
+void Aeroport::SetAvionSol(Avion* _unAvion)
+{
+    m_AvionSol.push_back(_unAvion);
+}

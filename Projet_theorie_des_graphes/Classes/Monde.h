@@ -16,6 +16,8 @@ class Monde
         int trouveIdentification(std::string nomAeroport);
         void afficherMonde();
         void Dijkstra(const Aeroport* Depart, const Aeroport* Arrivee);
+        void initialisationAeroport();
+        void melangerAvion();
 };
 
 #endif // MONDE_H_INCLUDED

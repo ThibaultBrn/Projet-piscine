@@ -128,3 +128,56 @@ void Monde::Dijkstra(const Aeroport* Depart, const Aeroport* Arrivee)
         std::cout << Depart->getIdentification() << std::endl << std::endl;
     }
 }
+
+void Monde::melangerAvion()///melange du vecteur d'avion
+{
+    std::vector<Avion*>planeStocker;
+    std::vector<Avion*>PlaneMelange;
+    int nombreAvion=planeStocker.size();
+    int alea=0;
+    planeStocker=m_avion;
+
+    for(unsigned int i=0;i<planeStocker.size();i++)
+    {
+        alea=rand()%(nombreAvion);
+        PlaneMelange.push_back(planeStocker[alea]);
+        planeStocker.erase(planeStocker.begin()+alea);
+        nombreAvion--;
+    }
+    m_avion=PlaneMelange;
+
+}
+
+void Monde::initialisationAeroport()
+{
+    int nbAvions=12;
+    unsigned int compteur=0;
+    std::vector<Aeroport*>airports;
+    airports=m_aeroports;
+    melangerAvion();
+    for(unsigned int i=0;i<m_aeroports.size();i++)
+    {
+        m_aeroports.pop_back();
+    }
+    for(int i=0;i<nbAvions;i++)
+    {
+        if(airports[compteur]->getNbPlacesSol()!=0)
+        {
+            airports[compteur]->SetAvionSol(m_avion[i]);
+        }
+        else
+        {
+            m_aeroports.push_back(airports[compteur]);
+            airports.erase(airports.begin()+compteur);
+        }
+        compteur++;
+        if(compteur==airports.size())
+        {
+            compteur=0;
+        }
+    }
+    for(unsigned int i=0;i<airports.size();i++)
+    {
+        m_aeroports.push_back(airports[i]);
+    }
+}
