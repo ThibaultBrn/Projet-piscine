@@ -3,6 +3,7 @@
 #include <vector>
 #include <fstream>
 
+
 Monde::Monde(std::string nomFichier)///Recuperation du graphe
 {
     std::ifstream ifs{nomFichier};
