@@ -9,3 +9,8 @@ NewYork Dubai 18
 Dubai Paris 2
 Paris Tokyo 15
 Tokyo Dubai 14
+4
+Alpha court 3 4
+Beta moyen 5 6
+Charlie long 8 9
+Delta moyen 6 5

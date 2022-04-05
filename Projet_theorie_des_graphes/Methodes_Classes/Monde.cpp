@@ -9,6 +9,8 @@ Monde::Monde(std::string nomFichier)///Recuperation du graphe
     std::ifstream ifs{nomFichier};
     if (!ifs)
         throw std::runtime_error( "Impossible d'ouvrir en lecture " + nomFichier );
+
+    ///--------------RECUPERATION DES DONNEES DES AEROPORTS----------------------
     int ordre;
     ifs >> ordre;
     if ( ifs.fail() )
@@ -42,6 +44,22 @@ Monde::Monde(std::string nomFichier)///Recuperation du graphe
         m_aeroports[num1]->AjouterSucc(poids, m_aeroports[num2]);
         m_aeroports[num2]->AjouterSucc(poids, m_aeroports[num1]);
     }
+
+    ///--------------RECUPERATION DES DONNEES DES AVIONS----------------------
+    int nbAvions;
+    ifs >> nbAvions;
+    if ( ifs.fail() )
+        throw std::runtime_error("Probleme lecture nb d'avions");
+
+    std::string nomAvion;
+    std::string typeAvion;
+    float consommation;
+    int capacite_carburant;
+    for (int i=0; i<nbAvions; ++i)
+    {
+        ifs>>nomAvion>>typeAvion>>consommation>>capacite_carburant;
+        m_avion.push_back( new Avion(nomAvion,typeAvion, consommation, capacite_carburant, std::make_pair(0,0)));
+    }
 }
 
 void Monde::afficherMonde()
@@ -51,6 +69,12 @@ void Monde::afficherMonde()
     std::cout<<"Liste des aeroports :"<<std::endl<<std::endl;
     for (auto s : m_aeroports){
             s->AfficherAeroport();
+            std::cout<<std::endl;
+    }
+
+    std::cout<<"Liste des avions :"<<std::endl<<std::endl;
+    for (auto s : m_avion){
+            s->AfficherAvions();
             std::cout<<std::endl;
     }
 }
@@ -84,7 +108,6 @@ void Monde::Dijkstra(const Aeroport* Depart, const Aeroport* Arrivee)
         predecesseurs[it.second->getIdentification()] = Depart;       ///LE SOMMET DE DEPART EST JUSQU'A PRESENT LE PREDECESSEUR
         distanceSuccesseurs.push(it);                            ///ON REMPLIT LA PRIORITY QUEUE AVEC LES SUCCESSEURS DU SOMMET D'ORIGINE
     }
-
     while(nbAeroportsMarques != m_aeroports.size())
     {
         if(aeroportsMarques[distanceSuccesseurs.top().second->getIdentification()] == false) ///SI LE PROCHAIN SUCCESSEUR AUQUEL ON COMPTE ACCEDER N'EST PAS MARQUE
@@ -129,48 +152,37 @@ void Monde::Dijkstra(const Aeroport* Depart, const Aeroport* Arrivee)
     }
 }
 
-void Monde::afficherAeroport()
-{
-    std::vector<Avion*>lesAvions;
-    for(unsigned int i=0;i<m_aeroports.size();i++)
-    {
-        std::cout<<m_aeroports[i]->getNom()<<std::endl;
-        lesAvions=m_aeroports[i]->getAvionSol();
-        for(unsigned int j=0;j<lesAvions.size();j++)
-        {
-            std::cout<<lesAvions[j]->getNom()<<std::endl;
-        }
-        std::cout<<std::endl;
-    }
-}
+
 
 void Monde::melangerAvion()///melange du vecteur d'avion
 {
     std::vector<Avion*>planeStocker;
     std::vector<Avion*>PlaneMelange;
-    int nombreAvion=planeStocker.size();
+
     int alea=0;
     planeStocker=m_avion;
-
-    for(unsigned int i=0;i<planeStocker.size();i++)
+    unsigned int nombreAvion=planeStocker.size();
+    for(unsigned int i=0;i<nombreAvion;i++)
     {
-        alea=rand()%(nombreAvion);
+        alea=rand()%(planeStocker.size());
         PlaneMelange.push_back(planeStocker[alea]);
         planeStocker.erase(planeStocker.begin()+alea);
-        nombreAvion--;
     }
     m_avion=PlaneMelange;
-
 }
 
 void Monde::initialisationAeroport()
 {
-    int nbAvions=12;
+    int nbAvions=4;
     unsigned int compteur=0;
+    std::vector<Avion*> lesAvions;
     std::vector<Aeroport*>airports;
     airports=m_aeroports;
     melangerAvion();
-    m_aeroports.empty();
+    for(unsigned int i=0;i<airports.size();i++)
+    {
+        m_aeroports.pop_back();
+    }
     for(int i=0;i<nbAvions;i++)
     {
         if(airports[compteur]->getNbPlacesSol()!=0)
@@ -192,5 +204,13 @@ void Monde::initialisationAeroport()
     for(unsigned int i=0;i<airports.size();i++)
     {
         m_aeroports.push_back(airports[i]);
+    }
+    for(unsigned int i=0;i<m_aeroports.size();i++)
+    {
+        lesAvions=m_aeroports[i]->getAvionSol();
+        for(unsigned int j=0;j<lesAvions.size();j++)
+        {
+            lesAvions[j]->setCoordonnees(m_aeroports[i]->getCoordonnes());
+        }
     }
 }

@@ -1,4 +1,5 @@
 #include "../Classes/Aeroport.h"
+#include "../Classes/Avion.h"
 #include <vector>
 
 Aeroport::Aeroport(std::string _nom, std::pair<int,int>_coordonnees,int _nbPistes,int _nbPlacesAuSol,int _delaiAttenteSol,int _tempsAccesPistes,int _delaiAnticollision,int _tempsDecollageAtterrissage,int _dureeBoucleAttente, int _identification)
@@ -36,6 +37,11 @@ void Aeroport::AfficherAeroport()
         i++;
         std::cout<<"        Successeur " << i <<  " -->"<<s.second->getNom()<<" "<< std::endl;
         std::cout<<"        Distance : "<<s.first<< std::endl;
+    }
+    std::cout<<"Les avions au sol sont"<<std::endl;
+    for(auto it : m_AvionSol)
+    {
+        it->AfficherAvions();
     }
 }
 
