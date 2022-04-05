@@ -1,5 +1,10 @@
 2
-CharlesDeGaulle 30 10 3 6 3 5 8 4 2 
+CharlesDeGaulle 30 10 3 6 3 5 8 4 2
 NewYork 5 12 6 2 5 3 8 9 7
 1
 CharlesDeGaulle NewYork 20
+4
+Alpha court 5 12 3 4
+Beta moyen 1 4 5 6
+Charlie long 5 12 8 9
+Delta moyen 9 6 6 5

@@ -9,6 +9,8 @@ Monde::Monde(std::string nomFichier)///Recuperation du graphe
     std::ifstream ifs{nomFichier};
     if (!ifs)
         throw std::runtime_error( "Impossible d'ouvrir en lecture " + nomFichier );
+
+    ///--------------RECUPERATION DES DONNEES DES AEROPORTS----------------------
     int ordre;
     ifs >> ordre;
     if ( ifs.fail() )
@@ -42,6 +44,22 @@ Monde::Monde(std::string nomFichier)///Recuperation du graphe
         m_aeroports[num1]->AjouterSucc(poids, m_aeroports[num2]);
         m_aeroports[num2]->AjouterSucc(poids, m_aeroports[num1]);
     }
+
+    ///--------------RECUPERATION DES DONNEES DES AVIONS----------------------
+    int nbAvions;
+    ifs >> nbAvions;
+    if ( ifs.fail() )
+        throw std::runtime_error("Probleme lecture nb d'avions");
+
+    std::string nomAvion;
+    std::string typeAvion;
+    float consommation;
+    int capacite_carburant, coorXAv, coorYAv;
+    for (int i=0; i<nbAvions; ++i)
+    {
+        ifs>>nomAvion>>typeAvion>>coorXAv>>coorYAv>>consommation>>capacite_carburant;
+        m_avion.push_back( new Avion(nomAvion,typeAvion, consommation, capacite_carburant, std::make_pair(coorXAv,coorYAv)));
+    }
 }
 
 void Monde::afficherMonde()
@@ -51,6 +69,12 @@ void Monde::afficherMonde()
     std::cout<<"Liste des aeroports :"<<std::endl<<std::endl;
     for (auto s : m_aeroports){
             s->AfficherAeroport();
+            std::cout<<std::endl;
+    }
+
+    std::cout<<"Liste des avions :"<<std::endl<<std::endl;
+    for (auto s : m_avion){
+            s->AfficherAvions();
             std::cout<<std::endl;
     }
 }
