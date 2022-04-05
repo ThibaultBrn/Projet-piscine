@@ -72,7 +72,7 @@ void Monde::afficherMonde()
             std::cout<<std::endl;
     }
 
-    std::cout<<"Liste des avions :"<<std::endl<<std::endl;
+    std::cout<<"    Liste des avions :"<<std::endl<<std::endl;
     for (auto s : m_avion){
             s->AfficherAvions();
             std::cout<<std::endl;
@@ -151,8 +151,6 @@ void Monde::Dijkstra(const Aeroport* Depart, const Aeroport* Arrivee)
         std::cout << Depart->getIdentification() << std::endl << std::endl;
     }
 }
-
-
 
 void Monde::melangerAvion()///melange du vecteur d'avion
 {

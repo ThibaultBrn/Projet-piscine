@@ -21,6 +21,10 @@ class Monde
         void melangerAvion();
         void creationAvion();
         void afficherAeroport();
+        ///----------------METHODES DE GESTION DE LA SIMULATION----------------///
+        bool arrivee(Avion* _avion, Aeroport* destination);
+        bool atterrissage(Avion* _avion, Aeroport* _destination);
+
 };
 
 #endif // MONDE_H_INCLUDED

@@ -38,29 +38,9 @@ void Aeroport::AfficherAeroport()
         std::cout<<"        Successeur " << i <<  " -->"<<s.second->getNom()<<" "<< std::endl;
         std::cout<<"        Distance : "<<s.first<< std::endl;
     }
-    std::cout<<"Les avions au sol sont"<<std::endl;
+    std::cout<<"    /-----------AVIONS-----------/"<<std::endl<<"    Les avions au sol sont"<<std::endl;
     for(auto it : m_AvionSol)
     {
         it->AfficherAvions();
     }
-}
-
-int Aeroport::getNbPlacesSol()
-{
-    return m_nbPlacesAuSol;
-}
-
-std::vector<Avion*> Aeroport::getAvionSol()
-{
-    return m_AvionSol;
-}
-
-void Aeroport::setNbPlacesSol(int _nbPlacesSol)
-{
-    m_nbPlacesAuSol=_nbPlacesSol;
-}
-
-void Aeroport::SetAvionSol(Avion* _unAvion)
-{
-    m_AvionSol.push_back(_unAvion);
 }
