@@ -173,7 +173,7 @@ void Monde::initialisationAeroport()
 {
     int nbAvions=4;
     unsigned int compteur=0;
-    std::vector<Avion*> lesAvions;
+    std::vector<std::pair<Avion*,std::string>> lesAvions;
     std::vector<Aeroport*>airports;
     airports=m_aeroports;
     melangerAvion();
@@ -185,7 +185,7 @@ void Monde::initialisationAeroport()
     {
         if(airports[compteur]->getNbPlacesSol()!=0)
         {
-            airports[compteur]->SetAvionSol(m_avion[i]);
+            airports[compteur]->SetAvions(m_avion[i],"Stationnement");
             airports[compteur]->setNbPlacesSol((airports[compteur]->getNbPlacesSol())-1);
         }
         else
@@ -205,10 +205,10 @@ void Monde::initialisationAeroport()
     }
     for(unsigned int i=0;i<m_aeroports.size();i++)
     {
-        lesAvions=m_aeroports[i]->getAvionSol();
+        lesAvions=m_aeroports[i]->getAvions();
         for(unsigned int j=0;j<lesAvions.size();j++)
         {
-            lesAvions[j]->setCoordonnees(m_aeroports[i]->getCoordonnes());
+            lesAvions[j].first->setCoordonnees(m_aeroports[i]->getCoordonnes());
         }
     }
 }

@@ -39,8 +39,8 @@ void Aeroport::AfficherAeroport()
         std::cout<<"        Distance : "<<s.first<< std::endl;
     }
     std::cout<<"    /-----------AVIONS-----------/"<<std::endl<<"    Les avions au sol sont"<<std::endl;
-    for(auto it : m_AvionSol)
+    for(auto it : m_Avions)
     {
-        it->AfficherAvions();
+        it.first->AfficherAvions();
     }
 }
