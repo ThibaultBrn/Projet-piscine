@@ -38,6 +38,7 @@
 		<Unit filename="Methodes_Classes/Aeroport.cpp" />
 		<Unit filename="Methodes_Classes/Avion.cpp" />
 		<Unit filename="Methodes_Classes/Monde.cpp" />
+		<Unit filename="Simulation/GestionAtterrissagesDecollages.cpp" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<lib_finder disable_auto="1" />

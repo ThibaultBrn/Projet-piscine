@@ -32,6 +32,7 @@ void Aeroport::modifieAction(Avion* _avion, std::string nouvelleAction)
     {
         if(it.first == _avion)
             it.second = nouvelleAction;
+
         _avion->resetTempsTraitement();
     }
 }
@@ -51,7 +52,6 @@ bool Aeroport::autorisationAtterrissage()
         m_fileAttentePistesEnVol.pop();
         m_fileAttentePistes.pop();
         modifieAction(avionTraitement, "Atterrissage");
-        avionTraitement->resetTempsTraitement();
 
         /**-------------------------CHANGER LE MODE DE CONSOMMATION----------------------///
         <<
