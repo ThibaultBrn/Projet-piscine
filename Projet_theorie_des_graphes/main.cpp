@@ -8,12 +8,11 @@ using namespace std;
 
 int main()
 {
-    BITMAP *imageChargee;
     allegro_init();
     install_keyboard();
-
+    install_mouse();
     set_color_depth(desktop_color_depth());
-    if (set_gfx_mode(GFX_AUTODETECT_WINDOWED,1100,600,0,0)!=0)
+    if (set_gfx_mode(GFX_AUTODETECT_WINDOWED,1100,550,0,0)!=0)
     {
         allegro_message("prb gfx mode");
         allegro_exit();
@@ -21,11 +20,16 @@ int main()
     }
 
     std::vector<Aeroport*> aeroports;
+    std::vector<Avion*> avion;
+
     Monde m("Fichiers_txt/Monde.txt");
 
     m.initialisationAeroport();
-
+    aeroports=m.getAeroports();
+    avion=m.getAvion();
+    m.afficherMondeAllegro(aeroports[0],aeroports[1],avion[0]);
     m.afficherMonde();
+
 
     m.Dijkstra(m.getAeroports()[m.trouveIdentification("NYC")], m.getAeroports()[m.trouveIdentification("DUB")]);
 

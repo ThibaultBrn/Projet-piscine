@@ -31,7 +31,8 @@ class Aeroport
         void setNbPlacesSol(int _nbPlacesSol);
         std::vector<Avion*> getAvionSol();
         void SetAvionSol(Avion* _unAvion);
-        std::pair<int, int> getCoordonnes(){return m_coordonnees;};
+        std::pair<int, int> getCoordonnees(){return m_coordonnees;};
+        void setCoordonnees(std::pair<int, int> _coordonnees){m_coordonnees=_coordonnees;};
 };
 
 #endif // AEROPORT_H_INCLUDED
