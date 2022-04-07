@@ -7,6 +7,7 @@
 Monde::Monde(std::string nomFichier)///Recuperation du graphe
 {
     BITMAP* imageChargee;
+
     std::ifstream ifs{nomFichier};
     if (!ifs)
         throw std::runtime_error( "Impossible d'ouvrir en lecture " + nomFichier );
@@ -63,13 +64,30 @@ Monde::Monde(std::string nomFichier)///Recuperation du graphe
         ifs>>nomAvion>>typeAvion>>consommation>>capacite_carburant;
         m_avion.push_back( new Avion(nomAvion,typeAvion, consommation, capacite_carburant, std::make_pair(0,0)));
     }
-    imageChargee=load_bitmap("",NULL);
+
+    ///--------------RECUPERATION DES IMAGES----------------------
+
+    imageChargee=load_bitmap("images_allegro/carte.bmp",NULL);
+
+
+
+    imageChargee=load_bitmap("images_allegro/carte.bmp",NULL);
     m_carte=imageChargee;
+
+    if(!m_carte)
+    {
+        allegro_message("Impossible de trouver la carte !");
+        allegro_exit();
+        exit(EXIT_FAILURE);
+    }
 
 }
 
 void Monde::afficherMonde()
 {
+
+
+
     std::cout<<std::endl<<"Voici notre monde :" << std::endl;
     std::cout<<"Taille : "<<m_aeroports.size()<<std::endl;
     std::cout<<"Liste des aeroports :"<<std::endl<<std::endl;
@@ -110,6 +128,15 @@ void Monde::afficherMonde()
             }
         }
     }
+
+
+
+    while(!key[KEY_ESC])
+    {
+        blit(m_carte, screen, 0,0, (SCREEN_W-m_carte->w)/2, (SCREEN_H-m_carte->h)/2, m_carte->w, m_carte->h);
+
+    }
+
 }
 
 int Monde::trouveIdentification(std::string nomAeroport)
