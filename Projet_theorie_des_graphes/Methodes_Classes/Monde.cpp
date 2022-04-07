@@ -67,11 +67,8 @@ Monde::Monde(std::string nomFichier)///Recuperation du graphe
 
     ///--------------RECUPERATION DES IMAGES----------------------
 
-    imageChargee=load_bitmap("images_allegro/carte.bmp",NULL);
 
-
-
-    imageChargee=load_bitmap("images_allegro/carte.bmp",NULL);
+    imageChargee=load_bitmap("images_allegro/carte_du_monde_avec_villes_et_trajets.bmp",NULL);
     m_carte=imageChargee;
 
     if(!m_carte)
