@@ -45,10 +45,6 @@ void Aeroport::AfficherAeroport()
     }
 }
 
-int Aeroport::getNbPlacesSol()
-{
-    return m_nbPlacesAuSol;
-}
 
 std::vector<Avion*> Aeroport::getAvionSol()
 {
