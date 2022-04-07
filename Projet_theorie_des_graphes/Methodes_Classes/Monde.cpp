@@ -299,7 +299,7 @@ void Monde::deplacementAvion(Aeroport* _depart,Aeroport* _arrivee,Avion* _avion)
     _avion->setCarburant(_avion->getCarburant() - 10 * _avion->getConsomation());
 }
 
-void Monde::afficherMonde(Aeroport* _depart,Aeroport* _arrivee,Avion* _avion)
+void Monde::afficherMondeAllegro(Aeroport* _depart,Aeroport* _arrivee,Avion* _avion)
 {
     BITMAP * page;
     page=create_bitmap(SCREEN_W,SCREEN_H);
