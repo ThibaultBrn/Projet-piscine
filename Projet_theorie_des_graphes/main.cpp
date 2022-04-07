@@ -10,8 +10,11 @@ int main()
 {
     std::vector<Aeroport*> aeroports;
     Monde m("Fichiers_txt/Monde.txt");
+
     m.initialisationAeroport();
+
     m.afficherMonde();
-    m.Dijkstra(m.getAeroports()[m.trouveIdentification("NewYork")], m.getAeroports()[m.trouveIdentification("Dubai")]);
+
+    m.Dijkstra(m.getAeroports()[m.trouveIdentification("NYC")], m.getAeroports()[m.trouveIdentification("DUB")]);
     return 0;
 }

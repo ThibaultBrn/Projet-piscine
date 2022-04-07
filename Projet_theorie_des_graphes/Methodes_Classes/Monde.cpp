@@ -38,11 +38,13 @@ Monde::Monde(std::string nomFichier)///Recuperation du graphe
         throw std::runtime_error("Probleme lecture arc");
 
         ///fonction qui va chercher le numero correspondant au nom de l'aeroport
+
         num1 = trouveIdentification(aer1);
         num2 = trouveIdentification(aer2);
-
         m_aeroports[num1]->AjouterSucc(poids, m_aeroports[num2]);
+
         m_aeroports[num2]->AjouterSucc(poids, m_aeroports[num1]);
+
     }
 
     ///--------------RECUPERATION DES DONNEES DES AVIONS----------------------
@@ -77,6 +79,33 @@ void Monde::afficherMonde()
             s->AfficherAvions();
             std::cout<<std::endl;
     }
+
+    std::cout<<std::endl<<"\n\nVoici la carte de notre monde :\n" << std::endl;
+
+    int x, y;
+    bool afficheNom=false;
+    for (y=0; y<21; y++){
+        for (x=0; x<31; x++){
+            afficheNom=false;
+            for(auto s : m_aeroports){
+                if(s->getCoordonnes().first==x && s->getCoordonnes().second==y)
+                {
+                    std::cout<<s->getNom();
+                    afficheNom=true;
+                }
+            }
+            if(afficheNom==false)
+            {
+                std::cout<<"|  ";
+            }
+
+            if(x==30)
+            {
+                std::cout<<std::endl;
+                break;
+            }
+        }
+    }
 }
 
 int Monde::trouveIdentification(std::string nomAeroport)
@@ -84,7 +113,10 @@ int Monde::trouveIdentification(std::string nomAeroport)
     for(auto it : m_aeroports)
     {
         if(nomAeroport == it->getNom())
+        {
             return it->getIdentification();
+
+        }
     }
     std::cout << "Aucun aeroport trouve..." << std::endl;
     return -1; ///SI ON EST ARRIVE JUSQU'ICI C'EST QUE L'AEROPORT QUE L'ON RECHERCHE N'EXISTE PAS.
