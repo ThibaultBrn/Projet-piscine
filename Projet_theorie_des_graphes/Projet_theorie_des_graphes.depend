@@ -140,36 +140,39 @@
 	<vector>
 	<fstream>
 
-1649181924 source:c:\users\timot\onedrive\bureau\ece\ing2\info\projet_info_s4\projet-piscine\projet_theorie_des_graphes\main.cpp
+1649328159 source:c:\users\timot\onedrive\bureau\ece\ing2\info\projet_info_s4\projet-piscine\projet_theorie_des_graphes\main.cpp
 	<iostream>
 	"Classes/Avion.h"
 	"Classes/Aeroport.h"
 	"Classes/Monde.h"
+	<allegro.h>
 
-1649178748 c:\users\timot\onedrive\bureau\ece\ing2\info\projet_info_s4\projet-piscine\projet_theorie_des_graphes\classes\avion.h
+1649328229 c:\users\timot\onedrive\bureau\ece\ing2\info\projet_info_s4\projet-piscine\projet_theorie_des_graphes\classes\avion.h
 	<iostream>
+	"allegro.h"
 
-1649178765 c:\users\timot\onedrive\bureau\ece\ing2\info\projet_info_s4\projet-piscine\projet_theorie_des_graphes\classes\aeroport.h
+1649182122 c:\users\timot\onedrive\bureau\ece\ing2\info\projet_info_s4\projet-piscine\projet_theorie_des_graphes\classes\aeroport.h
 	<iostream>
 	"Avion.h"
 	<vector>
 	<map>
 
-1649168422 c:\users\timot\onedrive\bureau\ece\ing2\info\projet_info_s4\projet-piscine\projet_theorie_des_graphes\classes\monde.h
+1649327863 c:\users\timot\onedrive\bureau\ece\ing2\info\projet_info_s4\projet-piscine\projet_theorie_des_graphes\classes\monde.h
 	"Aeroport.h"
 	<vector>
 	<fstream>
+	<allegro.h>
 	"Avion.h"
 
-1649170940 source:c:\users\timot\onedrive\bureau\ece\ing2\info\projet_info_s4\projet-piscine\projet_theorie_des_graphes\methodes_classes\avion.cpp
+1649328559 source:c:\users\timot\onedrive\bureau\ece\ing2\info\projet_info_s4\projet-piscine\projet_theorie_des_graphes\methodes_classes\avion.cpp
 	"../Classes/Avion.h"
 
-1649171588 source:c:\users\timot\onedrive\bureau\ece\ing2\info\projet_info_s4\projet-piscine\projet_theorie_des_graphes\methodes_classes\aeroport.cpp
+1649182122 source:c:\users\timot\onedrive\bureau\ece\ing2\info\projet_info_s4\projet-piscine\projet_theorie_des_graphes\methodes_classes\aeroport.cpp
 	"../Classes/Aeroport.h"
 	"../Classes/Avion.h"
 	<vector>
 
-1649175672 source:c:\users\timot\onedrive\bureau\ece\ing2\info\projet_info_s4\projet-piscine\projet_theorie_des_graphes\methodes_classes\monde.cpp
+1649327600 source:c:\users\timot\onedrive\bureau\ece\ing2\info\projet_info_s4\projet-piscine\projet_theorie_des_graphes\methodes_classes\monde.cpp
 	"../Classes/Monde.h"
 	<queue>
 	<vector>

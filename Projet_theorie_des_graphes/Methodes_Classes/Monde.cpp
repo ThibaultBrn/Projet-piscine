@@ -6,6 +6,7 @@
 
 Monde::Monde(std::string nomFichier)///Recuperation du graphe
 {
+    BITMAP* imageChargee;
     std::ifstream ifs{nomFichier};
     if (!ifs)
         throw std::runtime_error( "Impossible d'ouvrir en lecture " + nomFichier );
@@ -62,6 +63,9 @@ Monde::Monde(std::string nomFichier)///Recuperation du graphe
         ifs>>nomAvion>>typeAvion>>consommation>>capacite_carburant;
         m_avion.push_back( new Avion(nomAvion,typeAvion, consommation, capacite_carburant, std::make_pair(0,0)));
     }
+    imageChargee=load_bitmap("",NULL);
+    m_carte=imageChargee;
+
 }
 
 void Monde::afficherMonde()
