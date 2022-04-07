@@ -23,6 +23,8 @@ class Monde
         void melangerAvion();
         void creationAvion();
         void afficherAeroport();
+        void deplacementAvion(Aeroport* _depart,Aeroport* _arrivee,Avion* _avion);
+        void afficherMonde(Aeroport* _depart,Aeroport* _arrivee,Avion* _avion);
 };
 
 #endif // MONDE_H_INCLUDED

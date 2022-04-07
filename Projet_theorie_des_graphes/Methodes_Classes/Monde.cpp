@@ -277,3 +277,41 @@ void Monde::initialisationAeroport()
         }
     }
 }
+
+void Monde::deplacementAvion(Aeroport* _depart,Aeroport* _arrivee,Avion* _avion)
+{
+    float m=0.0;
+    float p=0.0;
+    std::pair<int,int>coordonneesAvion;
+    coordonneesAvion=_avion->getCoordonnees();
+    m=((_arrivee->getCoordonnes().second)-(_depart->getCoordonnes().second))/((_arrivee->getCoordonnes().first)-(_depart->getCoordonnes().second));
+    p=_depart->getCoordonnes().second-m*_depart->getCoordonnes().first;
+    if(_depart->getCoordonnes().first<=_arrivee->getCoordonnes().first)
+    {
+        coordonneesAvion.first=coordonneesAvion.first+10;
+        coordonneesAvion.second=m*coordonneesAvion.first+p;
+    }
+    else
+    {
+        coordonneesAvion.first=coordonneesAvion.second-10;
+        coordonneesAvion.second=m*coordonneesAvion.first+p;
+    }
+    _avion->setCarburant(_avion->getCarburant() - 10 * _avion->getConsomation());
+}
+
+void Monde::afficherMonde(Aeroport* _depart,Aeroport* _arrivee,Avion* _avion)
+{
+    BITMAP * page;
+    page=create_bitmap(SCREEN_W,SCREEN_H);
+    clear_bitmap(page);
+
+    while (int i=0)
+    {
+        rectfill(page,_depart->getCoordonnes().first-1,_depart->getCoordonnes().second-1,_arrivee->getCoordonnes().first+1,_arrivee->getCoordonnes().second+1,makecol(255,0,0));
+        rectfill(page,_avion->getCoordonnees().first-2,_avion->getCoordonnees().second-2,_avion->getCoordonnees().first+2,_avion->getCoordonnees().second+2,makecol(0,0,0));
+        blit(page,screen,0,0,0,0,SCREEN_W,SCREEN_H);
+        deplacementAvion(_depart,_arrivee,_avion);
+        clear_bitmap(page);
+    }
+
+}
