@@ -27,7 +27,7 @@ int main()
     m.initialisationAeroport();
     aeroports=m.getAeroports();
     avion=m.getAvion();
-    m.afficherMondeAllegro(aeroports[0],aeroports[1],avion[0]);
+    m.afficherMondeAllegro(aeroports[4],aeroports[13],avion[0]);
     m.afficherMonde();
 
 

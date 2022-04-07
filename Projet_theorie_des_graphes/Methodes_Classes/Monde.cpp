@@ -285,6 +285,7 @@ void Monde::deplacementAvion(Aeroport* _depart,Aeroport* _arrivee,Avion* _avion)
     p=_depart->getCoordonnees().second-m*_depart->getCoordonnees().first;
     if(_depart->getCoordonnees().first<_arrivee->getCoordonnees().first)
     {
+        std::cout<<"test"<<std::endl;
         coordonneesAvion.first=coordonneesAvion.first+1;
         coordonneesAvion.second=m*coordonneesAvion.first+p;
     }
@@ -293,6 +294,7 @@ void Monde::deplacementAvion(Aeroport* _depart,Aeroport* _arrivee,Avion* _avion)
         coordonneesAvion.first=coordonneesAvion.first-1;
         coordonneesAvion.second=m*coordonneesAvion.first+p;
     }
+    std::cout<<"coordonnees ini x : "<<coordonneesAvion.first<<" coordonnees ini y : "<<coordonneesAvion.second<<std::endl;
     /*std::cout<<"coordonnees x : "<<coordonneesAvion.first<<" coordonnees y : "<<coordonneesAvion.first<<std::endl;
     std::cout<<"coordonnees x : "<<m<<" coordonnees y : "<<p<<std::endl;*/
     _avion->setCoordonnees(coordonneesAvion);
@@ -306,6 +308,7 @@ void Monde::afficherMondeAllegro(Aeroport* _depart,Aeroport* _arrivee,Avion* _av
     page=create_bitmap(SCREEN_W,SCREEN_H);
     clear_bitmap(page);
     int i=0;
+    _avion->setCoordonnees(_depart->getCoordonnees());
 
     if(_depart->getCoordonnees().first>_arrivee->getCoordonnees().first)
     {
@@ -316,13 +319,13 @@ void Monde::afficherMondeAllegro(Aeroport* _depart,Aeroport* _arrivee,Avion* _av
         i=_arrivee->getCoordonnees().first-_depart->getCoordonnees().first;
     }
 
-    while(!key[KEY_ESC])//(i!=0)
+    while(i!=0)//(!key[KEY_ESC])
     {
         clear_bitmap(page);
         blit(m_carte, page, 0,0, (SCREEN_W-m_carte->w)/2, (SCREEN_H-m_carte->h)/2, m_carte->w, m_carte->h);
         show_mouse(page);
-        std::cout<<"coordonnees x : "<<mouse_x<<" coordonnees y : "<<mouse_y<<std::endl;
-        rectfill(page,_avion->getCoordonnees().first-5,_avion->getCoordonnees().second-5,_avion->getCoordonnees().first+5,_avion->getCoordonnees().second+5,makecol(255,0,0));
+        masked_blit(_avion->getImage(),page,0,0,_avion->getCoordonnees().first,_avion->getCoordonnees().second,_avion->getImage()->h,_avion->getImage()->h);
+        //rectfill(page,_avion->getCoordonnees().first-5,_avion->getCoordonnees().second-5,_avion->getCoordonnees().first+5,_avion->getCoordonnees().second+5,makecol(255,0,0));
         blit(page,screen,0,0,0,0,SCREEN_W,SCREEN_H);
         deplacementAvion(_depart,_arrivee,_avion);
 
@@ -332,4 +335,5 @@ void Monde::afficherMondeAllegro(Aeroport* _depart,Aeroport* _arrivee,Avion* _av
     std::cout<<"test1"<<std::endl;
     destroy_bitmap(page);
     destroy_bitmap(m_carte);
+    destroy_bitmap(_avion->getImage());
 }
