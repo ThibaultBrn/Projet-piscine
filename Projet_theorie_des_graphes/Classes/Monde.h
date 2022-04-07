@@ -3,6 +3,7 @@
 #include "Aeroport.h"
 #include <vector>
 #include <fstream>
+#include <allegro.h>
 #include "Avion.h"
 
 
@@ -11,6 +12,7 @@ class Monde
     private:
         std::vector<Aeroport*>m_aeroports;
         std::vector<Avion*>m_avion;
+        BITMAP* m_carte;
     public:
         Monde(std::string nomFichier);
         std::vector<Aeroport*> getAeroports() const{return m_aeroports;};
@@ -21,6 +23,8 @@ class Monde
         void melangerAvion();
         void creationAvion();
         void afficherAeroport();
+        void deplacementAvion(Aeroport* _depart,Aeroport* _arrivee,Avion* _avion);
+        void afficherMondeAllegro(Aeroport* _depart,Aeroport* _arrivee,Avion* _avion);
 };
 
 #endif // MONDE_H_INCLUDED

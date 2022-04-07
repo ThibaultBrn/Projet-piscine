@@ -2,11 +2,15 @@
 
 Avion::Avion(std::string _nom, std::string _type,int _consommation,int _capacite_carburant, std::pair<int, int> _coordonneesAv)
 {
+    BITMAP* imageChargee;
+    imageChargee=load_bitmap("",NULL);
+    m_volatil=imageChargee;
     m_nom=_nom;
     m_type = _type;
     m_consommation = _consommation;
     m_capacite_carburant = _capacite_carburant;
     m_coordonneesAv = _coordonneesAv;
+
 }
 void Avion::AfficherAvions()
 {
