@@ -12,11 +12,11 @@ Avion::Avion(std::string _nom, std::string _type,int _consommation,int _capacite
         exit(EXIT_FAILURE);
     }
 
-
     m_nom=_nom;
     m_type = _type;
     m_consommation = _consommation;
     m_capacite_carburant = _capacite_carburant;
+    m_carburant=_capacite_carburant;
     m_coordonneesAv = _coordonneesAv;
 
 }
