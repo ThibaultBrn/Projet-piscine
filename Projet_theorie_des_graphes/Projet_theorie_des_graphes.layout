@@ -2,6 +2,7 @@
 <CodeBlocks_layout_file>
 	<FileVersion major="1" minor="0" />
 	<ActiveTarget name="Debug" />
+<<<<<<< HEAD
 	<File name="Methodes_Classes\Monde.cpp" open="1" top="1" tabpos="7" split="0" active="1" splitpos="0" zoom_1="-2" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="12817" topLine="361" />
@@ -10,11 +11,33 @@
 	<File name="Classes\Aeroport.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="564" topLine="0" />
+=======
+	<File name="Methodes_Classes\Monde.cpp" open="1" top="1" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="4419" topLine="126" />
+		</Cursor>
+	</File>
+	<File name="Classes\Avion.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="574" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="main.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="266" topLine="0" />
+>>>>>>> d36cc03ef1409d5dab36bef94becddb26f259fa6
 		</Cursor>
 	</File>
 	<File name="Methodes_Classes\Avion.cpp" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
+<<<<<<< HEAD
 			<Cursor1 position="435" topLine="0" />
+=======
+<<<<<<< HEAD
+			<Cursor1 position="230" topLine="0" />
+=======
+			<Cursor1 position="31" topLine="0" />
+>>>>>>> d36cc03ef1409d5dab36bef94becddb26f259fa6
 		</Cursor>
 	</File>
 	<File name="Classes\Avion.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -24,17 +47,53 @@
 	</File>
 	<File name="Classes\Monde.h" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
+<<<<<<< HEAD
 			<Cursor1 position="308" topLine="7" />
 		</Cursor>
 	</File>
 	<File name="main.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="456" topLine="15" />
+=======
+			<Cursor1 position="487" topLine="8" />
+>>>>>>> 45534c62de69daf194e8171e42c1bc68559a010f
+>>>>>>> d36cc03ef1409d5dab36bef94becddb26f259fa6
 		</Cursor>
 	</File>
 	<File name="Methodes_Classes\Aeroport.cpp" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
+<<<<<<< HEAD
+			<Cursor1 position="1796" topLine="29" />
+=======
 			<Cursor1 position="808" topLine="0" />
+>>>>>>> 45534c62de69daf194e8171e42c1bc68559a010f
 		</Cursor>
 	</File>
+<<<<<<< HEAD
+=======
+	<File name="Classes\Aeroport.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+<<<<<<< HEAD
+			<Cursor1 position="1193" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="Classes\Monde.h" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="295" topLine="0" />
+=======
+			<Cursor1 position="1196" topLine="16" />
+		</Cursor>
+	</File>
+	<File name="main.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="717" topLine="15" />
+		</Cursor>
+	</File>
+	<File name="Methodes_Classes\Monde.cpp" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="-2" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="12817" topLine="312" />
+>>>>>>> 45534c62de69daf194e8171e42c1bc68559a010f
+		</Cursor>
+	</File>
+>>>>>>> d36cc03ef1409d5dab36bef94becddb26f259fa6
 </CodeBlocks_layout_file>

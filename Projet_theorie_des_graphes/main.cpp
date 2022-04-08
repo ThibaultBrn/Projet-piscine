@@ -11,6 +11,7 @@ int main()
     allegro_init();
     install_keyboard();
     install_mouse();
+
     set_color_depth(desktop_color_depth());
     if (set_gfx_mode(GFX_AUTODETECT_WINDOWED,1100,550,0,0)!=0)
     {
