@@ -11,7 +11,8 @@ class Aeroport
     private :
         std::string m_nom;
         std::pair<int, int> m_coordonnees;
-        int m_identification;
+        int m_identification; ///Pour Dijkstra
+
         int m_nbPistes;
         int m_nbPlacesAuSol;
         int m_delaiAttenteSol;
@@ -19,6 +20,7 @@ class Aeroport
         int m_delaiAnticollision;
         int m_tempsDecollageAtterrissage;
         int m_dureeBoucleAttente;
+
         std::vector<std::pair<int,Aeroport*>>m_successeurs;
         std::vector<std::pair<Avion*, std::string>>m_Avions;
         std::queue<Avion*>m_fileAttentePistes;
@@ -33,21 +35,32 @@ class Aeroport
         int getNbPlacesSol(){return m_nbPlacesAuSol;};
         std::vector<std::pair<Avion*,std::string>> getAvions(){return m_Avions;};
         int getNbPistes(){return m_nbPistes;};
+        int getTempsDecollageAtterrissage(){return m_tempsDecollageAtterrissage;};
+        int getDelaiAnticollision(){return m_delaiAnticollision;};
+        int getTempsAccesPistes(){return m_tempsAccesPistes;};
+        int getDelaiAttenteSol(){return m_delaiAttenteSol;};
+        void incrNbPistes(){m_nbPistes++;};
+        void decrNbPiste(){m_nbPistes--;};
+        void incrNbPlacesAuSol(){m_nbPlacesAuSol++;};
+        void decrNbPlacesAuSol(){m_nbPlacesAuSol--;};
+        void effacerAvion(int position){m_Avions.erase(m_Avions.begin()+position);};
         std::queue<Avion*> getAvionsTransitionPistes(){return m_AvionsTransitionPistes;};
         std::queue<Avion*> getAvionsTransitionAireStationnement(){return m_AvionsTransitionAireStationnement;};
         std::queue<Avion*> getFileAttentePistes(){return m_fileAttentePistes;};
         std::queue<Avion*> getFileAttentePistesEnVol(){return m_fileAttentePistesEnVol;};
+        void ajouterAvionTransiPiste(Avion* nouvelAvion){m_AvionsTransitionPistes.push(nouvelAvion);};
+        void retirerAvionTransiPiste(){m_AvionsTransitionPistes.pop();};
         void AjouterSucc(int poids, Aeroport* s);
         void setNbPlacesSol(int _nbPlacesSol){m_nbPlacesAuSol=_nbPlacesSol;};
         void setNbPistes(int _nbPistes){m_nbPistes=_nbPistes;};
-        void SetAvions(Avion* _unAvion, std::string etat){m_Avions.push_back({_unAvion, etat});};
+        void SetAvions(Avion* _unAvion, std::string etat){m_Avions.push_back({_unAvion, etat});if(etat == "Stockage"){_unAvion->setStationnement(true);}else{_unAvion->setStationnement(false);}};
+        void setIdentification(int identi){m_identification = identi;};
         std::pair<int, int> getCoordonnes(){return m_coordonnees;};
         void AfficherAeroport();
         ///----------------METHODES DE GESTION DE LA SIMULATION----------------///
         bool autorisationAtterrissage();
-        void gestionAeroport();
         void modifieAction(Avion* _avion, std::string nouvelleAction);
-
+        void incrTempsTousLesAvions();
 };
 
 #endif // AEROPORT_H_INCLUDED

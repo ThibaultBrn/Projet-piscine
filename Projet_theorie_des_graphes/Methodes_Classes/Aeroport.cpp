@@ -25,6 +25,7 @@ void Aeroport::AjouterSucc(int poids, Aeroport* s)
 void Aeroport::AfficherAeroport()
 {
     int i = 0;
+    std::cout <<"/----------------------------/"<<std::endl;
     std::cout<<"Aeroport "<<m_nom<<" : " << std::endl;
     std::cout<<"    Coordonnees : "<<"X = "<<m_coordonnees.first<<" || Y = "<<m_coordonnees.second<<std::endl;
     std::cout<<"    Nombre de pistes : "<<m_nbPistes<<" "<< std::endl;
@@ -32,6 +33,7 @@ void Aeroport::AfficherAeroport()
     std::cout<<"    Delai d'attente au sol : "<<m_delaiAttenteSol<<" "<< std::endl;
     std::cout<<"    Temps decollage-atterrissage : "<<m_tempsDecollageAtterrissage<<" "<< std::endl;
     std::cout<<"    Duree Boucle Attente : "<<m_dureeBoucleAttente<<" "<< std::endl;
+    std::cout<<"    Delai transition stationnement / pistes : "<<m_tempsAccesPistes<<std::endl;
     for (auto s : m_successeurs)
     {
         i++;
@@ -43,4 +45,5 @@ void Aeroport::AfficherAeroport()
     {
         it.first->AfficherAvions();
     }
+    std::cout <<"/----------------------------/"<<std::endl;
 }

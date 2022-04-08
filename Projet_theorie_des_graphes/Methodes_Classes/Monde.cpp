@@ -2,6 +2,7 @@
 #include <queue>
 #include <vector>
 #include <fstream>
+#include <time.h>
 
 
 Monde::Monde(std::string nomFichier)///Recuperation du graphe
@@ -58,21 +59,22 @@ Monde::Monde(std::string nomFichier)///Recuperation du graphe
     for (int i=0; i<nbAvions; ++i)
     {
         ifs>>nomAvion>>typeAvion>>consommation>>capacite_carburant;
-        m_avion.push_back( new Avion(nomAvion,typeAvion, consommation, capacite_carburant, std::make_pair(0,0)));
+        m_avion.push_back( new Avion(nomAvion,typeAvion, consommation, capacite_carburant, std::make_pair(0,0), false));
     }
 }
 
 void Monde::afficherMonde()
 {
-    std::cout<<std::endl<<"Voici notre monde :" << std::endl;
-    std::cout<<"Taille : "<<m_aeroports.size()<<std::endl;
+    std::cout<<"Voici notre monde :" << std::endl;
+    std::cout<<"Nombre d'aeroports : "<<m_aeroports.size()<<std::endl;
+    std::cout<<"Nombre d'avions : "<<m_avion.size()<<std::endl;
     std::cout<<"Liste des aeroports :"<<std::endl<<std::endl;
     for (auto s : m_aeroports){
             s->AfficherAeroport();
             std::cout<<std::endl;
     }
 
-    std::cout<<"    Liste des avions :"<<std::endl<<std::endl;
+    std::cout<<"Liste des avions :"<<std::endl<<std::endl;
     for (auto s : m_avion){
             s->AfficherAvions();
             std::cout<<std::endl;
@@ -90,14 +92,18 @@ int Monde::trouveIdentification(std::string nomAeroport)
     return -1; ///SI ON EST ARRIVE JUSQU'ICI C'EST QUE L'AEROPORT QUE L'ON RECHERCHE N'EXISTE PAS.
 }
 
-void Monde::Dijkstra(const Aeroport* Depart, const Aeroport* Arrivee)
+Vol* Monde::CreationPlanDeVol(std::string _Depart, std::string _Arrivee)
 {
+    Aeroport* Depart = m_aeroports[trouveIdentification(_Depart)];
+    Aeroport* Arrivee = m_aeroports[trouveIdentification(_Arrivee)];
     /// INITIALISATION DE L'ALGO ///
-    const Aeroport* AeroportActuel = Depart;
-    std::priority_queue<std::pair<int, const Aeroport*>, std::vector<std::pair<int, const Aeroport*>>, std::greater<std::pair<int, const Aeroport*>>> distanceSuccesseurs; ///PRIORITY QUEUE D'ARCS POUR FACILEMENT RETROUVER LE PROCHAIN SOMMET LE PLUS PROCHE DU SOMMET INTIAL.
+    Aeroport* AeroportActuel = Depart;
+    std::priority_queue<std::pair<int, Aeroport*>, std::vector<std::pair<int, Aeroport*>>, std::greater<std::pair<int, Aeroport*>>> distanceSuccesseurs; ///PRIORITY QUEUE D'ARCS POUR FACILEMENT RETROUVER LE PROCHAIN SOMMET LE PLUS PROCHE DU SOMMET INTIAL.
     std::vector<bool> aeroportsMarques(m_aeroports.size(), false);
-    std::vector<const Aeroport*> predecesseurs(m_aeroports.size(), NULL);
+    std::vector<Aeroport*> predecesseurs(m_aeroports.size(), NULL);
     std::vector<int> distancePlusCourtChemin(m_aeroports.size(), -1); ///-1 = PAS ENCORE TRAITE. SERAIT EGAL A INFINI SI ON SUIVAIT LE COURS.
+    std::vector<Aeroport*> planDeVolTmp;
+    std::vector<Aeroport*> planDeVol;
     size_t nbAeroportsMarques = 0;
     distancePlusCourtChemin[Depart->getIdentification()] = 0;       ///LA DISTANCE DU SOMMET INTIAL AU SOMMET INITIAL EST DE 0
     aeroportsMarques[Depart->getIdentification()] = true;
@@ -135,21 +141,25 @@ void Monde::Dijkstra(const Aeroport* Depart, const Aeroport* Arrivee)
             distanceSuccesseurs.pop();
         }
     }
-    if(Depart == NULL || Arrivee == NULL)
+    if(Depart == NULL || Arrivee == NULL || Depart == Arrivee)
     {
-        std::cout << "Taille du plus court chemin : 0... Le sommet de depart et le sommet d'arrivee sont les memes." << std::endl;
+        planDeVol.clear();
+        distancePlusCourtChemin[Arrivee->getIdentification()] = 0;
     }
     else
     {
         AeroportActuel = Arrivee;
-        std::cout << "Taille du plus court chemin : " << distancePlusCourtChemin[AeroportActuel->getIdentification()] << std::endl;
         while(AeroportActuel != Depart)
         {
-            std::cout << AeroportActuel->getIdentification() << " <- ";
+            planDeVolTmp.push_back(AeroportActuel);
             AeroportActuel = predecesseurs[AeroportActuel->getIdentification()];
         }
-        std::cout << Depart->getIdentification() << std::endl << std::endl;
     }
+    while(!planDeVolTmp.empty()){
+        planDeVol.push_back(planDeVolTmp.back());
+        planDeVolTmp.pop_back();}
+    Vol* VolCree = new Vol(Depart, Arrivee, distancePlusCourtChemin[Arrivee->getIdentification()], planDeVol);
+    return VolCree;
 }
 
 void Monde::melangerAvion()///melange du vecteur d'avion
@@ -171,36 +181,51 @@ void Monde::melangerAvion()///melange du vecteur d'avion
 
 void Monde::initialisationAeroport()
 {
-    int nbAvions=4;
+    int nbAvions=m_avion.size();
+    int nbAirports = m_aeroports.size();
     unsigned int compteur=0;
+    int compteAeroports = 0;
     std::vector<std::pair<Avion*,std::string>> lesAvions;
     std::vector<Aeroport*>airports;
+    std::vector<int>placesAEffacer;
     airports=m_aeroports;
     melangerAvion();
-    for(unsigned int i=0;i<airports.size();i++)
+    m_aeroports.clear();
+    for(int j = 0 ; j < nbAirports ; j++)
     {
-        m_aeroports.pop_back();
+        for(int i = 0 ; i < int(airports.size()) ; i++)
+        {
+            if(airports[i]->getNbPlacesSol() == 0)
+            {
+                airports[i]->setIdentification(compteAeroports);
+                compteAeroports++;
+                m_aeroports.push_back(airports[i]);
+                airports.erase(airports.begin()+i);
+            }
+        }
     }
     for(int i=0;i<nbAvions;i++)
     {
         if(airports[compteur]->getNbPlacesSol()!=0)
         {
-            airports[compteur]->SetAvions(m_avion[i],"Stationnement");
-            airports[compteur]->setNbPlacesSol((airports[compteur]->getNbPlacesSol())-1);
+            airports[compteur]->SetAvions(m_avion[i],"Stockage");
+            airports[compteur]->decrNbPlacesAuSol();
+            m_avion[i]->setAeroportActuel(airports[compteur]->getNom());
         }
         else
         {
             m_aeroports.push_back(airports[compteur]);
+            airports[compteur]->setIdentification(compteAeroports);
+            compteAeroports++;
             airports.erase(airports.begin()+compteur);
         }
         compteur++;
-        if(compteur==airports.size())
-        {
-            compteur=0;
-        }
+        compteur %= airports.size();
     }
     for(unsigned int i=0;i<airports.size();i++)
     {
+        airports[i]->setIdentification(compteAeroports);
+        compteAeroports++;
         m_aeroports.push_back(airports[i]);
     }
     for(unsigned int i=0;i<m_aeroports.size();i++)
@@ -209,6 +234,38 @@ void Monde::initialisationAeroport()
         for(unsigned int j=0;j<lesAvions.size();j++)
         {
             lesAvions[j].first->setCoordonnees(m_aeroports[i]->getCoordonnes());
+        }
+    }
+}
+
+void Monde::plansDeVolsAlea()
+{
+    std::string dep;
+    std::string arr;
+    for(auto it : m_avion)
+    {
+        if(it->getStationnement())
+        {
+            dep = it->getAeroportActuel();
+            arr = m_aeroports[rand()%(int(m_aeroports.size()))]->getNom();
+            Vol* vol = CreationPlanDeVol(dep, arr);
+            addVol(it, vol);
+        }
+    }
+}
+
+void Monde::afficheNouveauxVols()
+{
+    std::cout << "==============================================================" << std::endl;
+    std::cout << "==============================================================" << std::endl;
+    for(auto it : m_avion)
+    {
+        if(it->getStationnement())
+        {
+            std::cout << "          >>" << it->getNom() << "<<" << std::endl;
+            m_trajets[it]->afficheVol();
+            std::cout << "==============================================================" << std::endl;
+            std::cout << "==============================================================" << std::endl;
         }
     }
 }
