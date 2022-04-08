@@ -48,8 +48,12 @@ class Aeroport
         std::queue<Avion*> getAvionsTransitionAireStationnement(){return m_AvionsTransitionAireStationnement;};
         std::queue<Avion*> getFileAttentePistes(){return m_fileAttentePistes;};
         std::queue<Avion*> getFileAttentePistesEnVol(){return m_fileAttentePistesEnVol;};
+        void ajouterAvionTransiAireStationnement(Avion* _avion){m_AvionsTransitionAireStationnement.push(_avion);};
+        void ajouterAvion(Avion* nouvelAvion, std::string action){m_Avions.push_back({nouvelAvion, action});};
         void ajouterAvionTransiPiste(Avion* nouvelAvion){m_AvionsTransitionPistes.push(nouvelAvion);};
         void retirerAvionTransiPiste(){m_AvionsTransitionPistes.pop();};
+        void ajouterAvionFileAttPistesEnVol(Avion* nouvelAvion){m_fileAttentePistesEnVol.push(nouvelAvion);};
+        void ajouterAvionFileAttPistes(Avion* nouvelAvion){m_fileAttentePistes.push(nouvelAvion);};
         void AjouterSucc(int poids, Aeroport* s);
         void setNbPlacesSol(int _nbPlacesSol){m_nbPlacesAuSol=_nbPlacesSol;};
         void setNbPistes(int _nbPistes){m_nbPistes=_nbPistes;};

@@ -249,7 +249,7 @@ void Monde::plansDeVolsAlea()
             dep = it->getAeroportActuel();
             arr = m_aeroports[rand()%(int(m_aeroports.size()))]->getNom();
             Vol* vol = CreationPlanDeVol(dep, arr);
-            addVol(it, vol);
+            addTrajet(it, vol);
         }
     }
 }

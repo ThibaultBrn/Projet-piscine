@@ -17,11 +17,12 @@ class Monde
         Monde(std::string nomFichier);
         std::vector<Aeroport*> getAeroports() const{return m_aeroports;};
         std::vector<Avion*> getAvions() const{return m_avion;};
+        void addAvion(Avion* nouveauAvion){m_avion.push_back(nouveauAvion);};
         int trouveIdentification(std::string nomAeroport);
         void afficherMonde();
         Vol* CreationPlanDeVol(std::string _Depart, std::string _Arrivee);
-        Vol* getVol(Avion* _avion){return m_trajets[_avion];};
-        void addVol(Avion* _avion, Vol* _vol){m_trajets[_avion] = _vol;};
+        Vol* getTrajets(Avion* _avion){return m_trajets[_avion];};
+        void addTrajet(Avion* _avion, Vol* _vol){m_trajets[_avion] = _vol;};
         void initialisationAeroport();
         void melangerAvion();
         void creationAvion();
