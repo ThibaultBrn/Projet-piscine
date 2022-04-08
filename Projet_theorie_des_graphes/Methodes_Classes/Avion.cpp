@@ -3,8 +3,16 @@
 Avion::Avion(std::string _nom, std::string _type,int _consommation,int _capacite_carburant, std::pair<int, int> _coordonneesAv)
 {
     BITMAP* imageChargee;
-    imageChargee=load_bitmap("",NULL);
+    imageChargee=load_bitmap("images_allegro/avion.bmp",NULL);
     m_volatil=imageChargee;
+    if(!m_volatil)
+    {
+        allegro_message("Impossible de trouver la carte !");
+        allegro_exit();
+        exit(EXIT_FAILURE);
+    }
+
+
     m_nom=_nom;
     m_type = _type;
     m_consommation = _consommation;

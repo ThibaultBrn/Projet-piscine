@@ -16,6 +16,7 @@ class Monde
     public:
         Monde(std::string nomFichier);
         std::vector<Aeroport*> getAeroports() const{return m_aeroports;};
+        std::vector<Avion*> getAvion() const{return m_avion;};
         int trouveIdentification(std::string nomAeroport);
         void afficherMonde();
         void Dijkstra(const Aeroport* Depart, const Aeroport* Arrivee);

@@ -8,7 +8,6 @@ using namespace std;
 
 int main()
 {
-    BITMAP *imageChargee;
     allegro_init();
     install_keyboard();
     install_mouse();
@@ -22,11 +21,16 @@ int main()
     }
 
     std::vector<Aeroport*> aeroports;
+    std::vector<Avion*> avion;
+
     Monde m("Fichiers_txt/Monde.txt");
 
     m.initialisationAeroport();
-
+    aeroports=m.getAeroports();
+    avion=m.getAvion();
+    m.afficherMondeAllegro(aeroports[4],aeroports[10],avion[0]);
     m.afficherMonde();
+
 
     m.Dijkstra(m.getAeroports()[m.trouveIdentification("NYC")], m.getAeroports()[m.trouveIdentification("DUB")]);
 
