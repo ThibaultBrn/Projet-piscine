@@ -28,6 +28,14 @@ class Aeroport
         void AjouterSucc(int poids, Aeroport* s);
         void AfficherAeroport();
         int getNbPlacesSol();
+        int getNbPistes(){return m_nbPistes;};
+        int getDAS(){return m_delaiAttenteSol;};
+        int getTAP(){return m_tempsAccesPistes;};
+        int getDAC(){return m_delaiAnticollision;};
+        int getTDA(){return m_tempsDecollageAtterrissage;};
+        int getDBA(){return m_dureeBoucleAttente;};
+
+
         void setNbPlacesSol(int _nbPlacesSol);
         std::vector<Avion*> getAvionSol();
         void SetAvionSol(Avion* _unAvion);

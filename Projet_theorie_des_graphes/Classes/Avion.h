@@ -23,6 +23,8 @@ class Avion
         void setCarburant(int _carburant){m_carburant=_carburant;};
         int getCarburant(){return m_carburant;};
         int getConsomation(){return m_consommation;};
+        int getCapacite(){return m_capacite_carburant;};
+        std::string getType(){return m_type;};
         BITMAP* getImage(){return m_volatil;};
 
 
