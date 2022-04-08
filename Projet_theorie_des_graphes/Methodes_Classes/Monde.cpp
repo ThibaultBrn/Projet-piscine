@@ -2,7 +2,7 @@
 #include <queue>
 #include <vector>
 #include <fstream>
-
+#include <math.h>
 
 Monde::Monde(std::string nomFichier)///Recuperation du graphe
 {
@@ -304,7 +304,7 @@ void Monde::deplacementAvion(Aeroport* _depart,Aeroport* _arrivee,Avion* _avion)
 void Monde::afficherMondeAllegro(Aeroport* _depart,Aeroport* _arrivee,Avion* _avion)
 {
     BITMAP * page;
-
+    float degreRot=0.0;
     page=create_bitmap(SCREEN_W,SCREEN_H);
     clear_bitmap(page);
     int i=0;
@@ -322,13 +322,47 @@ void Monde::afficherMondeAllegro(Aeroport* _depart,Aeroport* _arrivee,Avion* _av
     while(i!=0)//(!key[KEY_ESC])
     {
         clear_bitmap(page);
+        if(_arrivee->getCoordonnees().first>_depart->getCoordonnees().first && _arrivee->getCoordonnees().second>_depart->getCoordonnees().second)
+        {
+            if(_arrivee->getCoordonnees().first-_depart->getCoordonnees().first>_arrivee->getCoordonnees().second-_depart->getCoordonnees().second)
+            {
+                degreRot=64;
+            }
+            else
+            {
+                degreRot=128;
+            }
+        }
+        else if(_arrivee->getCoordonnees().first>_depart->getCoordonnees().first && _arrivee->getCoordonnees().second<_depart->getCoordonnees().second)
+        {
+            if(_arrivee->getCoordonnees().first-_depart->getCoordonnees().first>_depart->getCoordonnees().second-_arrivee->getCoordonnees().second)
+            {
+                degreRot=64;
+            }
+        }
+        else if(_arrivee->getCoordonnees().first<_depart->getCoordonnees().first && _arrivee->getCoordonnees().second>_depart->getCoordonnees().second)
+        {
+            if(_depart->getCoordonnees().first-_arrivee->getCoordonnees().first>_arrivee->getCoordonnees().second-_depart->getCoordonnees().second)
+            {
+                degreRot=192;
+            }
+            else
+            {
+                degreRot=128;
+            }
+        }
+        else if(_arrivee->getCoordonnees().first<_depart->getCoordonnees().first && _arrivee->getCoordonnees().second<_depart->getCoordonnees().second)
+        {
+            if(_depart->getCoordonnees().first-_arrivee->getCoordonnees().first>_depart->getCoordonnees().second-_arrivee->getCoordonnees().second)
+            {
+                degreRot=192;
+            }
+        }
         blit(m_carte, page, 0,0, (SCREEN_W-m_carte->w)/2, (SCREEN_H-m_carte->h)/2, m_carte->w, m_carte->h);
-        show_mouse(page);
-        masked_blit(_avion->getImage(),page,0,0,_avion->getCoordonnees().first,_avion->getCoordonnees().second,_avion->getImage()->h,_avion->getImage()->h);
-        //rectfill(page,_avion->getCoordonnees().first-5,_avion->getCoordonnees().second-5,_avion->getCoordonnees().first+5,_avion->getCoordonnees().second+5,makecol(255,0,0));
-        blit(page,screen,0,0,0,0,SCREEN_W,SCREEN_H);
+        rotate_sprite(page,_avion->getImage(),_avion->getCoordonnees().first-10,_avion->getCoordonnees().second-10,itofix(degreRot));
         deplacementAvion(_depart,_arrivee,_avion);
-
+        show_mouse(page);
+        blit(page,screen,0,0,0,0,SCREEN_W,SCREEN_H);
         i--;
         rest(2);
     }
