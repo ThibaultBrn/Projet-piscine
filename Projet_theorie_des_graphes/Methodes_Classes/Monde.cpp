@@ -82,7 +82,6 @@ Monde::Monde(std::string nomFichier)///Recuperation du graphe
 
 void Monde::afficherMonde()
 {
-
     std::cout<<std::endl<<"Voici notre monde :" << std::endl;
     std::cout<<"Taille : "<<m_aeroports.size()<<std::endl;
     std::cout<<"Liste des aeroports :"<<std::endl<<std::endl;
@@ -101,8 +100,8 @@ void Monde::afficherMonde()
 
     int x, y;
     bool afficheNom=false;
-    for (y=0; y<21; y++){
-        for (x=0; x<31; x++){
+    for (y=0; y<27; y++){
+        for (x=0; x<55; x++){
             afficheNom=false;
             for(auto s : m_aeroports){
                 if(s->getCoordonnees().first==x && s->getCoordonnees().second==y)
@@ -116,7 +115,7 @@ void Monde::afficherMonde()
                 std::cout<<"|  ";
             }
 
-            if(x==30)
+            if(x==54)
             {
                 std::cout<<std::endl;
                 break;
@@ -303,6 +302,8 @@ void Monde::deplacementAvion(Aeroport* _depart,Aeroport* _arrivee,Avion* _avion)
 
 void Monde::afficherMondeAllegro(Aeroport* _depart,Aeroport* _arrivee,Avion* _avion)
 {
+    std::cout<<"test1"<<std::endl;
+
     BITMAP * monde;
     float degreRot=0.0;
     int poid=0;
@@ -316,21 +317,16 @@ void Monde::afficherMondeAllegro(Aeroport* _depart,Aeroport* _arrivee,Avion* _av
             poid=elem.first;
     }
 
-    if(_depart->getCoordonnees().first>_arrivee->getCoordonnees().first)
-    {
-        i=(_depart->getCoordonnees().first-_arrivee->getCoordonnees().first)/poid;
-    }
-    else
-    {
-        i=(_arrivee->getCoordonnees().first-_depart->getCoordonnees().first)/poid;
-    }
     i=poid+1;
-
     while(i!=0)
     {
+
         clear_bitmap(monde);
+
         if(_arrivee->getCoordonnees().first>_depart->getCoordonnees().first && _arrivee->getCoordonnees().second>_depart->getCoordonnees().second)
         {
+
+
             if(_arrivee->getCoordonnees().first-_depart->getCoordonnees().first>_arrivee->getCoordonnees().second-_depart->getCoordonnees().second)
             {
                 degreRot=64;
@@ -366,11 +362,30 @@ void Monde::afficherMondeAllegro(Aeroport* _depart,Aeroport* _arrivee,Avion* _av
             }
         }
 
-
-
-
-
         blit(m_carte, monde, 0,0, (SCREEN_W-m_carte->w)/2, (SCREEN_H-m_carte->h)/2, m_carte->w, m_carte->h);
+
+///----------------------QUADRILLAGE----------------------------------------
+
+        int y=20;
+        int x=20;
+
+        if(key[KEY_SPACE])
+        {
+            for(int i=0; i<30; i++)
+            {
+
+                hline(monde, 0, y, 1100, makecol(200, 200, 200));
+                y+=20;
+            }
+
+            for(int i=0; i<60; i++)
+            {
+
+                vline(monde, x, 0, 550, makecol(200, 200, 200));
+                x+=20;
+            }
+
+        }
 
 ///-------------------------------------AFFICHAGE INFOS AEROPORTS------------------------------------------------------------------------------
         if(mouse_x>545 && mouse_x<565 && mouse_y>110 && mouse_y<129)///PARIS
@@ -568,7 +583,7 @@ void Monde::afficherMondeAllegro(Aeroport* _depart,Aeroport* _arrivee,Avion* _av
 
 ///-------------------------------------AFFICHAGE INFOS AVIONS------------------------------------------------------------------------------
 
-        if(mouse_x>_avion->getCoordonnees().first-10 && mouse_x<_avion->getCoordonnees().first+10 && mouse_y>_avion->getCoordonnees().second-10 && mouse_y<_avion->getCoordonnees().second+10)///HONG KONG
+        if(mouse_x>_avion->getCoordonnees().first*20-10 && mouse_x<_avion->getCoordonnees().first*20+10 && mouse_y>_avion->getCoordonnees().second*20-10 && mouse_y<_avion->getCoordonnees().second*20+10)
         {
             rectfill(monde,10, 430, 370, 535, makecol(0,100,100));
             textprintf_ex(monde,font,15,440, makecol(0,0,0), makecol(0,100,100),"INFORMATIONS SUR L'AVION ");
@@ -582,12 +597,16 @@ void Monde::afficherMondeAllegro(Aeroport* _depart,Aeroport* _arrivee,Avion* _av
             textprintf_ex(monde,font,220,500, makecol(0,0,0), makecol(0,100,100),"y");
         }
 
-        rotate_sprite(monde,_avion->getImage(),_avion->getCoordonnees().first-10,_avion->getCoordonnees().second-10,itofix(degreRot));
+std::cout<<"test1.2"<<std::endl;
+
+
+        //rest(2000);
+        rotate_sprite(monde,_avion->getImage(),20*_avion->getCoordonnees().first-10,20*_avion->getCoordonnees().second-10,itofix(degreRot));
         deplacementAvion(_depart,_arrivee,_avion);
         show_mouse(monde);
         blit(monde,screen,0,0,0,0,SCREEN_W,SCREEN_H);
         i--;
-        rest(200);
+        rest(500);
     }
     std::cout<<"reservoir avion : " <<_avion->getCarburant()<<std::endl;
     destroy_bitmap(monde);
