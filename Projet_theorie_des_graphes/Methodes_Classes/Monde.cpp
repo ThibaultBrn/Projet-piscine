@@ -184,6 +184,7 @@ void Monde::initialisationAeroport()
     int nbAvions=m_avion.size();
     int nbAirports = m_aeroports.size();
     unsigned int compteur=0;
+    int cmptAvions = 0;
     int compteAeroports = 0;
     std::vector<std::pair<Avion*,std::string>> lesAvions;
     std::vector<Aeroport*>airports;
@@ -195,7 +196,7 @@ void Monde::initialisationAeroport()
     {
         for(int i = 0 ; i < int(airports.size()) ; i++)
         {
-            if(airports[i]->getNbPlacesSol() == 0)
+            if(airports[i]->getNbPlacesSol() == 0) ///GESTION DES AEROPORTS N'AYANT PLUS DE PLACE
             {
                 airports[i]->setIdentification(compteAeroports);
                 compteAeroports++;
@@ -220,6 +221,25 @@ void Monde::initialisationAeroport()
             airports.erase(airports.begin()+compteur);
         }
         compteur++;
+        if(int(airports.size()) == 0) ///IL N'Y A PLUS D'AEROPORTS DISPONIBLES
+        {
+            for(auto it : m_avion)
+            {
+                if(it->getAeroportActuel() == "")
+                {
+                    cmptAvions = 0;
+                    for(auto it2 : m_avion)
+                    {
+                        if(it2->getNom() == it->getNom())
+                        {
+                            m_avion.erase(m_avion.begin()+cmptAvions);
+                        }
+                        cmptAvions++;
+                    }
+                }
+            }
+            break;
+        }
         compteur %= airports.size();
     }
     for(unsigned int i=0;i<airports.size();i++)
@@ -238,19 +258,24 @@ void Monde::initialisationAeroport()
     }
 }
 
-void Monde::plansDeVolsAlea()
+void Monde::initPlansDeVolsAlea()
+{
+    for(auto it : m_avion)
+    {
+        planDeVolAlea(it);
+    }
+}
+
+void Monde::planDeVolAlea(Avion* _avion)
 {
     std::string dep;
     std::string arr;
-    for(auto it : m_avion)
+    if(_avion->getStationnement())
     {
-        if(it->getStationnement())
-        {
-            dep = it->getAeroportActuel();
-            arr = m_aeroports[rand()%(int(m_aeroports.size()))]->getNom();
-            Vol* vol = CreationPlanDeVol(dep, arr);
-            addTrajet(it, vol);
-        }
+        dep = _avion->getAeroportActuel();
+        arr = m_aeroports[rand()%(int(m_aeroports.size()))]->getNom();
+        Vol* vol = CreationPlanDeVol(dep, arr);
+        addTrajet(_avion, vol);
     }
 }
 

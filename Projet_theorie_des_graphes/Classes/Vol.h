@@ -17,6 +17,7 @@ public :
     Aeroport* getArrivee(){return m_arrivee;};
     int getDuree(){return m_dureeTrajet;};
     std::vector<Aeroport*> getPlanDeVol(){return m_planDeVol;};
+    void retirerEtapePlanDeVol(){if(!m_planDeVol.empty()){m_planDeVol.erase(m_planDeVol.begin());}};
     void afficheVol();
 };
 

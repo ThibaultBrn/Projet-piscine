@@ -17,11 +17,12 @@ class Monde
         Monde(std::string nomFichier);
         std::vector<Aeroport*> getAeroports() const{return m_aeroports;};
         std::vector<Avion*> getAvions() const{return m_avion;};
+        std::map<Avion*, Vol*> getTrajets() const{return m_trajets;};
         void addAvion(Avion* nouveauAvion){m_avion.push_back(nouveauAvion);};
         int trouveIdentification(std::string nomAeroport);
         void afficherMonde();
         Vol* CreationPlanDeVol(std::string _Depart, std::string _Arrivee);
-        Vol* getTrajets(Avion* _avion){return m_trajets[_avion];};
+        Vol* getTrajet(Avion* _avion){return m_trajets[_avion];};
         void addTrajet(Avion* _avion, Vol* _vol){m_trajets[_avion] = _vol;};
         void initialisationAeroport();
         void melangerAvion();
@@ -29,9 +30,10 @@ class Monde
         void afficherAeroport();
 
         ///----------------METHODES DE GESTION DE LA SIMULATION----------------///
-        bool arrivee(Avion* _avion, Aeroport* destination);
+        bool isArrivee(Avion* _avion, Aeroport* destination);
         void gestionAeroport(Aeroport* aeroport);
-        void plansDeVolsAlea();
+        void initPlansDeVolsAlea();
+        void planDeVolAlea(Avion* _avion);
         void afficheNouveauxVols();
         void gestionMondialeAeroports();
 

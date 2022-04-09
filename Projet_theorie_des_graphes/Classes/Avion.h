@@ -13,7 +13,7 @@ class Avion
 
         int m_tempsTraitement = 0;
         bool m_stationnement = true;
-        std::string m_aeroportActuel;
+        std::string m_aeroportActuel = "";
     public :
         Avion(std::string _nom, std::string _type,int _consommation,int _capacite_carburant, std::pair<int, int> _coordonneesAv, bool stationnement);
         std::string getNom(){return m_nom;};

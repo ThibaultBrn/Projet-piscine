@@ -4,9 +4,11 @@ void Monde::gestionMondialeAeroports()
 {
     for(auto it : m_avion)
     {
-        if(it->getAeroportActuel() != m_trajets[it]->getArrivee()->getNom())
-            if(arrivee(it, m_trajets[it]->getArrivee()))
-                std::cout << "L'avion " << it->getNom() << " est arrive." << std::endl;
+        if(!m_trajets[it]->getPlanDeVol().empty())
+        {
+            if(it->getAeroportActuel() != m_trajets[it]->getPlanDeVol()[0]->getNom())
+                isArrivee(it, m_trajets[it]->getPlanDeVol()[0]);
+        }
     }
     for(auto it : m_aeroports)
     {
@@ -14,7 +16,7 @@ void Monde::gestionMondialeAeroports()
     }
 }
 
-bool Monde::arrivee(Avion* _avion, Aeroport* _destination)
+bool Monde::isArrivee(Avion* _avion, Aeroport* _destination)
 {
     if((_avion->getCoordonnees().first  == _destination->getCoordonnes().first) && (_avion->getCoordonnees().second == _destination->getCoordonnes().second))
     {
@@ -22,18 +24,15 @@ bool Monde::arrivee(Avion* _avion, Aeroport* _destination)
         _destination->ajouterAvion(_avion, "Attente");
         _destination->ajouterAvionFileAttPistes(_avion);
         _destination->ajouterAvionFileAttPistesEnVol(_avion); ///UN AVION EST ARRIVE A L'AEROPORT, IL ATTEND DONC UNE PLACE EN PISTE
+        m_trajets[_avion]->retirerEtapePlanDeVol();
         if((int(_destination->getFileAttentePistesEnVol().size()) > _destination->getNbPlacesSol())) ///L'AVION NE POURRA PAS ETRE STATIONNE, INUTILE DE L'ENVOYER
         {
             std::cout << "              >>L'avion " << _avion->getNom() << " entre en boucle d'attente en vol..." << std::endl;
-            /**----LANCER LA BOUCLE D'ATTENTE EN VOL----///
+            /**----MODIFIER LA CONSOMMATION DE L'AVION (MODE BOUCLE EN VOL)----///
             >>
             >>
             >>
             **/
-        }
-        else
-        {
-
         }
         return true;
     }
@@ -118,15 +117,9 @@ void Monde::gestionAeroport(Aeroport* aeroport)
     int pos = 0;
     Avion* avionTraitement;
     aeroport->incrTempsTousLesAvions();
-    for(auto it : aeroport->getAvions())
-    {
-        std::cout << "L'avion " << it.first->getNom() << " est en traitement depuis " << it.first->getTempsTraitement()<< std::endl;
-    }
-    std::cout << "Avant traitement, l'aeroport " << aeroport->getNom() << " a " << aeroport->getNbPlacesSol() << " places au sol." << std::endl;
-    std::cout << "Avant traitement, l'aeroport " << aeroport->getNom() << " a " << aeroport->getNbPistes() << " pistes." << std::endl;
+    std::cout << "--->Avant traitement, l'aeroport " << aeroport->getNom() << " a " << aeroport->getNbPlacesSol() << " places au sol. Et " << aeroport->getNbPistes() << " pistes." << std::endl;
     for(auto it : aeroport->getAvions()) ///ON PARCOURT TOUS LES AVIONS DE L'AEROPORT
     {
-        std::cout << "L'avion " << it.first->getNom() << " fait l'action : " << it.second << std::endl;
         avionTraitement = it.first;
         if(it.second == "Attente")
         {
@@ -156,8 +149,8 @@ void Monde::gestionAeroport(Aeroport* aeroport)
             {
                 aeroport->incrNbPistes();
                 aeroport->effacerAvion(pos);
-                std::cout << "              >>L'avion " << avionTraitement->getNom() << " a quitte l'aeroport de " << aeroport->getNom() << std::endl;
-                /**--------------FAIRE CE QU'IL FAUT LORSQUE L'AVION PASSE EN MODE VITESSE DE CROISIERE-----------///
+                std::cout << "              >>L'avion " << avionTraitement->getNom() << " a quitte l'aeroport de " << aeroport->getNom() << " pour " << m_trajets[avionTraitement]->getPlanDeVol()[0]->getNom() << std::endl;
+                /**--------------FAIRE CE QU'IL FAUT LORSQUE L'AVION PASSE EN MODE VITESSE DE CROISIERE ET COMMENCE A PARTIR VERS SON AEROPORT DESTINATION-----------///
                 >>
                 >>
                 >>
@@ -179,12 +172,22 @@ void Monde::gestionAeroport(Aeroport* aeroport)
                 aeroport->retirerAvionTransiPiste();
                 std::cout << "              >>L'avion " << avionTraitement->getNom() << " entre sur la piste de l'aeroport de " << aeroport->getNom() << " et se prepare a decoller." << std::endl;
                 aeroport->modifieAction(avionTraitement, "Decollage");
+                /**--------------MODIFIER LA CONSO DE L'AVION-----------///
+                >>
+                >>
+                >>
+                **/
             }
         }
         else if(it.second == "Dechargement")
         {
             if(avionTraitement->getTempsTraitement() >= aeroport->getDelaiAttenteSol())
             {
+                /**--------------RECHARGER LE CARBURANT DE L'AVION-----------///
+                >>
+                >>
+                >>
+                **/
                 std::cout << "              >>L'avion " << avionTraitement->getNom() << " est stationne a l'aeroport de " << aeroport->getNom() << std::endl;
                 aeroport->modifieAction(avionTraitement, "Stockage");
             }
@@ -193,8 +196,6 @@ void Monde::gestionAeroport(Aeroport* aeroport)
         {
             if(!m_trajets[avionTraitement]->getPlanDeVol().empty()) ///SI L'AVION A UN AEROPORT A REJOINDRE...
             {
-                if(aeroport->getAvionsTransitionPistes().empty())
-                    std::cout << "Rien dans la file transi piste" << std::endl;
                 if(aeroport->getNbPistes() > 0 && (aeroport->getAvionsTransitionPistes().empty() || (aeroport->getAvionsTransitionPistes().back()->getTempsTraitement() >= aeroport->getDelaiAnticollision())))
                 {
                     std::cout << "              >>L'avion " << avionTraitement->getNom() << " entre dans la file d'acces aux pistes de " << aeroport->getNom() << std::endl;
@@ -203,6 +204,13 @@ void Monde::gestionAeroport(Aeroport* aeroport)
                     aeroport->modifieAction(avionTraitement, "TransitionPistes");
                     aeroport->ajouterAvionTransiPiste(avionTraitement);
                 }
+            }
+            else
+            {
+                std::cout << "IL FAUT TROUVER UN VOL POUR " << avionTraitement->getNom() << std::endl;
+                planDeVolAlea(avionTraitement);
+                if(m_trajets[avionTraitement]->getPlanDeVol().empty())
+                    std::cout <<"ET C'EST VIDE..." << std::endl;
             }
         }
         pos++;
