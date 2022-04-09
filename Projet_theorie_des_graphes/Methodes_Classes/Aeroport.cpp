@@ -25,6 +25,7 @@ void Aeroport::AjouterSucc(int poids, Aeroport* s)
 void Aeroport::AfficherAeroport()
 {
     int i = 0;
+    std::cout <<"/----------------------------/"<<std::endl;
     std::cout<<"Aeroport "<<m_nom<<" : " << std::endl;
     std::cout<<"    Coordonnees : "<<"X = "<<m_coordonnees.first<<" || Y = "<<m_coordonnees.second<<std::endl;
     std::cout<<"    Nombre de pistes : "<<m_nbPistes<<" "<< std::endl;
@@ -32,31 +33,18 @@ void Aeroport::AfficherAeroport()
     std::cout<<"    Delai d'attente au sol : "<<m_delaiAttenteSol<<" "<< std::endl;
     std::cout<<"    Temps decollage-atterrissage : "<<m_tempsDecollageAtterrissage<<" "<< std::endl;
     std::cout<<"    Duree Boucle Attente : "<<m_dureeBoucleAttente<<" "<< std::endl;
+    std::cout<<"    Delai transition stationnement / pistes : "<<m_tempsAccesPistes<<std::endl;
     for (auto s : m_successeurs)
     {
         i++;
         std::cout<<"        Successeur " << i <<  " -->"<<s.second->getNom()<<" "<< std::endl;
         std::cout<<"        Distance : "<<s.first<< std::endl;
     }
-    std::cout<<"Les avions au sol sont"<<std::endl;
-    for(auto it : m_AvionSol)
+    std::cout<<"    /-----------AVIONS-----------/"<<std::endl<<"    Les avions au sol sont"<<std::endl;
+    for(auto it : m_Avions)
     {
-        it->AfficherAvions();
+        it.first->AfficherAvions();
     }
 }
 
 
-std::vector<Avion*> Aeroport::getAvionSol()
-{
-    return m_AvionSol;
-}
-
-void Aeroport::setNbPlacesSol(int _nbPlacesSol)
-{
-    m_nbPlacesAuSol=_nbPlacesSol;
-}
-
-void Aeroport::SetAvionSol(Avion* _unAvion)
-{
-    m_AvionSol.push_back(_unAvion);
-}
