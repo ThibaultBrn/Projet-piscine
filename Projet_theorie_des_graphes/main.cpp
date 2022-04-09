@@ -22,16 +22,14 @@ int main()
         exit(EXIT_FAILURE);
     }
     ///Le code allegro
-    std::vector<Aeroport*> aeroports;
-    std::vector<Avion*> avion;
     int compteur = 0;
+    BITMAP* buffer;
+    buffer=create_bitmap(SCREEN_W,SCREEN_H);
     srand(time(NULL));
     Monde m("Fichiers_txt/Monde.txt");
 
     m.initialisationAeroport();
-    aeroports=m.getAeroports();
-    avion=m.getAvions();
-    m.afficherMondeAllegro(aeroports[4],aeroports[10],avion[0]);
+//    m.afficherMondeAllegro(aeroports[4],aeroports[10],avion[0]);
     ///s'arrete ici
 
     m.afficherMonde();
@@ -40,8 +38,12 @@ int main()
     std::cout << " #############################################################################" << std::endl;
     std::cout << "################################## GESTION ####################################" << std::endl;
     std::cout << " #############################################################################" << std::endl;
-    while(compteur != 25)
+    while(compteur != 50)
     {
+        for(auto elem : m.getAvions())
+        {
+            elem->incrTempsTraitement();
+        }
         std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << compteur << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << std::endl;
         m.gestionMondialeAeroports();
         for(auto it : m.getAeroports())
@@ -52,6 +54,8 @@ int main()
                 std::cout << "---------------Action : " << it2.second << std::endl;
             }
         }
+
+        m.afficherMondeAllegro(buffer);
         compteur++;
     }
     return 0;

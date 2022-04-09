@@ -17,6 +17,7 @@ class Avion
         int m_tempsTraitement = 0;
         bool m_stationnement = true;
         std::string m_aeroportActuel = "";
+        bool m_enVol=false;
     public :
         Avion(std::string _nom, std::string _type,int _consommation,int _capacite_carburant, std::pair<int, int> _coordonneesAv, bool stationnement);
         std::string getNom(){return m_nom;};
@@ -36,6 +37,8 @@ class Avion
         BITMAP* getImage(){return m_volatil;};
         void setStationnement(bool stationnement){m_stationnement = stationnement;};
         void setAeroportActuel(std::string aeroport){m_aeroportActuel = aeroport;};
+        bool getEnVol(){return m_enVol;};
+        void setEnVol(bool _enVol){m_enVol=_enVol;};
 };
 
 #endif // AVION_H_INCLUDED

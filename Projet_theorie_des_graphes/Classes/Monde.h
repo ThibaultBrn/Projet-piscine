@@ -31,7 +31,8 @@ class Monde
         void creationAvion();
         void afficherAeroport();
         void deplacementAvion(Aeroport* _depart,Aeroport* _arrivee,Avion* _avion);
-        void afficherMondeAllegro(Aeroport* _depart,Aeroport* _arrivee,Avion* _avion);
+        void afficherMondeAllegro(BITMAP * monde);
+        void afficherAvionAllegro(Aeroport* _depart,Aeroport* _arrivee,Avion* _avion,BITMAP* monde);
 
         ///----------------METHODES DE GESTION DE LA SIMULATION----------------///
         bool isArrivee(Avion* _avion, Aeroport* destination);
@@ -40,6 +41,8 @@ class Monde
         void planDeVolAlea(Avion* _avion);
         void afficheNouveauxVols();
         void gestionMondialeAeroports();
+        void afficheVol(Avion* unAvion);
+
 };
 
 #endif // MONDE_H_INCLUDED
