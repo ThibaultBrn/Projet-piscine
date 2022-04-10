@@ -372,9 +372,25 @@ void Monde::afficherMondeAllegro(BITMAP * monde)
     clear_bitmap(monde);
     blit(m_carte,monde,0,0,0,0,m_carte->w,m_carte->h);
 
+    int y=20;
+    int x=20;
+    if(key[KEY_SPACE])
+    {
+        for(int i=0; i<30; i++)
+        {
+            hline(monde, 0, y, 1100, makecol(200, 200, 200));
+            y+=20;
+        }
+        for(int i=0; i<60; i++)
+        {
+            vline(monde, x, 0, 550, makecol(200, 200, 200));
+            x+=20;
+        }
+    }
+
     for (auto elem:m_nuages)
     {
-        Monde::afficherNuageAllegroPARNYC(monde, elem);
+        Monde::afficherNuageAllegroPARNYC(monde, elem);/// a modifier pour tester (sous programme de test :afficherNuageAllegroPARNYC()  et sous programme normal : afficherNuageAllegro())
     }
     for(auto it:m_avion)
     {
