@@ -35,9 +35,10 @@ class Monde
         BITMAP* getBitmap(){return m_carte;};
         void deplacementAvion(Aeroport* _depart,Aeroport* _arrivee,Avion* _avion);
         void afficherMondeAllegro(BITMAP * monde);
+        void afficherMondeAllegroTEST(BITMAP * monde, Aeroport* _depart, Aeroport* _arrivee, int coulNuage);
         void afficherAvionAllegro(Aeroport* _depart,Aeroport* _arrivee,Avion* _avion,BITMAP* monde);
         void afficherNuageAllegro(BITMAP* monde, Nuage* _nuage);
-        void afficherNuageAllegroTest(BITMAP* monde, Nuage* _nuage, Aeroport* _depart, Aeroport* _arrivee, int coulNuage);
+        void afficherNuageAllegroTEST(BITMAP* monde, Nuage* _nuage, Aeroport* _depart, Aeroport* _arrivee, int coulNuage);
 
 
 
@@ -52,7 +53,7 @@ class Monde
         void gestionMondialeAeroports();
         void afficheVol(Avion* unAvion);
         void initNuages();
-        void initNuagesTest(int nbNuages);
+        void initNuagesReglable(int nbNuages);
 
 
         void csqNuage(Nuage* _nuage, Avion* _avion);

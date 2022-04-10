@@ -10,7 +10,6 @@ using namespace std;
 
 int main()
 {
-
     allegro_init();
     install_keyboard();
     install_mouse();
