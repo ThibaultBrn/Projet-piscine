@@ -382,6 +382,10 @@ void Monde::afficherMondeAllegro(BITMAP * monde)
         }
     }
     blit(monde,screen,0,0,0,0,monde->w,monde->h);
+    if(key[KEY_SPACE])
+    {
+
+    }
     rest(1000);
 
 }
@@ -395,7 +399,7 @@ void Monde::afficherAvionAllegro(Aeroport* _depart,Aeroport* _arrivee,Avion* _av
         if(elem.second ==_arrivee)
             poid=elem.first;
     }
-
+    ///--------------------------------Tourner l'image de l'avion dans le bon sens------------------------------------------------------
     if(_arrivee->getCoordonnees().first>_depart->getCoordonnees().first && _arrivee->getCoordonnees().second>_depart->getCoordonnees().second)
     {
         if(_arrivee->getCoordonnees().first-_depart->getCoordonnees().first>_arrivee->getCoordonnees().second-_depart->getCoordonnees().second)
@@ -648,7 +652,12 @@ void Monde::afficherAvionAllegro(Aeroport* _depart,Aeroport* _arrivee,Avion* _av
     deplacementAvion(_depart,_arrivee,_avion);
     show_mouse(monde);
     //blit(monde,screen,0,0,0,0,SCREEN_W,SCREEN_H);
-
+    ///lorsque la touche espace est saisie le sous prog de fuite se lance
+    if(key[KEY_F])
+    {
+        fuiteReservoir(_depart,_arrivee,_avion,poid);
+        allegro_message("test reussi");
+    }
     if(_avion->getTempsTraitement()==poid)
     {
         std::cout<<"                                                        "<<_avion->getNom()<<" temps de traitement : "<<_avion->getTempsTraitement()<<" poid : "<<poid<<std::endl;
@@ -656,3 +665,59 @@ void Monde::afficherAvionAllegro(Aeroport* _depart,Aeroport* _arrivee,Avion* _av
     }
     std::cout<<"reservoir avion : " <<_avion->getCarburant()<<std::endl;
 }
+
+
+
+///a mettre en place dans les sous progs du dessus
+void Monde::fuiteReservoir(Aeroport* _depart,Aeroport* _arrivee,Avion* _avion,int poid)
+{
+    Aeroport* stockeur;
+    int distanceDepartX,distanceDepartY,distanceArriveeX,distanceArriveeY;
+    float distanceReelDepart,distanceReelArrivee;
+    distanceReelArrivee=distanceReelDepart=0;
+    distanceArriveeX=distanceArriveeY=distanceDepartX=distanceDepartY=0;
+    distanceArriveeX=_avion->getCoordonnees().first-_arrivee->getCoordonnees().first;
+    distanceArriveeY=_avion->getCoordonnees().second-_arrivee->getCoordonnees().second;
+    distanceDepartX=_avion->getCoordonnees().first-_depart->getCoordonnees().first;
+    distanceDepartY=_avion->getCoordonnees().second-_depart->getCoordonnees().second;
+    if(distanceArriveeX<0)
+    {
+        distanceArriveeX=-distanceArriveeX;
+    }
+    if(distanceArriveeY<0)
+    {
+        distanceArriveeY=-distanceArriveeY;
+    }
+    if(distanceDepartX<0)
+    {
+        distanceDepartX=-distanceDepartX;
+    }
+    if(distanceDepartY<0)
+    {
+        distanceDepartY=-distanceDepartY;
+    }
+    distanceReelArrivee=sqrt((pow(distanceArriveeX,2)+pow(distanceArriveeY,2)));
+    distanceReelDepart=sqrt((pow(distanceDepartX,2)+pow(distanceDepartY,2)));
+    std::cout<<"la distance vers l'arrivee est de : "<<distanceReelArrivee<<std::endl;
+    std::cout<<"la distance du depart est de : "<<distanceReelDepart<<std::endl;
+    if(distanceReelArrivee<=distanceReelDepart)
+    {
+        ///l'avion va vers arrivee on echange pas les aeroports
+        std::cout<<"test1"<<std::endl;
+    }
+    else
+    {
+        /// retourne au depart on echange les aeroport
+
+        stockeur=m_trajets[_avion]->getActuel();
+        m_trajets[_avion]->insererEtape(stockeur);
+        _avion->setTempsTraitement(poid-_avion->getTempsTraitement()-1);
+            std::cout<<"-------------------------------------------------------------------------------------"<<_avion->getTempsTraitement()<<std::endl;
+        m_trajets[_avion]->setActuel(m_trajets[_avion]->getPlanDeVol()[1]);
+            std::cout<<"-------------------------------------------------------------------------------------"<<m_trajets[_avion]->getPlanDeVol()[0]->getNom()<<std::endl;
+        _avion->setAeroportActuel(m_trajets[_avion]->getPlanDeVol()[1]->getNom());
+    }
+    _avion->setConsommation( 10 * _avion->getConsomation());
+    ///----------------------------------------------temps de traitement = temps depuis decollage ?
+}
+

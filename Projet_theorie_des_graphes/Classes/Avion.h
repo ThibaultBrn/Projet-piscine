@@ -23,6 +23,7 @@ class Avion
         std::string getNom(){return m_nom;};
         std::string getAeroportActuel(){return m_aeroportActuel;};
         int getTempsTraitement(){return m_tempsTraitement;};
+        void setTempsTraitement(int _tempsTraitement){m_tempsTraitement=_tempsTraitement;};
         bool getStationnement(){return m_stationnement;};
         void AfficherAvions();
         void resetTempsTraitement(){m_tempsTraitement = 0;};
@@ -32,6 +33,7 @@ class Avion
         void setCarburant(int _carburant){m_carburant=_carburant;};
         int getCarburant(){return m_carburant;};
         int getConsomation(){return m_consommation;};
+        void setConsommation(float _consommation){m_consommation=_consommation;};
         int getCapacite(){return m_capacite_carburant;};
         std::string getType(){return m_type;};
         BITMAP* getImage(){return m_volatil;};

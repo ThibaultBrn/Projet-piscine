@@ -22,6 +22,7 @@ public :
     void afficheVol();
     Aeroport* getActuel(){return m_actuel;};
     void setActuel(Aeroport* _actuel){m_actuel=_actuel;};
+    void insererEtape(Aeroport* _planDeVol);
 };
 
 #endif // VOL_H_INCLUDED

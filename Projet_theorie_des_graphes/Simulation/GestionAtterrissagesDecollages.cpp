@@ -20,6 +20,7 @@ bool Monde::isArrivee(Avion* _avion, Aeroport* _destination)
 {
     if((_avion->getCoordonnees().first  == _destination->getCoordonnees().first) && (_avion->getCoordonnees().second == _destination->getCoordonnees().second))
     {
+        std::cout<<"Arrivee "<<_destination->getNom()<<std::endl;
         _avion->setEnVol(false);
         _avion->setAeroportActuel(_destination->getNom());
         m_trajets[_avion]->setActuel(_destination);
@@ -40,6 +41,7 @@ bool Monde::isArrivee(Avion* _avion, Aeroport* _destination)
     }
     else
     {
+        std::cout<<"Pas Arrivee "<<_destination->getNom()<<std::endl;
         std::cout << "              >>L'avion " << _avion->getNom() << " n'est pas encore arrive a destination." << std::endl;
         return false;
     }
