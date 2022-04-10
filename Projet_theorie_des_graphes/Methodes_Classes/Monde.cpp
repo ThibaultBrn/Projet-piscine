@@ -369,6 +369,7 @@ void Monde::deplacementAvion(Aeroport* _depart,Aeroport* _arrivee,Avion* _avion)
 
 void Monde::afficherMondeAllegro(BITMAP * monde)
 {
+///-----------------------GRILLE-------------------------------
     clear_bitmap(monde);
     blit(m_carte,monde,0,0,0,0,m_carte->w,m_carte->h);
 
@@ -390,7 +391,7 @@ void Monde::afficherMondeAllegro(BITMAP * monde)
 
     for (auto elem:m_nuages)
     {
-        Monde::afficherNuageAllegroPARNYC(monde, elem);/// a modifier pour tester (sous programme de test :afficherNuageAllegroPARNYC()  et sous programme normal : afficherNuageAllegro())
+        Monde::afficherNuageAllegro(monde, elem );
     }
     for(auto it:m_avion)
     {
@@ -423,22 +424,31 @@ void Monde::afficherNuageAllegro(BITMAP* monde, Nuage* _nuage)
     _nuage->setNY(std::make_pair(_nuage->getNY().first + _nuage->getVitesseN().second, _nuage->getNY().second + _nuage->getVitesseN().second));///en y
 }
 
-void Monde::afficherNuageAllegroPARNYC(BITMAP* monde, Nuage* _nuage)///test pour fonctionnalité météo
+void Monde::afficherNuageAllegroTest(BITMAP* monde, Nuage* _nuage, Aeroport* _depart, Aeroport* _arrivee, int coulNuage)///test pour fonctionnalité météo
 {
     ///creation des nuages fixes sur la trajectoire Paris - New York pour tester la consommation
-    _nuage->setNY(std::make_pair(129, 157));
+    int xDep = _depart->getCoordonnees().first;
+    int yDep = _depart->getCoordonnees().second;
 
-    //rectfill(monde, 360, 129, 390, 157, makecol(160, 160, 160)); ///nuage clair : consommation +1
-    //_nuage->setNX(std::make_pair(360, 390));
-    //_nuage->setCouleurN(160);
+    int xArr = _arrivee->getCoordonnees().first;
+    int yArr = _arrivee->getCoordonnees().second;
+
+    int xNuage = (xDep + xArr) /2;
+    int yNuage = (yDep + yArr) /2;
+
+    _nuage->setNY(std::make_pair(yNuage-10, yNuage+10));
+    _nuage->setNX(std::make_pair(xNuage-10, xNuage+10));
+    _nuage->setCouleurN(coulNuage);
+
+    rectfill(monde, _nuage->getNX().first, _nuage->getNY().first, _nuage->getNX().second, _nuage->getNY().second, makecol(_nuage->getCouleurN(), _nuage->getCouleurN(), _nuage->getCouleurN())); ///nuage clair : consommation +1
 
     /*rectfill(monde, 410, 129, 440, 157, makecol(140, 140, 140)); ///nuage clair : consommation +2
     _nuage->setNX(std::make_pair(410, 440));
     _nuage->setCouleurN(140);*/
 
-    rectfill(monde, 460, 129, 490, 157, makecol(90, 90, 90)); ///nuage foncé : consommation +3
+    /*rectfill(monde, 460, 129, 490, 157, makecol(90, 90, 90)); ///nuage foncé : consommation +3
     _nuage->setNX(std::make_pair(460, 490));
-    _nuage->setCouleurN(90);
+    _nuage->setCouleurN(90);*/
 
 }
 
@@ -752,9 +762,23 @@ void Monde::afficherAvionAllegro(Aeroport* _depart,Aeroport* _arrivee,Avion* _av
 void Monde::initNuages()
 {
     std::cout<<"\ninitNuages"<<std::endl;
-    int nbNuagesAleatoire = rand()%(50-45)+44;
+    int nbNuagesAleatoire = rand()%(20-15)+14;
 
-    for (int i=0; i<1; i++)///a changer pour rajouter tous les nuages 1 devient nbNuagesAleatoire
+    for (int i=0; i<nbNuagesAleatoire; i++)///a changer pour rajouter tous les nuages 1 devient nbNuagesAleatoire
+    {
+        Nuage* nvNuage = new Nuage;
+        m_nuages.push_back(nvNuage);
+    }
+    /*for (auto it : m_nuages)///test
+    {
+        it->afficherNuage();
+    }*/
+}
+
+void Monde::initNuagesTest(int nbNuages)
+{
+
+    for (int i=0; i<nbNuages; i++)///a changer pour rajouter tous les nuages 1 devient nbNuagesAleatoire
     {
         Nuage* nvNuage = new Nuage;
         m_nuages.push_back(nvNuage);

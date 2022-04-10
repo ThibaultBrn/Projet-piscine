@@ -36,7 +36,7 @@ class Monde
         void afficherMondeAllegro(BITMAP * monde);
         void afficherAvionAllegro(Aeroport* _depart,Aeroport* _arrivee,Avion* _avion,BITMAP* monde);
         void afficherNuageAllegro(BITMAP* monde, Nuage* _nuage);
-        void afficherNuageAllegroPARNYC(BITMAP* monde, Nuage* nuage);
+        void afficherNuageAllegroTest(BITMAP* monde, Nuage* _nuage, Aeroport* _depart, Aeroport* _arrivee, int coulNuage);
 
 
 
@@ -50,6 +50,8 @@ class Monde
         void gestionMondialeAeroports();
         void afficheVol(Avion* unAvion);
         void initNuages();
+        void initNuagesTest(int nbNuages);
+
 
         void csqNuage(Nuage* _nuage, Avion* _avion);
 
