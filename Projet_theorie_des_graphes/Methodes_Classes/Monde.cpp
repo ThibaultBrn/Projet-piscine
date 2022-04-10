@@ -292,7 +292,7 @@ void Monde::deplacementAvion(Aeroport* _depart,Aeroport* _arrivee,Avion* _avion)
         coordonneesAvion.second=m*coordonneesAvion.first+p;
     }
     _avion->setCoordonnees(coordonneesAvion);
-    _avion->setCarburant(_avion->getCarburant() - 10 * _avion->getConsomation());///à regarder
+    _avion->setCarburant(_avion->getCarburant() -  _avion->getConsomation());///à regarder
     std::cout<<"le carburant par tour : "<<_avion->getCarburant()<<std::endl;
 }
 
@@ -337,10 +337,6 @@ void Monde::afficherMondeAllegro(BITMAP * monde)
     }
 
     blit(monde,screen,0,0,0,0,monde->w,monde->h);
-    if(key[KEY_SPACE])
-    {
-
-    }
     rest(1000);
 }
 
@@ -754,7 +750,7 @@ void Monde::fuiteReservoir(Aeroport* _depart,Aeroport* _arrivee,Avion* _avion,in
             std::cout<<"-------------------------------------------------------------------------------------"<<m_trajets[_avion]->getPlanDeVol()[0]->getNom()<<std::endl;
         _avion->setAeroportActuel(m_trajets[_avion]->getPlanDeVol()[1]->getNom());
     }
-    _avion->setConsommation( 10 * _avion->getConsomation());
+    _avion->setConsommation( 2 * _avion->getConsomation());
     ///----------------------------------------------temps de traitement = temps depuis decollage ?
 }
 
