@@ -72,7 +72,8 @@ char Menu::gestionMenu()
     else if(choix=='4')
     {
         m.initNuages();
-        while(compteur != 100)
+
+        while(compteur != 100 && !key[KEY_ESC])
         {
             for(auto elem : m.getAvions())
             {

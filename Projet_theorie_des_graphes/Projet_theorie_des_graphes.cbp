@@ -45,6 +45,7 @@
 		<Unit filename="Methodes_Classes/Avion.cpp" />
 		<Unit filename="Methodes_Classes/Menu.cpp" />
 		<Unit filename="Methodes_Classes/Monde.cpp" />
+		<Unit filename="Methodes_Classes/Nuage.cpp" />
 		<Unit filename="Methodes_Classes/Vol.cpp" />
 		<Unit filename="Simulation/GestionAtterrissagesDecollages.cpp" />
 		<Unit filename="Simulation/creationsPlansDeVols.cpp" />
