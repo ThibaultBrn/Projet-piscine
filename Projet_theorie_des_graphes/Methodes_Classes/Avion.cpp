@@ -21,6 +21,7 @@ Avion::Avion(std::string _nom, std::string _type,int _consommation,int _consomma
     m_coordonneesAv = _coordonneesAv;
     m_stationnement = stationnement;
 }
+
 void Avion::AfficherAvions()
 {
     std::cout<<"    > Avion "<<m_nom<<" : " << std::endl;

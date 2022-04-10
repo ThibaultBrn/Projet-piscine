@@ -120,7 +120,6 @@ void Monde::gestionAeroport(Aeroport* aeroport)
 {
     int pos = 0;
     Avion* avionTraitement;
-    //aeroport->incrTempsTousLesAvions();
     std::cout << "--->Avant traitement, l'aeroport " << aeroport->getNom() << " a " << aeroport->getNbPlacesSol() << " places au sol. Et " << aeroport->getNbPistes() << " pistes." << std::endl;
     for(auto it : aeroport->getAvions()) ///ON PARCOURT TOUS LES AVIONS DE L'AEROPORT
     {
