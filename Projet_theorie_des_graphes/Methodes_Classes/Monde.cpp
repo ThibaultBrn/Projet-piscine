@@ -291,7 +291,7 @@ void Monde::deplacementAvion(Aeroport* _depart,Aeroport* _arrivee,Avion* _avion)
         coordonneesAvion.second=m*coordonneesAvion.first+p;
     }
     _avion->setCoordonnees(coordonneesAvion);
-    _avion->setCarburant(_avion->getCarburant() - 10 * _avion->getConsomation());///à regarder
+    _avion->setCarburant(_avion->getCarburant() -  _avion->getConsomation());///à regarder
     std::cout<<"le carburant par tour : "<<_avion->getCarburant()<<std::endl;
 }
 
@@ -334,6 +334,53 @@ void Monde::afficherMondeAllegro(BITMAP * monde)
     }
 
     blit(monde,screen,0,0,0,0,monde->w,monde->h);
+    rest(1000);
+}
+
+void Monde::afficherMondeAllegroTEST(BITMAP * monde, Aeroport* _depart, Aeroport* _arrivee, int coulNuage)
+{
+///-----------------------GRILLE-------------------------------
+    clear_bitmap(monde);
+    blit(m_carte,monde,0,0,0,0,m_carte->w,m_carte->h);
+
+    int y=20;
+    int x=20;
+    if(key[KEY_SPACE])
+    {
+        for(int i=0; i<30; i++)
+        {
+            hline(monde, 0, y, 1100, makecol(200, 200, 200));
+            y+=20;
+        }
+        for(int i=0; i<60; i++)
+        {
+            vline(monde, x, 0, 550, makecol(200, 200, 200));
+            x+=20;
+        }
+    }
+
+    for (auto elem:m_nuages)
+    {
+        Monde::afficherNuageAllegroTEST(monde, elem, _depart, _arrivee, coulNuage );
+    }
+    for(auto it:m_avion)
+    {
+        std::cout<<"                                                        "<<it->getNom()<<" temps de traitement : "<<it->getTempsTraitement()<<std::endl;
+        if(it->getEnVol())
+        {
+            std::cout<<"l'avion "<<it->getNom()<<" est en vol "<<std::endl;
+            Monde::afficherAvionAllegro(m_trajets[it]->getActuel(),m_trajets[it]->getPlanDeVol()[0],it,monde);
+            for(auto ite : m_nuages)
+            {
+                Monde::csqNuage(ite, it);
+            }
+        }
+    }
+
+
+
+
+    blit(monde,screen,0,0,0,0,monde->w,monde->h);
     if(key[KEY_SPACE])
     {
 
@@ -350,7 +397,7 @@ void Monde::afficherNuageAllegro(BITMAP* monde, Nuage* _nuage)
     _nuage->setNY(std::make_pair(_nuage->getNY().first + _nuage->getVitesseN().second, _nuage->getNY().second + _nuage->getVitesseN().second));///en y
 }
 
-void Monde::afficherNuageAllegroTest(BITMAP* monde, Nuage* _nuage, Aeroport* _depart, Aeroport* _arrivee, int coulNuage)///test pour fonctionnalité météo
+void Monde::afficherNuageAllegroTEST(BITMAP* monde, Nuage* _nuage, Aeroport* _depart, Aeroport* _arrivee, int coulNuage)///test pour fonctionnalité météo
 {
     ///creation des nuages fixes sur la trajectoire Paris - New York pour tester la consommation
     int xDep = _depart->getCoordonnees().first;
@@ -455,33 +502,49 @@ void Monde::afficherAvionAllegro(Aeroport* _depart,Aeroport* _arrivee,Avion* _av
 
 
 ///-------------------------------------AFFICHAGE INFOS AEROPORTS------------------------------------------------------------------------------
+   int x = 160;
     if(mouse_x>545 && mouse_x<565 && mouse_y>110 && mouse_y<129)///PARIS
     {
-        rectfill(monde,10, 430, 370, 535, makecol(255,100,0));
+        rectfill(monde,10, 430, 370, 545, makecol(255,100,0));
         textprintf_ex(monde,font,15,440, makecol(0,0,0), makecol(255,100,0),"INFORMATIONS SUR L'AEROPORT DE PARIS :");
         textprintf_ex(monde,font,20,460, makecol(0,0,0), makecol(255,100,0),"Nombre de pistes : %d",m_aeroports[0]->getNbPistes());
         textprintf_ex(monde,font,20,470, makecol(0,0,0), makecol(255,100,0),"Nombre de places au sol : %d",m_aeroports[0]->getNbPlacesSol());
         textprintf_ex(monde,font,20,480, makecol(0,0,0), makecol(255,100,0),"Duree d'attente au sol : %d",m_aeroports[0]->getDAS());
         textprintf_ex(monde,font,20,490, makecol(0,0,0), makecol(255,100,0),"Temps d'acces au pistes : %d",m_aeroports[0]->getTAP());
-        textprintf_ex(monde,font,20,500, makecol(0,0,0), makecol(255,100,0),"Duree atterissage - decollage : %d",m_aeroports[0]->getTDA());
+        textprintf_ex(monde,font,20,500, makecol(0,0,0), makecol(255,100,0),"Duree atterissage-decollage : %d",m_aeroports[0]->getTDA());
         textprintf_ex(monde,font,20,510, makecol(0,0,0), makecol(255,100,0),"Delai d'anti-collision : %d",m_aeroports[0]->getDAC());
         textprintf_ex(monde,font,20,520, makecol(0,0,0), makecol(255,100,0),"Boucle d'attente : %d",m_aeroports[0]->getDBA());
+        textprintf_ex(monde,font,20,530, makecol(0,0,0), makecol(255,100,0),"Avions presents : ");
+
+        for (auto it : m_aeroports[0]->getAvions())
+        {
+            textprintf_ex(monde,font,x,530, makecol(0,0,0), makecol(255,100,0),"%s",it.first->getNom().c_str());
+            x+=50;
+        }
+
     }
     if(mouse_x>310 && mouse_x<330 && mouse_y>140 && mouse_y<157)///NYC
     {
-        rectfill(monde,10, 430, 370, 535, makecol(255,100,0));
+        rectfill(monde,10, 430, 370, 545, makecol(255,100,0));
         textprintf_ex(monde,font,15,440, makecol(0,0,0), makecol(255,100,0),"INFORMATIONS SUR L'AEROPORT DE NEW YORK :");
         textprintf_ex(monde,font,20,460, makecol(0,0,0), makecol(255,100,0),"Nombre de pistes : %d",m_aeroports[1]->getNbPistes());
         textprintf_ex(monde,font,20,470, makecol(0,0,0), makecol(255,100,0),"Nombre de places au sol : %d",m_aeroports[1]->getNbPlacesSol());
         textprintf_ex(monde,font,20,480, makecol(0,0,0), makecol(255,100,0),"Duree d'attente au sol : %d",m_aeroports[1]->getDAS());
         textprintf_ex(monde,font,20,490, makecol(0,0,0), makecol(255,100,0),"Temps d'acces au pistes : %d",m_aeroports[1]->getTAP());
-        textprintf_ex(monde,font,20,500, makecol(0,0,0), makecol(255,100,0),"Duree atterissage - decollage : %d",m_aeroports[1]->getTDA());
+        textprintf_ex(monde,font,20,500, makecol(0,0,0), makecol(255,100,0),"Duree atterissage-decollage : %d",m_aeroports[1]->getTDA());
         textprintf_ex(monde,font,20,510, makecol(0,0,0), makecol(255,100,0),"Delai d'anti-collision : %d",m_aeroports[1]->getDAC());
         textprintf_ex(monde,font,20,520, makecol(0,0,0), makecol(255,100,0),"Boucle d'attente : %d",m_aeroports[1]->getDBA());
+        textprintf_ex(monde,font,20,530, makecol(0,0,0), makecol(255,100,0),"Avions presents : ");
+
+        for (auto it : m_aeroports[1]->getAvions())
+        {
+            textprintf_ex(monde,font,x,530, makecol(0,0,0), makecol(255,100,0),"%s",it.first->getNom().c_str());
+            x+=50;
+        }
     }
     if(mouse_x>970 && mouse_x<990 && mouse_y>146 && mouse_y<166)///TOKYO
     {
-        rectfill(monde,10, 430, 370, 535, makecol(255,100,0));
+        rectfill(monde,10, 430, 370, 545, makecol(255,100,0));
         textprintf_ex(monde,font,15,440, makecol(0,0,0), makecol(255,100,0),"INFORMATIONS SUR L'AEROPORT DE TOKYO :");
         textprintf_ex(monde,font,20,460, makecol(0,0,0), makecol(255,100,0),"Nombre de pistes : %d",m_aeroports[2]->getNbPistes());
         textprintf_ex(monde,font,20,470, makecol(0,0,0), makecol(255,100,0),"Nombre de places au sol : %d",m_aeroports[2]->getNbPlacesSol());
@@ -490,178 +553,275 @@ void Monde::afficherAvionAllegro(Aeroport* _depart,Aeroport* _arrivee,Avion* _av
         textprintf_ex(monde,font,20,500, makecol(0,0,0), makecol(255,100,0),"Duree atterissage - decollage : %d",m_aeroports[2]->getTDA());
         textprintf_ex(monde,font,20,510, makecol(0,0,0), makecol(255,100,0),"Delai d'anti-collision : %d",m_aeroports[2]->getDAC());
         textprintf_ex(monde,font,20,520, makecol(0,0,0), makecol(255,100,0),"Boucle d'attente : %d",m_aeroports[2]->getDBA());
+        textprintf_ex(monde,font,20,530, makecol(0,0,0), makecol(255,100,0),"Avions presents : ");
+
+        for (auto it : m_aeroports[2]->getAvions())
+        {
+            textprintf_ex(monde,font,x,530, makecol(0,0,0), makecol(255,100,0),"%s",it.first->getNom().c_str());
+            x+=50;
+        }
     }
     if(mouse_x>706 && mouse_x<726 && mouse_y>183 && mouse_y<203)///DUBAI
     {
-        rectfill(monde,10, 430, 370, 535, makecol(255,100,0));
+        rectfill(monde,10, 430, 370, 545, makecol(255,100,0));
         textprintf_ex(monde,font,15,440, makecol(0,0,0), makecol(255,100,0),"INFORMATIONS SUR L'AEROPORT DE DUBAI :");
         textprintf_ex(monde,font,20,460, makecol(0,0,0), makecol(255,100,0),"Nombre de pistes : %d",m_aeroports[3]->getNbPistes());
         textprintf_ex(monde,font,20,470, makecol(0,0,0), makecol(255,100,0),"Nombre de places au sol : %d",m_aeroports[3]->getNbPlacesSol());
         textprintf_ex(monde,font,20,480, makecol(0,0,0), makecol(255,100,0),"Duree d'attente au sol : %d",m_aeroports[3]->getDAS());
         textprintf_ex(monde,font,20,490, makecol(0,0,0), makecol(255,100,0),"Temps d'acces au pistes : %d",m_aeroports[3]->getTAP());
-        textprintf_ex(monde,font,20,500, makecol(0,0,0), makecol(255,100,0),"Duree atterissage - decollage : %d",m_aeroports[3]->getTDA());
+        textprintf_ex(monde,font,20,500, makecol(0,0,0), makecol(255,100,0),"Duree atterissage-decollage : %d",m_aeroports[3]->getTDA());
         textprintf_ex(monde,font,20,510, makecol(0,0,0), makecol(255,100,0),"Delai d'anti-collision : %d",m_aeroports[3]->getDAC());
         textprintf_ex(monde,font,20,520, makecol(0,0,0), makecol(255,100,0),"Boucle d'attente : %d",m_aeroports[3]->getDBA());
     }
     if(mouse_x>172 && mouse_x<192 && mouse_y>147 && mouse_y<167)///LAX
     {
-        rectfill(monde,10, 430, 370, 535, makecol(255,100,0));
+        rectfill(monde,10, 430, 370, 545, makecol(255,100,0));
         textprintf_ex(monde,font,15,440, makecol(0,0,0), makecol(255,100,0),"INFORMATIONS SUR L'AEROPORT DE LOS ANGELES :");
         textprintf_ex(monde,font,20,460, makecol(0,0,0), makecol(255,100,0),"Nombre de pistes : %d",m_aeroports[4]->getNbPistes());
         textprintf_ex(monde,font,20,470, makecol(0,0,0), makecol(255,100,0),"Nombre de places au sol : %d",m_aeroports[4]->getNbPlacesSol());
         textprintf_ex(monde,font,20,480, makecol(0,0,0), makecol(255,100,0),"Duree d'attente au sol : %d",m_aeroports[4]->getDAS());
         textprintf_ex(monde,font,20,490, makecol(0,0,0), makecol(255,100,0),"Temps d'acces au pistes : %d",m_aeroports[4]->getTAP());
-        textprintf_ex(monde,font,20,500, makecol(0,0,0), makecol(255,100,0),"Duree atterissage - decollage : %d",m_aeroports[4]->getTDA());
+        textprintf_ex(monde,font,20,500, makecol(0,0,0), makecol(255,100,0),"Duree atterissage-decollage : %d",m_aeroports[4]->getTDA());
         textprintf_ex(monde,font,20,510, makecol(0,0,0), makecol(255,100,0),"Delai d'anti-collision : %d",m_aeroports[4]->getDAC());
         textprintf_ex(monde,font,20,520, makecol(0,0,0), makecol(255,100,0),"Boucle d'attente : %d",m_aeroports[4]->getDBA());
+        textprintf_ex(monde,font,20,530, makecol(0,0,0), makecol(255,100,0),"Avions presents : ");
+
+        for (auto it : m_aeroports[4]->getAvions())
+        {
+            textprintf_ex(monde,font,x,530, makecol(0,0,0), makecol(255,100,0),"%s",it.first->getNom().c_str());
+            x+=50;
+        }
     }
     if(mouse_x>536 && mouse_x<556 && mouse_y>97 && mouse_y<117)///LONDON
     {
-        rectfill(monde,10, 430, 370, 535, makecol(255,100,0));
+        rectfill(monde,10, 430, 370, 545, makecol(255,100,0));
         textprintf_ex(monde,font,15,440, makecol(0,0,0), makecol(255,100,0),"INFORMATIONS SUR L'AEROPORT DE LONDRES :");
         textprintf_ex(monde,font,20,460, makecol(0,0,0), makecol(255,100,0),"Nombre de pistes : %d",m_aeroports[5]->getNbPistes());
         textprintf_ex(monde,font,20,470, makecol(0,0,0), makecol(255,100,0),"Nombre de places au sol : %d",m_aeroports[5]->getNbPlacesSol());
         textprintf_ex(monde,font,20,480, makecol(0,0,0), makecol(255,100,0),"Duree d'attente au sol : %d",m_aeroports[5]->getDAS());
         textprintf_ex(monde,font,20,490, makecol(0,0,0), makecol(255,100,0),"Temps d'acces au pistes : %d",m_aeroports[5]->getTAP());
-        textprintf_ex(monde,font,20,500, makecol(0,0,0), makecol(255,100,0),"Duree atterissage - decollage : %d",m_aeroports[5]->getTDA());
+        textprintf_ex(monde,font,20,500, makecol(0,0,0), makecol(255,100,0),"Duree atterissage-decollage : %d",m_aeroports[5]->getTDA());
         textprintf_ex(monde,font,20,510, makecol(0,0,0), makecol(255,100,0),"Delai d'anti-collision : %d",m_aeroports[5]->getDAC());
         textprintf_ex(monde,font,20,520, makecol(0,0,0), makecol(255,100,0),"Boucle d'attente : %d",m_aeroports[5]->getDBA());
+        textprintf_ex(monde,font,20,530, makecol(0,0,0), makecol(255,100,0),"Avions presents : ");
+
+        for (auto it : m_aeroports[5]->getAvions())
+        {
+            textprintf_ex(monde,font,x,530, makecol(0,0,0), makecol(255,100,0),"%s",it.first->getNom().c_str());
+            x+=50;
+        }
     }
     if(mouse_x>613 && mouse_x<633 && mouse_y>95 && mouse_y<115)///MOSCOU
     {
-        rectfill(monde,10, 430, 370, 535, makecol(255,100,0));
+        rectfill(monde,10, 430, 370, 545, makecol(255,100,0));
         textprintf_ex(monde,font,15,440, makecol(0,0,0), makecol(255,100,0),"INFORMATIONS SUR L'AEROPORT DE MOSCOU :");
         textprintf_ex(monde,font,20,460, makecol(0,0,0), makecol(255,100,0),"Nombre de pistes : %d",m_aeroports[6]->getNbPistes());
         textprintf_ex(monde,font,20,470, makecol(0,0,0), makecol(255,100,0),"Nombre de places au sol : %d",m_aeroports[6]->getNbPlacesSol());
         textprintf_ex(monde,font,20,480, makecol(0,0,0), makecol(255,100,0),"Duree d'attente au sol : %d",m_aeroports[6]->getDAS());
         textprintf_ex(monde,font,20,490, makecol(0,0,0), makecol(255,100,0),"Temps d'acces au pistes : %d",m_aeroports[6]->getTAP());
-        textprintf_ex(monde,font,20,500, makecol(0,0,0), makecol(255,100,0),"Duree atterissage - decollage : %d",m_aeroports[6]->getTDA());
+        textprintf_ex(monde,font,20,500, makecol(0,0,0), makecol(255,100,0),"Duree atterissage-decollage : %d",m_aeroports[6]->getTDA());
         textprintf_ex(monde,font,20,510, makecol(0,0,0), makecol(255,100,0),"Delai d'anti-collision : %d",m_aeroports[6]->getDAC());
         textprintf_ex(monde,font,20,520, makecol(0,0,0), makecol(255,100,0),"Boucle d'attente : %d",m_aeroports[6]->getDBA());
+        textprintf_ex(monde,font,20,530, makecol(0,0,0), makecol(255,100,0),"Avions presents : ");
+
+        for (auto it : m_aeroports[6]->getAvions())
+        {
+            textprintf_ex(monde,font,x,530, makecol(0,0,0), makecol(255,100,0),"%s",it.first->getNom().c_str());
+            x+=50;
+        }
     }
     if(mouse_x>548 && mouse_x<568 && mouse_y>143 && mouse_y<163)///ALGERS
     {
-        rectfill(monde,10, 430, 370, 535, makecol(255,100,0));
+        rectfill(monde,10, 430, 370, 545, makecol(255,100,0));
         textprintf_ex(monde,font,15,440, makecol(0,0,0), makecol(255,100,0),"INFORMATIONS SUR L'AEROPORT DE ALGERS :");
         textprintf_ex(monde,font,20,460, makecol(0,0,0), makecol(255,100,0),"Nombre de pistes : %d",m_aeroports[7]->getNbPistes());
         textprintf_ex(monde,font,20,470, makecol(0,0,0), makecol(255,100,0),"Nombre de places au sol : %d",m_aeroports[7]->getNbPlacesSol());
         textprintf_ex(monde,font,20,480, makecol(0,0,0), makecol(255,100,0),"Duree d'attente au sol : %d",m_aeroports[7]->getDAS());
         textprintf_ex(monde,font,20,490, makecol(0,0,0), makecol(255,100,0),"Temps d'acces au pistes : %d",m_aeroports[7]->getTAP());
-        textprintf_ex(monde,font,20,500, makecol(0,0,0), makecol(255,100,0),"Duree atterissage - decollage : %d",m_aeroports[7]->getTDA());
+        textprintf_ex(monde,font,20,500, makecol(0,0,0), makecol(255,100,0),"Duree atterissage-decollage : %d",m_aeroports[7]->getTDA());
         textprintf_ex(monde,font,20,510, makecol(0,0,0), makecol(255,100,0),"Delai d'anti-collision : %d",m_aeroports[7]->getDAC());
         textprintf_ex(monde,font,20,520, makecol(0,0,0), makecol(255,100,0),"Boucle d'attente : %d",m_aeroports[7]->getDBA());
+        textprintf_ex(monde,font,20,530, makecol(0,0,0), makecol(255,100,0),"Avions presents : ");
+
+        for (auto it : m_aeroports[7]->getAvions())
+        {
+            textprintf_ex(monde,font,x,530, makecol(0,0,0), makecol(255,100,0),"%s",it.first->getNom().c_str());
+            x+=50;
+        }
     }
     if(mouse_x>527 && mouse_x<547 && mouse_y>234 && mouse_y<254)///YAMASSOUKRO
     {
-        rectfill(monde,10, 430, 370, 535, makecol(255,100,0));
+        rectfill(monde,10, 430, 370, 545, makecol(255,100,0));
         textprintf_ex(monde,font,15,440, makecol(0,0,0), makecol(255,100,0),"INFORMATIONS SUR L'AEROPORT DE YAMASSOUKRO :");
         textprintf_ex(monde,font,20,460, makecol(0,0,0), makecol(255,100,0),"Nombre de pistes : %d",m_aeroports[8]->getNbPistes());
         textprintf_ex(monde,font,20,470, makecol(0,0,0), makecol(255,100,0),"Nombre de places au sol : %d",m_aeroports[8]->getNbPlacesSol());
         textprintf_ex(monde,font,20,480, makecol(0,0,0), makecol(255,100,0),"Duree d'attente au sol : %d",m_aeroports[8]->getDAS());
         textprintf_ex(monde,font,20,490, makecol(0,0,0), makecol(255,100,0),"Temps d'acces au pistes : %d",m_aeroports[8]->getTAP());
-        textprintf_ex(monde,font,20,500, makecol(0,0,0), makecol(255,100,0),"Duree atterissage - decollage : %d",m_aeroports[8]->getTDA());
+        textprintf_ex(monde,font,20,500, makecol(0,0,0), makecol(255,100,0),"Duree atterissage-decollage : %d",m_aeroports[8]->getTDA());
         textprintf_ex(monde,font,20,510, makecol(0,0,0), makecol(255,100,0),"Delai d'anti-collision : %d",m_aeroports[8]->getDAC());
         textprintf_ex(monde,font,20,520, makecol(0,0,0), makecol(255,100,0),"Boucle d'attente : %d",m_aeroports[8]->getDBA());
+        textprintf_ex(monde,font,20,530, makecol(0,0,0), makecol(255,100,0),"Avions presents : ");
+
+        for (auto it : m_aeroports[8]->getAvions())
+        {
+            textprintf_ex(monde,font,x,530, makecol(0,0,0), makecol(255,100,0),"%s",it.first->getNom().c_str());
+            x+=50;
+        }
     }
     if(mouse_x>404 && mouse_x<424 && mouse_y>325 && mouse_y<345)///SAO PAULO
     {
-        rectfill(monde,10, 430, 370, 535, makecol(255,100,0));
+        rectfill(monde,10, 430, 370, 545, makecol(255,100,0));
         textprintf_ex(monde,font,15,440, makecol(0,0,0), makecol(255,100,0),"INFORMATIONS SUR L'AEROPORT DE SAO PAULO :");
         textprintf_ex(monde,font,20,460, makecol(0,0,0), makecol(255,100,0),"Nombre de pistes : %d",m_aeroports[9]->getNbPistes());
         textprintf_ex(monde,font,20,470, makecol(0,0,0), makecol(255,100,0),"Nombre de places au sol : %d",m_aeroports[9]->getNbPlacesSol());
         textprintf_ex(monde,font,20,480, makecol(0,0,0), makecol(255,100,0),"Duree d'attente au sol : %d",m_aeroports[9]->getDAS());
         textprintf_ex(monde,font,20,490, makecol(0,0,0), makecol(255,100,0),"Temps d'acces au pistes : %d",m_aeroports[9]->getTAP());
-        textprintf_ex(monde,font,20,500, makecol(0,0,0), makecol(255,100,0),"Duree atterissage - decollage : %d",m_aeroports[9]->getTDA());
+        textprintf_ex(monde,font,20,500, makecol(0,0,0), makecol(255,100,0),"Duree atterissage-decollage : %d",m_aeroports[9]->getTDA());
         textprintf_ex(monde,font,20,510, makecol(0,0,0), makecol(255,100,0),"Delai d'anti-collision : %d",m_aeroports[9]->getDAC());
         textprintf_ex(monde,font,20,520, makecol(0,0,0), makecol(255,100,0),"Boucle d'attente : %d",m_aeroports[9]->getDBA());
+        textprintf_ex(monde,font,20,530, makecol(0,0,0), makecol(255,100,0),"Avions presents : ");
+
+        for (auto it : m_aeroports[9]->getAvions())
+        {
+            textprintf_ex(monde,font,x,530, makecol(0,0,0), makecol(255,100,0),"%s",it.first->getNom().c_str());
+            x+=50;
+        }
     }
     if(mouse_x>324 && mouse_x<342 && mouse_y>362 && mouse_y<382)///SANTIAGO
     {
-        rectfill(monde,10, 430, 370, 535, makecol(255,100,0));
+        rectfill(monde,10, 430, 370, 545, makecol(255,100,0));
         textprintf_ex(monde,font,15,440, makecol(0,0,0), makecol(255,100,0),"INFORMATIONS SUR L'AEROPORT DE SANTIAGO :");
         textprintf_ex(monde,font,20,460, makecol(0,0,0), makecol(255,100,0),"Nombre de pistes : %d",m_aeroports[10]->getNbPistes());
         textprintf_ex(monde,font,20,470, makecol(0,0,0), makecol(255,100,0),"Nombre de places au sol : %d",m_aeroports[10]->getNbPlacesSol());
         textprintf_ex(monde,font,20,480, makecol(0,0,0), makecol(255,100,0),"Duree d'attente au sol : %d",m_aeroports[10]->getDAS());
         textprintf_ex(monde,font,20,490, makecol(0,0,0), makecol(255,100,0),"Temps d'acces au pistes : %d",m_aeroports[10]->getTAP());
-        textprintf_ex(monde,font,20,500, makecol(0,0,0), makecol(255,100,0),"Duree atterissage - decollage : %d",m_aeroports[10]->getTDA());
+        textprintf_ex(monde,font,20,500, makecol(0,0,0), makecol(255,100,0),"Duree atterissage-decollage : %d",m_aeroports[10]->getTDA());
         textprintf_ex(monde,font,20,510, makecol(0,0,0), makecol(255,100,0),"Delai d'anti-collision : %d",m_aeroports[10]->getDAC());
         textprintf_ex(monde,font,20,520, makecol(0,0,0), makecol(255,100,0),"Boucle d'attente : %d",m_aeroports[10]->getDBA());
+        textprintf_ex(monde,font,20,530, makecol(0,0,0), makecol(255,100,0),"Avions presents : ");
+
+        for (auto it : m_aeroports[10]->getAvions())
+        {
+            textprintf_ex(monde,font,x,530, makecol(0,0,0), makecol(255,100,0),"%s",it.first->getNom().c_str());
+            x+=50;
+        }
     }
     if(mouse_x>622 && mouse_x<642 && mouse_y>348 && mouse_y<368)///JOHANNESBOURG
     {
-        rectfill(monde,10, 430, 370, 535, makecol(255,100,0));
+        rectfill(monde,10, 430, 370, 545, makecol(255,100,0));
         textprintf_ex(monde,font,15,440, makecol(0,0,0), makecol(255,100,0),"INFORMATIONS SUR L'AEROPORT DE JOHANNESBOURG");
         textprintf_ex(monde,font,20,460, makecol(0,0,0), makecol(255,100,0),"Nombre de pistes : %d",m_aeroports[11]->getNbPistes());
         textprintf_ex(monde,font,20,470, makecol(0,0,0), makecol(255,100,0),"Nombre de places au sol : %d",m_aeroports[11]->getNbPlacesSol());
         textprintf_ex(monde,font,20,480, makecol(0,0,0), makecol(255,100,0),"Duree d'attente au sol : %d",m_aeroports[11]->getDAS());
         textprintf_ex(monde,font,20,490, makecol(0,0,0), makecol(255,100,0),"Temps d'acces au pistes : %d",m_aeroports[11]->getTAP());
-        textprintf_ex(monde,font,20,500, makecol(0,0,0), makecol(255,100,0),"Duree atterissage - decollage : %d",m_aeroports[11]->getTDA());
+        textprintf_ex(monde,font,20,500, makecol(0,0,0), makecol(255,100,0),"Duree atterissage-decollage : %d",m_aeroports[11]->getTDA());
         textprintf_ex(monde,font,20,510, makecol(0,0,0), makecol(255,100,0),"Delai d'anti-collision : %d",m_aeroports[11]->getDAC());
         textprintf_ex(monde,font,20,520, makecol(0,0,0), makecol(255,100,0),"Boucle d'attente : %d",m_aeroports[11]->getDBA());
+        textprintf_ex(monde,font,20,530, makecol(0,0,0), makecol(255,100,0),"Avions presents : ");
+
+        for (auto it : m_aeroports[11]->getAvions())
+        {
+            textprintf_ex(monde,font,x,530, makecol(0,0,0), makecol(255,100,0),"%s",it.first->getNom().c_str());
+            x+=50;
+        }
     }
     if(mouse_x>1000 && mouse_x<1020 && mouse_y>360 && mouse_y<380)///SYDNEY
     {
-        rectfill(monde,10, 430, 370, 535, makecol(255,100,0));
+        rectfill(monde,10, 430, 370, 545, makecol(255,100,0));
         textprintf_ex(monde,font,15,440, makecol(0,0,0), makecol(255,100,0),"INFORMATIONS SUR L'AEROPORT DE SYDNEY :");
         textprintf_ex(monde,font,20,460, makecol(0,0,0), makecol(255,100,0),"Nombre de pistes : %d",m_aeroports[12]->getNbPistes());
         textprintf_ex(monde,font,20,470, makecol(0,0,0), makecol(255,100,0),"Nombre de places au sol : %d",m_aeroports[12]->getNbPlacesSol());
         textprintf_ex(monde,font,20,480, makecol(0,0,0), makecol(255,100,0),"Duree d'attente au sol : %d",m_aeroports[12]->getDAS());
         textprintf_ex(monde,font,20,490, makecol(0,0,0), makecol(255,100,0),"Temps d'acces au pistes : %d",m_aeroports[12]->getTAP());
-        textprintf_ex(monde,font,20,500, makecol(0,0,0), makecol(255,100,0),"Duree atterissage - decollage : %d",m_aeroports[12]->getTDA());
+        textprintf_ex(monde,font,20,500, makecol(0,0,0), makecol(255,100,0),"Duree atterissage-decollage : %d",m_aeroports[12]->getTDA());
         textprintf_ex(monde,font,20,510, makecol(0,0,0), makecol(255,100,0),"Delai d'anti-collision : %d",m_aeroports[12]->getDAC());
         textprintf_ex(monde,font,20,520, makecol(0,0,0), makecol(255,100,0),"Boucle d'attente : %d",m_aeroports[12]->getDBA());
+        textprintf_ex(monde,font,20,530, makecol(0,0,0), makecol(255,100,0),"Avions presents : ");
+
+        for (auto it : m_aeroports[12]->getAvions())
+        {
+            textprintf_ex(monde,font,x,530, makecol(0,0,0), makecol(255,100,0),"%s",it.first->getNom().c_str());
+            x+=50;
+        }
     }
     if(mouse_x>764 && mouse_x<784 && mouse_y>196 && mouse_y<216)///MUMBAI
     {
-        rectfill(monde,10, 430, 370, 535, makecol(255,100,0));
+        rectfill(monde,10, 430, 370, 545, makecol(255,100,0));
         textprintf_ex(monde,font,15,440, makecol(0,0,0), makecol(255,100,0),"INFORMATIONS SUR L'AEROPORT DE MUMBAI :");
         textprintf_ex(monde,font,20,460, makecol(0,0,0), makecol(255,100,0),"Nombre de pistes : %d",m_aeroports[13]->getNbPistes());
         textprintf_ex(monde,font,20,470, makecol(0,0,0), makecol(255,100,0),"Nombre de places au sol : %d",m_aeroports[13]->getNbPlacesSol());
         textprintf_ex(monde,font,20,480, makecol(0,0,0), makecol(255,100,0),"Duree d'attente au sol : %d",m_aeroports[13]->getDAS());
         textprintf_ex(monde,font,20,490, makecol(0,0,0), makecol(255,100,0),"Temps d'acces au pistes : %d",m_aeroports[13]->getTAP());
-        textprintf_ex(monde,font,20,500, makecol(0,0,0), makecol(255,100,0),"Duree atterissage - decollage : %d",m_aeroports[13]->getTDA());
+        textprintf_ex(monde,font,20,500, makecol(0,0,0), makecol(255,100,0),"Duree atterissage-decollage : %d",m_aeroports[13]->getTDA());
         textprintf_ex(monde,font,20,510, makecol(0,0,0), makecol(255,100,0),"Delai d'anti-collision : %d",m_aeroports[13]->getDAC());
         textprintf_ex(monde,font,20,520, makecol(0,0,0), makecol(255,100,0),"Boucle d'attente : %d",m_aeroports[13]->getDBA());
+        textprintf_ex(monde,font,20,530, makecol(0,0,0), makecol(255,100,0),"Avions presents : ");
+
+        for (auto it : m_aeroports[13]->getAvions())
+        {
+            textprintf_ex(monde,font,x,530, makecol(0,0,0), makecol(255,100,0),"%s",it.first->getNom().c_str());
+            x+=50;
+        }
     }
     if(mouse_x>1075 && mouse_x<1095 && mouse_y>182 && mouse_y<402)///WELLINGTON
     {
-        rectfill(monde,10, 430, 370, 535, makecol(255,100,0));
+        rectfill(monde,10, 430, 370, 545, makecol(255,100,0));
         textprintf_ex(monde,font,15,440, makecol(0,0,0), makecol(255,100,0),"INFORMATIONS SUR L'AEROPORT DE WELLINGTON :");
         textprintf_ex(monde,font,20,460, makecol(0,0,0), makecol(255,100,0),"Nombre de pistes : %d",m_aeroports[14]->getNbPistes());
         textprintf_ex(monde,font,20,470, makecol(0,0,0), makecol(255,100,0),"Nombre de places au sol : %d",m_aeroports[14]->getNbPlacesSol());
         textprintf_ex(monde,font,20,480, makecol(0,0,0), makecol(255,100,0),"Duree d'attente au sol : %d",m_aeroports[14]->getDAS());
         textprintf_ex(monde,font,20,490, makecol(0,0,0), makecol(255,100,0),"Temps d'acces au pistes : %d",m_aeroports[14]->getTAP());
-        textprintf_ex(monde,font,20,500, makecol(0,0,0), makecol(255,100,0),"Duree atterissage - decollage : %d",m_aeroports[14]->getTDA());
+        textprintf_ex(monde,font,20,500, makecol(0,0,0), makecol(255,100,0),"Duree atterissage-decollage : %d",m_aeroports[14]->getTDA());
         textprintf_ex(monde,font,20,510, makecol(0,0,0), makecol(255,100,0),"Delai d'anti-collision : %d",m_aeroports[14]->getDAC());
         textprintf_ex(monde,font,20,520, makecol(0,0,0), makecol(255,100,0),"Boucle d'attente : %d",m_aeroports[14]->getDBA());
+        textprintf_ex(monde,font,20,530, makecol(0,0,0), makecol(255,100,0),"Avions presents : ");
+
+        for (auto it : m_aeroports[14]->getAvions())
+        {
+            textprintf_ex(monde,font,x,530, makecol(0,0,0), makecol(255,100,0),"%s",it.first->getNom().c_str());
+            x+=50;
+        }
     }
     if(mouse_x>896 && mouse_x<916 && mouse_y>185 && mouse_y<205)///HONG KONG
     {
-        rectfill(monde,10, 430, 370, 535, makecol(255,100,0));
+        rectfill(monde,10, 430, 370, 545, makecol(255,100,0));
         textprintf_ex(monde,font,15,440, makecol(0,0,0), makecol(255,100,0),"INFORMATIONS SUR L'AEROPORT DE HONG KONG :");
         textprintf_ex(monde,font,20,460, makecol(0,0,0), makecol(255,100,0),"Nombre de pistes : %d",m_aeroports[15]->getNbPistes());
         textprintf_ex(monde,font,20,470, makecol(0,0,0), makecol(255,100,0),"Nombre de places au sol : %d",m_aeroports[15]->getNbPlacesSol());
         textprintf_ex(monde,font,20,480, makecol(0,0,0), makecol(255,100,0),"Duree d'attente au sol : %d",m_aeroports[15]->getDAS());
         textprintf_ex(monde,font,20,490, makecol(0,0,0), makecol(255,100,0),"Temps d'acces au pistes : %d",m_aeroports[15]->getTAP());
-        textprintf_ex(monde,font,20,500, makecol(0,0,0), makecol(255,100,0),"Duree atterissage - decollage : %d",m_aeroports[15]->getTDA());
+        textprintf_ex(monde,font,20,500, makecol(0,0,0), makecol(255,100,0),"Duree atterissage-decollage : %d",m_aeroports[15]->getTDA());
         textprintf_ex(monde,font,20,510, makecol(0,0,0), makecol(255,100,0),"Delai d'anti-collision : %d",m_aeroports[15]->getDAC());
         textprintf_ex(monde,font,20,520, makecol(0,0,0), makecol(255,100,0),"Boucle d'attente : %d",m_aeroports[15]->getDBA());
+        textprintf_ex(monde,font,20,530, makecol(0,0,0), makecol(255,100,0),"Avions presents : ");
+
+        for (auto it : m_aeroports[15]->getAvions())
+        {
+            textprintf_ex(monde,font,x,530, makecol(0,0,0), makecol(255,100,0),"%s",it.first->getNom().c_str());
+            x+=50;
+        }
     }
 
 ///-------------------------------------AFFICHAGE INFOS AVIONS------------------------------------------------------------------------------
-
+    int cmptLignes = 0;
     if(mouse_x>_avion->getCoordonnees().first-50 && mouse_x<_avion->getCoordonnees().first+50 && mouse_y>_avion->getCoordonnees().second-10 && mouse_y<_avion->getCoordonnees().second+10)///HONG KONG
     {
-        rectfill(monde,10, 430, 370, 535, makecol(0,100,100));
-        textprintf_ex(monde,font,15,440, makecol(0,0,0), makecol(0,100,100),"INFORMATIONS SUR L'AVION ");
-        textprintf_ex(monde,font,220,440, makecol(0,0,0), makecol(0,100,100),"%s",_avion->getNom().c_str());
-        textprintf_ex(monde,font,20,460, makecol(0,0,0), makecol(0,100,100),"Type : %s",_avion->getType().c_str());
-        textprintf_ex(monde,font,20,470, makecol(0,0,0), makecol(0,100,100),"Consommation : %d",_avion->getConsomation());
-        textprintf_ex(monde,font,20,480, makecol(0,0,0), makecol(0,100,100),"Capacite de carburant : %d",_avion->getCapacite());
-        textprintf_ex(monde,font,20,490, makecol(0,0,0), makecol(0,100,100),"Carburant restant: %d",_avion->getCarburant());
-        textprintf_ex(monde,font,20,500, makecol(0,0,0), makecol(0,100,100),"Coordonnees : %d",_avion->getCoordonnees().first);
-        textprintf_ex(monde,font,160,500, makecol(0,0,0), makecol(0,100,100),"x | %d",_avion->getCoordonnees().second);
-        textprintf_ex(monde,font,220,500, makecol(0,0,0), makecol(0,100,100),"y");
+        rectfill(monde,10, 400, 370, 535, makecol(0,100,100));
+        textprintf_ex(monde,font,15,405, makecol(0,0,0), makecol(0,100,100),"INFORMATIONS SUR L'AVION ");
+        textprintf_ex(monde,font,220,415, makecol(0,0,0), makecol(0,100,100),"%s",_avion->getNom().c_str());
+        textprintf_ex(monde,font,20,425, makecol(0,0,0), makecol(0,100,100),"Type : %s",_avion->getType().c_str());
+        textprintf_ex(monde,font,20,435, makecol(0,0,0), makecol(0,100,100),"Consommation : %d",_avion->getConsomation());
+        textprintf_ex(monde,font,20,445, makecol(0,0,0), makecol(0,100,100),"Capacite de carburant : %d",_avion->getCapacite());
+        textprintf_ex(monde,font,20,455, makecol(0,0,0), makecol(0,100,100),"Carburant restant: %d",_avion->getCarburant());
+        textprintf_ex(monde,font,20,465, makecol(0,0,0), makecol(0,100,100),"Coordonnees : %d",_avion->getCoordonnees().first);
+        textprintf_ex(monde,font,160,465, makecol(0,0,0), makecol(0,100,100),"x | %d",_avion->getCoordonnees().second);
+        textprintf_ex(monde,font,220,465, makecol(0,0,0), makecol(0,100,100),"y");
+        textprintf_ex(monde,font,20,475, makecol(0,0,0), makecol(0,100,100),"Plan de vol :");
+        for(auto it3 : m_trajets[_avion]->getPlanDeVol())
+        {
+            cmptLignes++;
+            textprintf_ex(monde,font,20,475+10*cmptLignes, makecol(0,0,0), makecol(0,100,100),"->%s", it3->getNom().c_str());
+        }
     }
 
     rotate_sprite(monde,_avion->getImage(),_avion->getCoordonnees().first-10,_avion->getCoordonnees().second-10,itofix(degreRot));
@@ -692,7 +852,7 @@ void Monde::initNuages()
     }
 }
 
-void Monde::initNuagesTest(int nbNuages)
+void Monde::initNuagesReglable(int nbNuages)
 {
     for (int i=0; i<nbNuages; i++)///a changer pour rajouter tous les nuages 1 devient nbNuagesAleatoire
     {
@@ -750,7 +910,7 @@ void Monde::fuiteReservoir(Aeroport* _depart,Aeroport* _arrivee,Avion* _avion,in
             std::cout<<"-------------------------------------------------------------------------------------"<<m_trajets[_avion]->getPlanDeVol()[0]->getNom()<<std::endl;
         _avion->setAeroportActuel(m_trajets[_avion]->getPlanDeVol()[1]->getNom());
     }
-    _avion->setConsommation( 10 * _avion->getConsomation());
+    _avion->setConsommation( 2 * _avion->getConsomation());
     ///----------------------------------------------temps de traitement = temps depuis decollage ?
 }
 
