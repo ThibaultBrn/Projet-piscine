@@ -31,11 +31,8 @@ bool Monde::isArrivee(Avion* _avion, Aeroport* _destination)
         if((int(_destination->getFileAttentePistesEnVol().size()) > _destination->getNbPlacesSol())) ///L'AVION NE POURRA PAS ETRE STATIONNE, INUTILE DE L'ENVOYER
         {
             std::cout << "              >>L'avion " << _avion->getNom() << " entre en boucle d'attente en vol..." << std::endl;
-            /**----MODIFIER LA CONSOMMATION DE L'AVION (MODE BOUCLE EN VOL)----///
-            >>
-            >>
-            >>
-            **/
+            ///----MODIFIER LA CONSOMMATION DE L'AVION (MODE BOUCLE EN VOL)----///
+            _avion->setConsommation(_avion->getConsomationParam()-1);
         }
         return true;
     }
@@ -94,11 +91,8 @@ bool Aeroport::autorisationAtterrissage()
         m_nbPistes -= 1; ///L'AVION UTILISE DONC UNE PISTE
         modifieAction(avionTraitement, "Atterrissage");
 
-        /**-------------------------CHANGER LE MODE DE CONSOMMATION----------------------///
-        <<
-        <<
-        <<
-        **/
+        ///-------------------------CHANGER LE MODE DE CONSOMMATION----------------------///
+        avionTraitement->setConsommation(avionTraitement->getConsomationParam()-2);
 
         std::cout << "              >>L'avion " << avionTraitement->getNom() << " entre en phase d'atterrissage." << std::endl;
         return true;
@@ -132,11 +126,9 @@ void Monde::gestionAeroport(Aeroport* aeroport)
         {
             if(avionTraitement->getTempsTraitement() >= aeroport->getTempsDecollageAtterrissage())
             {
-                /**--------------COUPER LA CONSOMMATION-----------///
-                >>
-                >>
-                >>
-                **/
+                ///--------------COUPER LA CONSOMMATION-----------///
+                avionTraitement->setConsommation(0);
+
                 if((aeroport->getAvionsTransitionAireStationnement().empty()) || aeroport->getAvionsTransitionAireStationnement().back()->getTempsTraitement() >= aeroport->getDelaiAnticollision())
                 {
                     std::cout << "              >>L'avion " << avionTraitement->getNom() << " a atteri a l'aeroport de " << aeroport->getNom() <<" et entre en transit vers la zone de stationnement." << std::endl;
@@ -155,11 +147,8 @@ void Monde::gestionAeroport(Aeroport* aeroport)
                 avionTraitement->setEnVol(true);
                 avionTraitement->resetTempsTraitement();
                 std::cout << "              >>L'avion " << avionTraitement->getNom() << " a quitte l'aeroport de " << aeroport->getNom() << " pour " << m_trajets[avionTraitement]->getPlanDeVol()[0]->getNom() << std::endl;
-                /**--------------FAIRE CE QU'IL FAUT LORSQUE L'AVION PASSE EN MODE VITESSE DE CROISIERE ET COMMENCE A PARTIR VERS SON AEROPORT DESTINATION-----------///
-                >>
-                >>
-                >>
-                **/
+                ///--------------FAIRE CE QU'IL FAUT LORSQUE L'AVION PASSE EN MODE VITESSE DE CROISIERE ET COMMENCE A PARTIR VERS SON AEROPORT DESTINATION-----------///
+                avionTraitement->setConsommation(avionTraitement->getConsomationParam());
             }
         }
         else if(it.second == "TransitionStockage")
@@ -177,22 +166,18 @@ void Monde::gestionAeroport(Aeroport* aeroport)
                 aeroport->retirerAvionTransiPiste();
                 std::cout << "              >>L'avion " << avionTraitement->getNom() << " entre sur la piste de l'aeroport de " << aeroport->getNom() << " et se prepare a decoller." << std::endl;
                 aeroport->modifieAction(avionTraitement, "Decollage");
-                /**--------------MODIFIER LA CONSO DE L'AVION-----------///
-                >>
-                >>
-                >>
-                **/
+                ///--------------MODIFIER LA CONSO DE L'AVION-----------///
+                avionTraitement->setConsommation(avionTraitement->getConsomationParam()+2);
+
             }
         }
         else if(it.second == "Dechargement")
         {
             if(avionTraitement->getTempsTraitement() >= aeroport->getDelaiAttenteSol())
             {
-                /**--------------RECHARGER LE CARBURANT DE L'AVION-----------///
-                >>
-                >>
-                >>
-                **/
+                ///--------------RECHARGER LE CARBURANT DE L'AVION-----------///
+                avionTraitement->setCarburant(avionTraitement->getCapacite());
+
                 std::cout << "              >>L'avion " << avionTraitement->getNom() << " est stationne a l'aeroport de " << aeroport->getNom() << std::endl;
                 aeroport->modifieAction(avionTraitement, "Stockage");
             }

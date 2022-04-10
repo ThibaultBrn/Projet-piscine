@@ -352,7 +352,7 @@
 	<queue>
 	<map>
 
-1649618083 c:\users\timot\onedrive\bureau\ece\ing2\info\projet_info_s4\projet-piscine\projet-piscine\projet_theorie_des_graphes\classes\monde.h
+1649623401 c:\users\timot\onedrive\bureau\ece\ing2\info\projet_info_s4\projet-piscine\projet-piscine\projet_theorie_des_graphes\classes\monde.h
 	"Aeroport.h"
 	<vector>
 	<map>
@@ -384,15 +384,16 @@
 1649617360 source:c:\users\timot\onedrive\bureau\ece\ing2\info\projet_info_s4\projet-piscine\projet-piscine\projet_theorie_des_graphes\methodes_classes\avion.cpp
 	"../Classes/Avion.h"
 
-1649617753 source:c:\users\timot\onedrive\bureau\ece\ing2\info\projet_info_s4\projet-piscine\projet-piscine\projet_theorie_des_graphes\methodes_classes\menu.cpp
+1649623401 source:c:\users\timot\onedrive\bureau\ece\ing2\info\projet_info_s4\projet-piscine\projet-piscine\projet_theorie_des_graphes\methodes_classes\menu.cpp
 	"../Classes/Menu.h"
 	"../Classes/Monde.h"
 	<fstream>
 	<iostream>
 	<allegro.h>
 	<cstdlib>
+	<sysinfoapi.h>
 
-1649617360 source:c:\users\timot\onedrive\bureau\ece\ing2\info\projet_info_s4\projet-piscine\projet-piscine\projet_theorie_des_graphes\methodes_classes\monde.cpp
+1649626734 source:c:\users\timot\onedrive\bureau\ece\ing2\info\projet_info_s4\projet-piscine\projet-piscine\projet_theorie_des_graphes\methodes_classes\monde.cpp
 	"../Classes/Monde.h"
 	<queue>
 	<vector>
@@ -406,7 +407,7 @@
 1649617360 source:c:\users\timot\onedrive\bureau\ece\ing2\info\projet_info_s4\projet-piscine\projet-piscine\projet_theorie_des_graphes\simulation\creationsplansdevols.cpp
 	"../Classes/Monde.h"
 
-1649617360 source:c:\users\timot\onedrive\bureau\ece\ing2\info\projet_info_s4\projet-piscine\projet-piscine\projet_theorie_des_graphes\simulation\gestionatterrissagesdecollages.cpp
+1649625350 source:c:\users\timot\onedrive\bureau\ece\ing2\info\projet_info_s4\projet-piscine\projet-piscine\projet_theorie_des_graphes\simulation\gestionatterrissagesdecollages.cpp
 	"../Classes/Monde.h"
 
 1649617360 source:c:\users\timot\onedrive\bureau\ece\ing2\info\projet_info_s4\projet-piscine\projet-piscine\projet_theorie_des_graphes\methodes_classes\nuage.cpp

@@ -292,7 +292,6 @@ void Monde::deplacementAvion(Aeroport* _depart,Aeroport* _arrivee,Avion* _avion)
     }
     _avion->setCoordonnees(coordonneesAvion);
     _avion->setCarburant(_avion->getCarburant() -  _avion->getConsomation());///à regarder
-    std::cout<<"le carburant par tour : "<<_avion->getCarburant()<<std::endl;
 }
 
 void Monde::afficherMondeAllegro(BITMAP * monde)
@@ -381,10 +380,7 @@ void Monde::afficherMondeAllegroTEST(BITMAP * monde, Aeroport* _depart, Aeroport
 
 
     blit(monde,screen,0,0,0,0,monde->w,monde->h);
-    if(key[KEY_SPACE])
-    {
 
-    }
 }
 
 void Monde::afficherNuageAllegro(BITMAP* monde, Nuage* _nuage)
@@ -825,20 +821,39 @@ void Monde::afficherAvionAllegro(Aeroport* _depart,Aeroport* _arrivee,Avion* _av
     }
 
     rotate_sprite(monde,_avion->getImage(),_avion->getCoordonnees().first-10,_avion->getCoordonnees().second-10,itofix(degreRot));
+    textprintf_ex(monde,font,_avion->getCoordonnees().first,_avion->getCoordonnees().second-10,makecol(255,255,255),-1,"%s",_avion->getNom().c_str());
     deplacementAvion(_depart,_arrivee,_avion);
     show_mouse(monde);
     ///lorsque la touche espace est saisie le sous prog de fuite se lance
     if(key[KEY_F])
     {
+        /*int i=0;
+
+        ///saisir avion
+        int j=0;
+
+        do
+        {
+            i=0;
+            std::cout<<"Saisir l'avion qui va subir une fuite"<<std::endl;
+            for(auto elem : m_avion)
+            {
+                if(elem->getEnVol()==true)
+                {
+                    std::cout<<i<<". "<<elem->getNom()<<std::endl;
+                    i++;
+                }
+            }
+            std::cin>>j;
+        }while(j<0 || j>i);*/
         fuiteReservoir(_depart,_arrivee,_avion,poid);
-        allegro_message("test reussi");
+        std::cout<<"L'avion "<<_avion->getNom()<<" a été victime d'une fuite"<<std::endl;
+        system("pause");
     }
     if(_avion->getTempsTraitement()==poid)
     {
-        std::cout<<"                                                        "<<_avion->getNom()<<" temps de traitement : "<<_avion->getTempsTraitement()<<" poid : "<<poid<<std::endl;
         _avion->setCoordonnees(_arrivee->getCoordonnees());
     }
-    std::cout<<"reservoir avion : " <<_avion->getCarburant()<<std::endl;
 }
 
 void Monde::initNuages()
@@ -891,27 +906,22 @@ void Monde::fuiteReservoir(Aeroport* _depart,Aeroport* _arrivee,Avion* _avion,in
     }
     distanceReelArrivee=sqrt((pow(distanceArriveeX,2)+pow(distanceArriveeY,2)));
     distanceReelDepart=sqrt((pow(distanceDepartX,2)+pow(distanceDepartY,2)));
-    std::cout<<"La distance a l'arrivee est de : "<<distanceReelArrivee<<std::endl;
-    std::cout<<"La distance du depart est de : "<<distanceReelDepart<<std::endl;
     if(distanceReelArrivee<=distanceReelDepart)
     {
         ///l'avion va vers arrivee on echange pas les aeroports
-        std::cout<<"test1"<<std::endl;
     }
     else
     {
         /// retourne au depart on echange les aeroport
-
+        std::cout<<"retour aeroport"<<std::endl;
         stockeur=m_trajets[_avion]->getActuel();
         m_trajets[_avion]->insererEtape(stockeur);
         _avion->setTempsTraitement(poid-_avion->getTempsTraitement()-1);
-            std::cout<<"-------------------------------------------------------------------------------------"<<_avion->getTempsTraitement()<<std::endl;
         m_trajets[_avion]->setActuel(m_trajets[_avion]->getPlanDeVol()[1]);
-            std::cout<<"-------------------------------------------------------------------------------------"<<m_trajets[_avion]->getPlanDeVol()[0]->getNom()<<std::endl;
         _avion->setAeroportActuel(m_trajets[_avion]->getPlanDeVol()[1]->getNom());
     }
     _avion->setConsommation( 2 * _avion->getConsomation());
-    ///----------------------------------------------temps de traitement = temps depuis decollage ?
+
 }
 
 void Monde::testAvion()

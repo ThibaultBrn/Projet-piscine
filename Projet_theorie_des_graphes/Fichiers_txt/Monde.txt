@@ -1,12 +1,12 @@
 16
-PAR 558 129 15 6 2 2 8 2 2 court
+PAR 557 129 15 6 2 2 8 2 2 court
 NYC 320 157 6 2 2 2 8 2 7 moyen
 TKY 979 166 3 7 2 2 5 2 6 court
 DUB 716 203 2 9 2 2 4 2 7 court
 LAX 182 167 5 9 2 2 6 2 6 moyen
 LDN 546 117 1 7 2 2 1 2 3 court
 MSC 623 115 2 4 2 2 6 2 9 court
-ALG 558 163 2 5 2 2 3 2 4 court
+ALG 559 163 2 5 2 2 3 2 4 court
 YAM 537 254 4 5 2 2 8 2 6 court
 SAO 414 345 2 5 2 2 4 2 7 moyen
 SAN 332 382 4 6 2 2 5 2 4 moyen
@@ -40,8 +40,14 @@ JOH SYD 19
 HKG SYD 14
 SYD WEL 5
 TKY SYD 12
-4
-Alpha court 3 24
+10
+Charlie long 8 216
+Alpha court 3 34
 Beta moyen 5 80
-Charlie long 8 160
 Delta moyen 6 96
+Tango court 4 40
+Foxtrot long 7 189
+AirForce1 long 9 500
+Chicots court 3 34
+Concorde court 17 170
+Boss moyen 6 120
