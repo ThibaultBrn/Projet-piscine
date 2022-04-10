@@ -10,12 +10,11 @@ using namespace std;
 
 int main()
 {
-
     allegro_init();
     install_keyboard();
     install_mouse();
     char test= '0';
-    Menu a;
+    Menu menu;
 
     set_color_depth(desktop_color_depth());
     if (set_gfx_mode(GFX_AUTODETECT_WINDOWED,1100,550,0,0)!=0)
@@ -25,12 +24,10 @@ int main()
         exit(EXIT_FAILURE);
     }
 
-
-    while(test!=6)
+    while(test!='6')
     {
-       test=a.gestionMenu();
+       test=menu.gestionMenu();
     }
-
 
     return 0;
 }END_OF_MAIN();

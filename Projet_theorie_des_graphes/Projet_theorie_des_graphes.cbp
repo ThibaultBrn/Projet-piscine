@@ -42,10 +42,11 @@
 		<Unit filename="Classes/Vol.h" />
 		<Unit filename="Methodes_Classes/Aeroport.cpp" />
 		<Unit filename="Methodes_Classes/Avion.cpp" />
+		<Unit filename="Methodes_Classes/Menu.cpp" />
 		<Unit filename="Methodes_Classes/Monde.cpp" />
-		<Unit filename="Methodes_Classes/Nuage.cpp" />
 		<Unit filename="Methodes_Classes/Vol.cpp" />
 		<Unit filename="Simulation/GestionAtterrissagesDecollages.cpp" />
+		<Unit filename="Simulation/creationsPlansDeVols.cpp" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<lib_finder disable_auto="1" />

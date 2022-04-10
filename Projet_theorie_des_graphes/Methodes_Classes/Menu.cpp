@@ -43,22 +43,19 @@ char Menu::gestionMenu()
     Monde m("Fichiers_txt/Monde.txt");
 
     m.initialisationAeroport();
-//    m.afficherMondeAllegro(aeroports[4],aeroports[10],avion[0]);
-    ///s'arrete ici
-
     m.initPlansDeVolsAlea();
     m.initNuages();
+
+    show_mouse(screen);
     blit(m.getBitmap(),screen,0,0,0,0,m.getBitmap()->w,m.getBitmap()->h);
+    system("cls");
     choix=afficherMenu();
-
-
 
     if(choix=='1')
     {
         for(auto it : m.getAvions())
         {
             it->AfficherAvions();
-
         }
     }
     else if(choix=='2')
@@ -70,7 +67,7 @@ char Menu::gestionMenu()
     }
     else if(choix=='3')
     {
-        ///djikstra
+        m.testAvion(m.trouveAeroport("NYC"), m.trouveAeroport("SAN"));
     }
     else if(choix=='4')
     {
@@ -117,7 +114,7 @@ char Menu::gestionMenu()
                 i++;
             }
             std::cin>>j;
-        }while(j<0 || j>a);
+        }while(j<0 || j>int(a));
         depart=m.getAeroports()[j];
         int k=0;
         i=0;
@@ -131,7 +128,7 @@ char Menu::gestionMenu()
                 i++;
             }
             std::cin>>k;
-        }while(k<0 || k>a || k==j);
+        }while(k<0 || k>int(a) || k==j);
         arrivee=m.getAeroports()[k];
 
         int couleurNuage;
@@ -143,7 +140,6 @@ char Menu::gestionMenu()
         }while(couleurNuage<85 || couleurNuage>230);
 
         m.initNuagesTest(nbNuages);
-
     }
 
     return choix;
