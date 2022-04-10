@@ -40,7 +40,8 @@ class Monde
 
 
 
-        void fuiteReservoir(Aeroport* &_depart,Aeroport* &_arrivee,Avion* &_avion,int &i,int poid);
+        void fuiteReservoir(Aeroport* _depart,Aeroport* _arrivee,Avion* _avion,int poid);
+
         ///----------------METHODES DE GESTION DE LA SIMULATION----------------///
         bool isArrivee(Avion* _avion, Aeroport* destination);
         void gestionAeroport(Aeroport* aeroport);

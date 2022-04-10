@@ -17,3 +17,14 @@ void Vol::afficheVol()
         std::cout << "       Pas d'aeroport, nous restons a " << m_depart->getNom() << std::endl;
     std::cout << std::endl;
 }
+
+void Vol::insererEtape(Aeroport* _planDeVol)
+{
+    std::vector<Aeroport*>lesEtapes;
+    lesEtapes.push_back(_planDeVol);
+    for(auto elem : m_planDeVol)
+    {
+        lesEtapes.push_back(elem);
+    }
+    m_planDeVol=lesEtapes;
+}
