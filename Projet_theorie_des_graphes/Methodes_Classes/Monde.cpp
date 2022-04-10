@@ -786,7 +786,6 @@ void Monde::initNuages()
 
 void Monde::initNuagesTest(int nbNuages)
 {
-
     for (int i=0; i<nbNuages; i++)///a changer pour rajouter tous les nuages 1 devient nbNuagesAleatoire
     {
         Nuage* nvNuage = new Nuage;

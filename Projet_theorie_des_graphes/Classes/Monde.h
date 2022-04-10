@@ -32,6 +32,7 @@ class Monde
         void melangerAvion();
         void creationAvion();
         void afficherAeroport();
+        BITMAP* getBitmap(){return m_carte;};
         void deplacementAvion(Aeroport* _depart,Aeroport* _arrivee,Avion* _avion);
         void afficherMondeAllegro(BITMAP * monde);
         void afficherAvionAllegro(Aeroport* _depart,Aeroport* _arrivee,Avion* _avion,BITMAP* monde);
