@@ -33,7 +33,7 @@ class Monde
         void deplacementAvion(Aeroport* _depart,Aeroport* _arrivee,Avion* _avion);
         void afficherMondeAllegro(BITMAP * monde);
         void afficherAvionAllegro(Aeroport* _depart,Aeroport* _arrivee,Avion* _avion,BITMAP* monde);
-
+        void fuiteReservoir(Aeroport* &_depart,Aeroport* &_arrivee,Avion* &_avion,int &i,int poid);
         ///----------------METHODES DE GESTION DE LA SIMULATION----------------///
         bool isArrivee(Avion* _avion, Aeroport* destination);
         void gestionAeroport(Aeroport* aeroport);

@@ -656,3 +656,5 @@ void Monde::afficherAvionAllegro(Aeroport* _depart,Aeroport* _arrivee,Avion* _av
     }
     std::cout<<"reservoir avion : " <<_avion->getCarburant()<<std::endl;
 }
+
+
