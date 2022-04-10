@@ -17,6 +17,7 @@ class Monde
         BITMAP* m_carte;
         std::map<Avion*, Vol*>m_trajets;
         std::vector<Nuage*>m_nuages;
+        double m_tempsDebut;
     public:
         Monde(std::string nomFichier);
         std::vector<Aeroport*> getAeroports() const{return m_aeroports;};
@@ -25,6 +26,8 @@ class Monde
         void addAvion(Avion* nouveauAvion){m_avion.push_back(nouveauAvion);};
         int trouveIdentification(std::string nomAeroport);
         void afficherMonde();
+        double getTempsDebut(){return m_tempsDebut;};
+        void setTempsDebut(double temps){m_tempsDebut = temps;};
         Vol* CreationPlanDeVol_LONG(std::string _Depart, std::string _Arrivee);
         Vol* CreationPlanDeVol_MOYEN(std::string _Depart, std::string _Arrivee, size_t tailleCC);
         Vol* CreationPlanDeVol_COURT(std::string _Depart, std::string _Arrivee, size_t tailleCC);
@@ -56,7 +59,7 @@ class Monde
         void initNuagesTest(int nbNuages);
         void csqNuage(Nuage* _nuage, Avion* _avion);
         ///-----------------------TEST AVEC UN SEUL AVION---------------------///
-        void testAvion(Aeroport* depart, Aeroport* arrivee);
+        void testAvion();
 };
 
 #endif // MONDE_H_INCLUDED

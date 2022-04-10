@@ -4,6 +4,7 @@
 #include <iostream>
 #include <allegro.h>
 #include <cstdlib>
+#include <sysinfoapi.h>
 
 Menu::Menu()
 {
@@ -67,7 +68,7 @@ char Menu::gestionMenu()
     }
     else if(choix=='3')
     {
-        m.testAvion(m.trouveAeroport("NYC"), m.trouveAeroport("SAN"));
+        m.testAvion();
     }
     else if(choix=='4')
     {

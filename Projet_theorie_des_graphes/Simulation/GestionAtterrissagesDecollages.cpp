@@ -212,11 +212,8 @@ void Monde::gestionAeroport(Aeroport* aeroport)
             }
             else
             {
-                std::cout << "IL FAUT TROUVER UN VOL POUR " << avionTraitement->getNom() << std::endl;
                 planDeVolAlea(avionTraitement);
                 afficheVol(avionTraitement);
-                if(m_trajets[avionTraitement]->getPlanDeVol().empty())
-                    std::cout <<"ET C'EST VIDE..." << std::endl;
             }
         }
         pos++;

@@ -5,7 +5,6 @@
 #include <math.h>
 #include <time.h>
 
-
 Monde::Monde(std::string nomFichier)///Recuperation du graphe
 {
     BITMAP* imageChargee;
@@ -298,7 +297,7 @@ void Monde::deplacementAvion(Aeroport* _depart,Aeroport* _arrivee,Avion* _avion)
 
 void Monde::afficherMondeAllegro(BITMAP * monde)
 {
-///-----------------------GRILLE-------------------------------
+    ///-----------------------GRILLE-------------------------------
     clear_bitmap(monde);
     blit(m_carte,monde,0,0,0,0,m_carte->w,m_carte->h);
 
@@ -324,10 +323,8 @@ void Monde::afficherMondeAllegro(BITMAP * monde)
     }
     for(auto it:m_avion)
     {
-        std::cout<<"                                                        "<<it->getNom()<<" temps de traitement : "<<it->getTempsTraitement()<<std::endl;
         if(it->getEnVol())
         {
-            std::cout<<"l'avion "<<it->getNom()<<" est en vol "<<std::endl;
             Monde::afficherAvionAllegro(m_trajets[it]->getActuel(),m_trajets[it]->getPlanDeVol()[0],it,monde);
             for(auto ite : m_nuages)
             {
@@ -341,7 +338,6 @@ void Monde::afficherMondeAllegro(BITMAP * monde)
     {
 
     }
-    rest(1000);
 }
 
 void Monde::afficherNuageAllegro(BITMAP* monde, Nuage* _nuage)
@@ -758,14 +754,43 @@ void Monde::fuiteReservoir(Aeroport* _depart,Aeroport* _arrivee,Avion* _avion,in
     ///----------------------------------------------temps de traitement = temps depuis decollage ?
 }
 
-void Monde::testAvion(Aeroport* depart, Aeroport* arrivee)
+void Monde::testAvion()
 {
     BITMAP* doubleBuff = m_carte;
-    Aeroport* aer_tmp = depart;
     std::pair<int, int> coordTmp1;
     std::pair<int, int> coordTmp2;
     std::string nom_avion;
     std::string type_avion;
+    int i=0;
+    unsigned int a=0;
+    a=m_aeroports.size();
+    int j=0;
+    int k=0;
+    do
+    {
+        i=0;
+        std::cout<<"Saisir le nom de l'aeroport de depart"<<std::endl;
+        for(auto elem : m_aeroports)
+        {
+            std::cout<<i<<". "<<elem->getNom()<<std::endl;
+            i++;
+        }
+        std::cin>>j;
+    }while(j<0 || j>int(a));
+    do
+    {
+        i=0;
+        std::cout<<"Saisir le nom de l'aeroport d'arrivee"<<std::endl;
+        for(auto elem : m_aeroports)
+        {
+            std::cout<<i<<". "<<elem->getNom()<<std::endl;
+            i++;
+        }
+        std::cin>>k;
+    }while(k<0 || k>int(a));
+    Aeroport* depart = m_aeroports[j];
+    Aeroport* arrivee = m_aeroports[k];
+    Aeroport* aer_tmp = depart;
     std::cout << "Veuillez entrer un nom d'avion : " << std::endl;
     std::cin >> nom_avion;
     std::cout << "Veuillez entrer le type d'avion : " << std::endl;
@@ -779,6 +804,7 @@ void Monde::testAvion(Aeroport* depart, Aeroport* arrivee)
     depart->ajouterAvion(nouveauAvion, "Stockage");
     planDeVolTest(nouveauAvion, arrivee);
     afficheVol(nouveauAvion);
+    std::cout << "Appuyer sur ESC sur la page Allegro pour revenir au menu." << std::endl;
     for(auto it : m_trajets[nouveauAvion]->getPlanDeVol())
     {
         coordTmp1 = {aer_tmp->getCoordonnees().first, aer_tmp->getCoordonnees().second};
