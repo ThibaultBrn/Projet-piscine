@@ -2,59 +2,39 @@
 <CodeBlocks_layout_file>
 	<FileVersion major="1" minor="0" />
 	<ActiveTarget name="Debug" />
-	<File name="Methodes_Classes\Monde.cpp" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="-2" zoom_2="0">
+	<File name="Classes\Avion.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="11960" topLine="360" />
-		</Cursor>
-		<Folding>
-			<Collapse line="268" />
-			<Collapse line="438" />
-			<Collapse line="450" />
-			<Collapse line="462" />
-			<Collapse line="474" />
-			<Collapse line="486" />
-			<Collapse line="498" />
-			<Collapse line="510" />
-			<Collapse line="522" />
-			<Collapse line="534" />
-			<Collapse line="546" />
-			<Collapse line="558" />
-			<Collapse line="570" />
-			<Collapse line="582" />
-			<Collapse line="594" />
-			<Collapse line="606" />
-			<Collapse line="618" />
-			<Collapse line="633" />
-		</Folding>
-	</File>
-	<File name="Methodes_Classes\Aeroport.cpp" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="866" topLine="24" />
-		</Cursor>
-	</File>
-	<File name="Classes\Vol.h" open="1" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="827" topLine="3" />
+			<Cursor1 position="530" topLine="1" />
 		</Cursor>
 	</File>
 	<File name="Classes\Monde.h" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1800" topLine="23" />
+			<Cursor1 position="1483" topLine="16" />
 		</Cursor>
 	</File>
-	<File name="Classes\Avion.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="Methodes_Classes\Avion.cpp" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1794" topLine="21" />
+			<Cursor1 position="656" topLine="12" />
 		</Cursor>
 	</File>
-	<File name="Methodes_Classes\Vol.cpp" open="1" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="Classes\Vol.h" open="1" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="0" topLine="0" />
+			<Cursor1 position="238" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="main.cpp" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="Methodes_Classes\Monde.cpp" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="-2" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="593" topLine="40" />
+			<Cursor1 position="40764" topLine="677" />
+		</Cursor>
+	</File>
+	<File name="Simulation\GestionAtterrissagesDecollages.cpp" open="1" top="0" tabpos="10" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1592" topLine="15" />
+		</Cursor>
+	</File>
+	<File name="main.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1233" topLine="20" />
 		</Cursor>
 	</File>
 	<File name="Classes\Aeroport.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -62,14 +42,14 @@
 			<Cursor1 position="1877" topLine="23" />
 		</Cursor>
 	</File>
-	<File name="Simulation\GestionAtterrissagesDecollages.cpp" open="1" top="0" tabpos="10" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="Methodes_Classes\Aeroport.cpp" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="10289" topLine="194" />
+			<Cursor1 position="866" topLine="24" />
 		</Cursor>
 	</File>
-	<File name="Methodes_Classes\Avion.cpp" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="Methodes_Classes\Vol.cpp" open="1" top="1" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="656" topLine="8" />
+			<Cursor1 position="856" topLine="1" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>
