@@ -1,6 +1,6 @@
 #include "../Classes/Avion.h"
 
-Avion::Avion(std::string _nom, std::string _type,int _consommation,int _capacite_carburant, std::pair<int, int> _coordonneesAv, bool stationnement)
+Avion::Avion(std::string _nom, std::string _type,int _consommation,int _consommationParam,int _capacite_carburant, std::pair<int, int> _coordonneesAv, bool stationnement)
 {
     BITMAP* imageChargee;
     imageChargee=load_bitmap("images_allegro/avion.bmp",NULL);
@@ -15,6 +15,7 @@ Avion::Avion(std::string _nom, std::string _type,int _consommation,int _capacite
     m_nom=_nom;
     m_type = _type;
     m_consommation = _consommation;
+    m_consommationParam = _consommationParam;
     m_capacite_carburant = _capacite_carburant;
     m_carburant=_capacite_carburant;
     m_coordonneesAv = _coordonneesAv;

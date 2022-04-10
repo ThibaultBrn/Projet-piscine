@@ -7,6 +7,7 @@
 #include <allegro.h>
 #include "Avion.h"
 #include "Vol.h"
+#include "Nuage.h"
 
 class Monde
 {
@@ -15,6 +16,7 @@ class Monde
         std::vector<Avion*>m_avion;
         BITMAP* m_carte;
         std::map<Avion*, Vol*>m_trajets;
+        std::vector<Nuage*>m_nuages;
     public:
         Monde(std::string nomFichier);
         std::vector<Aeroport*> getAeroports() const{return m_aeroports;};
@@ -33,6 +35,11 @@ class Monde
         void deplacementAvion(Aeroport* _depart,Aeroport* _arrivee,Avion* _avion);
         void afficherMondeAllegro(BITMAP * monde);
         void afficherAvionAllegro(Aeroport* _depart,Aeroport* _arrivee,Avion* _avion,BITMAP* monde);
+        void afficherNuageAllegro(BITMAP* monde, Nuage* _nuage);
+        void afficherNuageAllegroPARNYC(BITMAP* monde, Nuage* nuage);
+
+
+
         void fuiteReservoir(Aeroport* &_depart,Aeroport* &_arrivee,Avion* &_avion,int &i,int poid);
         ///----------------METHODES DE GESTION DE LA SIMULATION----------------///
         bool isArrivee(Avion* _avion, Aeroport* destination);
@@ -42,6 +49,9 @@ class Monde
         void afficheNouveauxVols();
         void gestionMondialeAeroports();
         void afficheVol(Avion* unAvion);
+        void initNuages();
+
+        void csqNuage(Nuage* _nuage, Avion* _avion);
 
 };
 

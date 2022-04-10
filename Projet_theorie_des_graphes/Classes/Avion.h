@@ -9,7 +9,8 @@ class Avion
     private :
         std::string m_nom;
         std::string m_type;
-        float m_consommation;
+        int m_consommation;
+        int m_consommationParam;
         int m_capacite_carburant;
         int m_carburant;
         std::pair<int, int> m_coordonneesAv;
@@ -19,7 +20,7 @@ class Avion
         std::string m_aeroportActuel = "";
         bool m_enVol=false;
     public :
-        Avion(std::string _nom, std::string _type,int _consommation,int _capacite_carburant, std::pair<int, int> _coordonneesAv, bool stationnement);
+        Avion(std::string _nom, std::string _type,int _consommation,int _consommationParam,int _capacite_carburant, std::pair<int, int> _coordonneesAv, bool stationnement);
         std::string getNom(){return m_nom;};
         std::string getAeroportActuel(){return m_aeroportActuel;};
         int getTempsTraitement(){return m_tempsTraitement;};
@@ -32,6 +33,7 @@ class Avion
         void setCarburant(int _carburant){m_carburant=_carburant;};
         int getCarburant(){return m_carburant;};
         int getConsomation(){return m_consommation;};
+        int getConsomationParam(){return m_consommationParam;};
         int getCapacite(){return m_capacite_carburant;};
         std::string getType(){return m_type;};
         BITMAP* getImage(){return m_volatil;};
@@ -39,6 +41,7 @@ class Avion
         void setAeroportActuel(std::string aeroport){m_aeroportActuel = aeroport;};
         bool getEnVol(){return m_enVol;};
         void setEnVol(bool _enVol){m_enVol=_enVol;};
+        void setConsommation(int _consommation){m_consommation=_consommation;};
 };
 
 #endif // AVION_H_INCLUDED

@@ -35,10 +35,14 @@ int main()
     m.afficherMonde();
     m.initPlansDeVolsAlea();
     m.afficheNouveauxVols();
+    m.initNuages();
     std::cout << " #############################################################################" << std::endl;
     std::cout << "################################## GESTION ####################################" << std::endl;
     std::cout << " #############################################################################" << std::endl;
-    while(compteur != 50)
+
+
+
+    while(compteur != 100)
     {
         for(auto elem : m.getAvions())
         {

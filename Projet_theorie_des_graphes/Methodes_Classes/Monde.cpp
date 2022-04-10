@@ -64,7 +64,7 @@ Monde::Monde(std::string nomFichier)///Recuperation du graphe
     for (int i=0; i<nbAvions; ++i)
     {
         ifs>>nomAvion>>typeAvion>>consommation>>capacite_carburant;
-        m_avion.push_back( new Avion(nomAvion,typeAvion, consommation, capacite_carburant, std::make_pair(0,0), false));
+        m_avion.push_back( new Avion(nomAvion,typeAvion, consommation,consommation, capacite_carburant, std::make_pair(0,0), false));
     }
 
     ///--------------RECUPERATION DES IMAGES----------------------
@@ -79,7 +79,6 @@ Monde::Monde(std::string nomFichier)///Recuperation du graphe
         allegro_exit();
         exit(EXIT_FAILURE);
     }
-
 }
 
 void Monde::afficherMonde()
@@ -372,19 +371,96 @@ void Monde::afficherMondeAllegro(BITMAP * monde)
 {
     clear_bitmap(monde);
     blit(m_carte,monde,0,0,0,0,m_carte->w,m_carte->h);
+
+    for (auto elem:m_nuages)
+    {
+        Monde::afficherNuageAllegroPARNYC(monde, elem);
+    }
     for(auto it:m_avion)
     {
-                std::cout<<"                                                        "<<it->getNom()<<" temps de traitement : "<<it->getTempsTraitement()<<std::endl;
+        std::cout<<"                                                        "<<it->getNom()<<" temps de traitement : "<<it->getTempsTraitement()<<std::endl;
         if(it->getEnVol())
         {
             std::cout<<"l'avion "<<it->getNom()<<" est en vol "<<std::endl;
-            afficherAvionAllegro(m_trajets[it]->getActuel(),m_trajets[it]->getPlanDeVol()[0],it,monde);
+            Monde::afficherAvionAllegro(m_trajets[it]->getActuel(),m_trajets[it]->getPlanDeVol()[0],it,monde);
+            for(auto ite : m_nuages)
+            {
+                Monde::csqNuage(ite, it);
+            }
         }
     }
+
+
+
+
     blit(monde,screen,0,0,0,0,monde->w,monde->h);
     rest(1000);
+}
+
+void Monde::afficherNuageAllegro(BITMAP* monde, Nuage* _nuage)
+{
+    ///creation du nuage
+    rectfill(monde, _nuage->getNX().first, _nuage->getNY().first, _nuage->getNX().second, _nuage->getNY().second, makecol( _nuage->getCouleurN(), _nuage->getCouleurN(),  _nuage->getCouleurN()));
+
+    ///déplacement du nuage
+    _nuage->setNX(std::make_pair(_nuage->getNX().first + _nuage->getVitesseN().first, _nuage->getNX().second + _nuage->getVitesseN().first));///en x
+    _nuage->setNY(std::make_pair(_nuage->getNY().first + _nuage->getVitesseN().second, _nuage->getNY().second + _nuage->getVitesseN().second));///en y
+}
+
+void Monde::afficherNuageAllegroPARNYC(BITMAP* monde, Nuage* _nuage)///test pour fonctionnalité météo
+{
+    ///creation des nuages fixes sur la trajectoire Paris - New York pour tester la consommation
+    _nuage->setNY(std::make_pair(129, 157));
+
+    //rectfill(monde, 360, 129, 390, 157, makecol(160, 160, 160)); ///nuage clair : consommation +1
+    //_nuage->setNX(std::make_pair(360, 390));
+    //_nuage->setCouleurN(160);
+
+    /*rectfill(monde, 410, 129, 440, 157, makecol(140, 140, 140)); ///nuage clair : consommation +2
+    _nuage->setNX(std::make_pair(410, 440));
+    _nuage->setCouleurN(140);*/
+
+    rectfill(monde, 460, 129, 490, 157, makecol(90, 90, 90)); ///nuage foncé : consommation +3
+    _nuage->setNX(std::make_pair(460, 490));
+    _nuage->setCouleurN(90);
 
 }
+
+///------------------csqNuage avec differentes csq en fonction de la couleur du nuage------------------
+
+void Monde::csqNuage(Nuage* _nuage, Avion* _avion)
+{
+
+    if( _avion->getCoordonnees().first>_nuage->getNX().first && _avion->getCoordonnees().first<_nuage->getNX().second && _avion->getCoordonnees().second>_nuage->getNY().first && _avion->getCoordonnees().second<_nuage->getNY().second)
+    {
+        if(_avion->getConsomation()-_avion->getConsomationParam()==0)
+        {
+            if(_nuage->getCouleurN() > 150)///nuage clair
+            {
+                _avion->setConsommation(_avion->getConsomation()+1);
+            }
+            else if(_nuage->getCouleurN()>100 && _nuage->getCouleurN() < 150)/// nuage moyen
+            {
+                _avion->setConsommation(_avion->getConsomation()+2);
+            }
+            else if(_nuage->getCouleurN() < 100)///nuage sombre
+            {
+                _avion->setConsommation(_avion->getConsomation()+3);
+            }
+        }
+    }
+
+    if(_avion->getCoordonnees().first < _nuage->getNX().first || _avion->getCoordonnees().first > _nuage->getNX().second || _avion->getCoordonnees().second < _nuage->getNY().first || _avion->getCoordonnees().second > _nuage->getNY().second)
+    {
+        if(_avion->getConsomation()-_avion->getConsomationParam()!=0)
+        {
+            _avion->setConsommation(_avion->getConsomationParam());
+        }
+    }
+}
+
+
+
 
 void Monde::afficherAvionAllegro(Aeroport* _depart,Aeroport* _arrivee,Avion* _avion,BITMAP* monde)
 {
@@ -630,7 +706,7 @@ void Monde::afficherAvionAllegro(Aeroport* _depart,Aeroport* _arrivee,Avion* _av
 
 ///-------------------------------------AFFICHAGE INFOS AVIONS------------------------------------------------------------------------------
 
-    if(mouse_x>_avion->getCoordonnees().first-10 && mouse_x<_avion->getCoordonnees().first+10 && mouse_y>_avion->getCoordonnees().second-10 && mouse_y<_avion->getCoordonnees().second+10)///HONG KONG
+    if(mouse_x>_avion->getCoordonnees().first-50 && mouse_x<_avion->getCoordonnees().first+50 && mouse_y>_avion->getCoordonnees().second-10 && mouse_y<_avion->getCoordonnees().second+10)///HONG KONG
     {
         rectfill(monde,10, 430, 370, 535, makecol(0,100,100));
         textprintf_ex(monde,font,15,440, makecol(0,0,0), makecol(0,100,100),"INFORMATIONS SUR L'AVION ");
@@ -657,4 +733,18 @@ void Monde::afficherAvionAllegro(Aeroport* _depart,Aeroport* _arrivee,Avion* _av
     std::cout<<"reservoir avion : " <<_avion->getCarburant()<<std::endl;
 }
 
+void Monde::initNuages()
+{
+    std::cout<<"\ninitNuages"<<std::endl;
+    int nbNuagesAleatoire = rand()%(50-45)+44;
 
+    for (int i=0; i<1; i++)///a changer pour rajouter tous les nuages 1 devient nbNuagesAleatoire
+    {
+        Nuage* nvNuage = new Nuage;
+        m_nuages.push_back(nvNuage);
+    }
+    /*for (auto it : m_nuages)///test
+    {
+        it->afficherNuage();
+    }*/
+}
