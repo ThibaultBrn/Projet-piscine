@@ -29,10 +29,10 @@ int main()
     Monde m("Fichiers_txt/Monde.txt");
 
     m.initialisationAeroport();
-//    m.afficherMondeAllegro(aeroports[4],aeroports[10],avion[0]);
+    //m.afficherMondeAllegro(aeroports[4],aeroports[10],avion[0]);
     ///s'arrete ici
 
-    m.afficherMonde();
+    /*m.afficherMonde();
     m.initPlansDeVolsAlea();
     m.afficheNouveauxVols();
     std::cout << " #############################################################################" << std::endl;
@@ -59,4 +59,6 @@ int main()
         compteur++;
     }
     return 0;
+    //m.BFS(m.getAeroports()[m.trouveIdentification("PAR")], m.getAvions()[0]);*/
+    m.testAvion(m.trouveAeroport("NYC"), m.trouveAeroport("SAN"));
 }END_OF_MAIN();

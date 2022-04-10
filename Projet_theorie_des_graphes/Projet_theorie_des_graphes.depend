@@ -23,12 +23,13 @@
 
 1649091545 D
 
-1649511598 source:c:\users\49176\onedrive\bureau\projet s4\projet-piscine\projet_theorie_des_graphes\main.cpp
+1649612646 source:c:\users\49176\onedrive\bureau\projet s4\projet-piscine\projet_theorie_des_graphes\main.cpp
 	<iostream>
 	<time.h>
 	"Classes/Avion.h"
 	"Classes/Aeroport.h"
 	"Classes/Monde.h"
+	<allegro.h>
 
 1649459222 source:c:\users\anato\onedrive\bureau\ece\inge 2\projet piscine\projet-piscine\projet_theorie_des_graphes\main.cpp
 	<iostream>
@@ -49,18 +50,19 @@
 	<vector>
 	<fstream>
 
-1649509805 c:\users\49176\onedrive\bureau\projet s4\projet-piscine\projet_theorie_des_graphes\classes\avion.h
+1649591137 c:\users\49176\onedrive\bureau\projet s4\projet-piscine\projet_theorie_des_graphes\classes\avion.h
 	<iostream>
+	"allegro.h"
 
-1649347955 source:c:\users\49176\onedrive\bureau\projet s4\projet-piscine\projet_theorie_des_graphes\methodes_classes\avion.cpp
+1649591137 source:c:\users\49176\onedrive\bureau\projet s4\projet-piscine\projet_theorie_des_graphes\methodes_classes\avion.cpp
 	"../Classes/Avion.h"
 
-1649360955 source:c:\users\49176\onedrive\bureau\projet s4\projet-piscine\projet_theorie_des_graphes\methodes_classes\aeroport.cpp
+1649605817 source:c:\users\49176\onedrive\bureau\projet s4\projet-piscine\projet_theorie_des_graphes\methodes_classes\aeroport.cpp
 	"../Classes/Aeroport.h"
 	"../Classes/Avion.h"
 	<vector>
 
-1649456813 c:\users\49176\onedrive\bureau\projet s4\projet-piscine\projet_theorie_des_graphes\classes\aeroport.h
+1649606260 c:\users\49176\onedrive\bureau\projet s4\projet-piscine\projet_theorie_des_graphes\classes\aeroport.h
 	<iostream>
 	"Avion.h"
 	<vector>
@@ -85,18 +87,20 @@
 	<vector>
 	<map>
 
-1649511598 source:c:\users\49176\onedrive\bureau\projet s4\projet-piscine\projet_theorie_des_graphes\methodes_classes\monde.cpp
+1649614070 source:c:\users\49176\onedrive\bureau\projet s4\projet-piscine\projet_theorie_des_graphes\methodes_classes\monde.cpp
 	"../Classes/Monde.h"
 	<queue>
 	<vector>
 	<fstream>
+	<math.h>
 	<time.h>
 
-1649504326 c:\users\49176\onedrive\bureau\projet s4\projet-piscine\projet_theorie_des_graphes\classes\monde.h
+1649611593 c:\users\49176\onedrive\bureau\projet s4\projet-piscine\projet_theorie_des_graphes\classes\monde.h
 	"Aeroport.h"
 	<vector>
 	<map>
 	<fstream>
+	<allegro.h>
 	"Avion.h"
 	"Vol.h"
 
@@ -212,10 +216,10 @@
 1649527283 c:\users\timot\onedrive\bureau\ece\ing2\info\projet_info_s4\projet-piscine\projet_theorie_des_graphes\classes\vol.h
 	"Aeroport.h"
 
-1649511553 source:c:\users\49176\onedrive\bureau\projet s4\projet-piscine\projet_theorie_des_graphes\simulation\gestionatterrissagesdecollages.cpp
+1649604595 source:c:\users\49176\onedrive\bureau\projet s4\projet-piscine\projet_theorie_des_graphes\simulation\gestionatterrissagesdecollages.cpp
 	"../Classes/Monde.h"
 
-1649506414 c:\users\49176\onedrive\bureau\projet s4\projet-piscine\projet_theorie_des_graphes\classes\vol.h
+1649591137 c:\users\49176\onedrive\bureau\projet s4\projet-piscine\projet_theorie_des_graphes\classes\vol.h
 	"Aeroport.h"
 
 1649333212 source:c:\users\49176\onedrive\bureau\projet s4\projet-piscine\projet_theorie_des_graphes\methodes_classes\vol.cpp
@@ -225,5 +229,8 @@
 	"../Classes/Vol.h"
 
 1649527283 source:c:\users\timot\onedrive\bureau\ece\ing2\info\projet_info_s4\projet-piscine\projet_theorie_des_graphes\simulation\gestionatterrissagesdecollages.cpp
+	"../Classes/Monde.h"
+
+1649611011 source:c:\users\49176\onedrive\bureau\projet s4\projet-piscine\projet_theorie_des_graphes\simulation\creationsplansdevols.cpp
 	"../Classes/Monde.h"
 

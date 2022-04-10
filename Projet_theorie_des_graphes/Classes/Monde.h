@@ -23,7 +23,9 @@ class Monde
         void addAvion(Avion* nouveauAvion){m_avion.push_back(nouveauAvion);};
         int trouveIdentification(std::string nomAeroport);
         void afficherMonde();
-        Vol* CreationPlanDeVol(std::string _Depart, std::string _Arrivee);
+        Vol* CreationPlanDeVol_LONG(std::string _Depart, std::string _Arrivee);
+        Vol* CreationPlanDeVol_MOYEN(std::string _Depart, std::string _Arrivee, size_t tailleCC);
+        Vol* CreationPlanDeVol_COURT(std::string _Depart, std::string _Arrivee, size_t tailleCC);
         Vol* getTrajet(Avion* _avion){return m_trajets[_avion];};
         void addTrajet(Avion* _avion, Vol* _vol){m_trajets[_avion] = _vol;};
         void initialisationAeroport();
@@ -34,15 +36,19 @@ class Monde
         void afficherMondeAllegro(BITMAP * monde);
         void afficherAvionAllegro(Aeroport* _depart,Aeroport* _arrivee,Avion* _avion,BITMAP* monde);
         void fuiteReservoir(Aeroport* &_depart,Aeroport* &_arrivee,Avion* &_avion,int &i,int poid);
+        Aeroport* trouveAeroport(std::string nom);
         ///----------------METHODES DE GESTION DE LA SIMULATION----------------///
+        std::vector<Aeroport*> BFS(Aeroport* depart, Avion* avion);
         bool isArrivee(Avion* _avion, Aeroport* destination);
         void gestionAeroport(Aeroport* aeroport);
         void initPlansDeVolsAlea();
         void planDeVolAlea(Avion* _avion);
+        void planDeVolTest(Avion* _avion, Aeroport* arrivee);
         void afficheNouveauxVols();
         void gestionMondialeAeroports();
         void afficheVol(Avion* unAvion);
-
+        ///-----------------------TEST AVEC UN SEUL AVION---------------------///
+        void testAvion(Aeroport* depart, Aeroport* arrivee);
 };
 
 #endif // MONDE_H_INCLUDED

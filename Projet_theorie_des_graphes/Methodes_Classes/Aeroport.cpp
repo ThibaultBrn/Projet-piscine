@@ -2,7 +2,7 @@
 #include "../Classes/Avion.h"
 #include <vector>
 
-Aeroport::Aeroport(std::string _nom, std::pair<int,int>_coordonnees,int _nbPistes,int _nbPlacesAuSol,int _delaiAttenteSol,int _tempsAccesPistes,int _delaiAnticollision,int _tempsDecollageAtterrissage,int _dureeBoucleAttente, int _identification)
+Aeroport::Aeroport(std::string _nom, std::pair<int,int>_coordonnees,int _nbPistes,int _nbPlacesAuSol,int _delaiAttenteSol,int _tempsAccesPistes,int _delaiAnticollision,int _tempsDecollageAtterrissage,int _dureeBoucleAttente, int _identification, std::string _typeMin)
 {
     m_nom = _nom;
     m_coordonnees = _coordonnees;
@@ -14,6 +14,7 @@ Aeroport::Aeroport(std::string _nom, std::pair<int,int>_coordonnees,int _nbPiste
     m_tempsDecollageAtterrissage = _tempsDecollageAtterrissage;
     m_dureeBoucleAttente = _dureeBoucleAttente;
     m_identification = _identification;
+    m_typeAvionMin = _typeMin;
 }
 
 void Aeroport::AjouterSucc(int poids, Aeroport* s)
