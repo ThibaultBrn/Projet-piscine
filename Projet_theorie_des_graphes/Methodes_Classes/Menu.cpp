@@ -71,6 +71,7 @@ char Menu::gestionMenu()
     }
     else if(choix=='4')
     {
+        m.initNuages();
         while(compteur != 100)
         {
             for(auto elem : m.getAvions())
@@ -87,7 +88,7 @@ char Menu::gestionMenu()
                     std::cout << "---------------Action : " << it2.second << std::endl;
                 }
             }
-            m.initNuages();
+
             m.afficherMondeAllegro(buffer);
             compteur++;
         }
