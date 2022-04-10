@@ -37,6 +37,7 @@
 		</Compiler>
 		<Unit filename="Classes/Aeroport.h" />
 		<Unit filename="Classes/Avion.h" />
+		<Unit filename="Classes/Menu.h" />
 		<Unit filename="Classes/Monde.h" />
 		<Unit filename="Classes/Nuage.h" />
 		<Unit filename="Classes/Vol.h" />

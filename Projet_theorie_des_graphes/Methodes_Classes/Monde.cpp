@@ -340,6 +340,57 @@ void Monde::afficherMondeAllegro(BITMAP * monde)
     rest(1000);
 }
 
+void Monde::afficherMondeAllegroTEST(BITMAP * monde, Aeroport* _depart, Aeroport* _arrivee, int coulNuage)
+{
+///-----------------------GRILLE-------------------------------
+    clear_bitmap(monde);
+    blit(m_carte,monde,0,0,0,0,m_carte->w,m_carte->h);
+
+    int y=20;
+    int x=20;
+    if(key[KEY_SPACE])
+    {
+        for(int i=0; i<30; i++)
+        {
+            hline(monde, 0, y, 1100, makecol(200, 200, 200));
+            y+=20;
+        }
+        for(int i=0; i<60; i++)
+        {
+            vline(monde, x, 0, 550, makecol(200, 200, 200));
+            x+=20;
+        }
+    }
+
+    for (auto elem:m_nuages)
+    {
+        Monde::afficherNuageAllegroTEST(monde, elem, _depart, _arrivee, coulNuage );
+    }
+    for(auto it:m_avion)
+    {
+        std::cout<<"                                                        "<<it->getNom()<<" temps de traitement : "<<it->getTempsTraitement()<<std::endl;
+        if(it->getEnVol())
+        {
+            std::cout<<"l'avion "<<it->getNom()<<" est en vol "<<std::endl;
+            Monde::afficherAvionAllegro(m_trajets[it]->getActuel(),m_trajets[it]->getPlanDeVol()[0],it,monde);
+            for(auto ite : m_nuages)
+            {
+                Monde::csqNuage(ite, it);
+            }
+        }
+    }
+
+
+
+
+    blit(monde,screen,0,0,0,0,monde->w,monde->h);
+    if(key[KEY_SPACE])
+    {
+
+    }
+    rest(1000);
+}
+
 void Monde::afficherNuageAllegro(BITMAP* monde, Nuage* _nuage)
 {
     ///creation du nuage
@@ -350,7 +401,7 @@ void Monde::afficherNuageAllegro(BITMAP* monde, Nuage* _nuage)
     _nuage->setNY(std::make_pair(_nuage->getNY().first + _nuage->getVitesseN().second, _nuage->getNY().second + _nuage->getVitesseN().second));///en y
 }
 
-void Monde::afficherNuageAllegroTest(BITMAP* monde, Nuage* _nuage, Aeroport* _depart, Aeroport* _arrivee, int coulNuage)///test pour fonctionnalité météo
+void Monde::afficherNuageAllegroTEST(BITMAP* monde, Nuage* _nuage, Aeroport* _depart, Aeroport* _arrivee, int coulNuage)///test pour fonctionnalité météo
 {
     ///creation des nuages fixes sur la trajectoire Paris - New York pour tester la consommation
     int xDep = _depart->getCoordonnees().first;
@@ -692,7 +743,7 @@ void Monde::initNuages()
     }
 }
 
-void Monde::initNuagesTest(int nbNuages)
+void Monde::initNuagesReglable(int nbNuages)
 {
     for (int i=0; i<nbNuages; i++)///a changer pour rajouter tous les nuages 1 devient nbNuagesAleatoire
     {
